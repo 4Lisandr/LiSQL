@@ -2,6 +2,9 @@ package ua.com.juja.lisql.controller.command;
 
 
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.model.PGDatabaseManager;
+import ua.com.juja.lisql.view.Console;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -30,9 +33,7 @@ public class Connect implements Command {
         String[] data = command.split("\\|");
         if (data.length != count()) {
             throw new IllegalArgumentException(
-                    String.format("Неверно количество параметров разделенных " +
-                                    "знаком '|', ожидается %s, но есть: %s",
-                            count(), data.length));
+                    String.format(Message.FAILED_COUNT.toString(), count(), data.length));
         }
         String databaseName = data[1];
         String userName = data[2];
@@ -40,11 +41,17 @@ public class Connect implements Command {
 
         manager.connect(databaseName, userName, password);
 
-        view.write("Успех!");
+        view.write(Message.SUCCESS.toString(),"");
     }
 
     private int count() {
         return COMMAND_SAMPLE.split("\\|").length;
     }
 
+    // todo РЅРµ РІС‹РІРѕРґРёС‚СЊ "СѓСЃРїРµС…" РїСЂРё РїР°РґРµРЅРёРё СЃРѕРµРґРёРЅРµРЅРёСЏ
+    public static void main(String[] args) {
+        View view = new Console();
+        DatabaseManager manager = new PGDatabaseManager();
+        new Connect(manager, view ).process("connect|database|userName|password");
+    }
 }
