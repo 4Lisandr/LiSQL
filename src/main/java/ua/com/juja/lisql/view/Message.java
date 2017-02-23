@@ -1,15 +1,16 @@
 package ua.com.juja.lisql.view;
 
 /**
- *
+ *  Lisandr 23.02.17
  */
-public enum Message {
+public enum Message { //todo реализовать мультиязычность
     HELLO ("Привет юзер!"),
     START ("Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password"),
     INPUT ("Введи команду (или help для помощи):"),
     FAIL ("Неудача! по причине:"),
     RETRY ("Повтори попытку."),
-    GOODBYE ("Пока!");
+    GOODBYE ("Пока!"),
+    UNKNOWN ("Несуществующая команда:");
 
     private final String message;
 
@@ -17,7 +18,8 @@ public enum Message {
         this.message = message;
     }
 
-    public String get() {
+    @Override
+    public String toString() {
         return message;
     }
 }

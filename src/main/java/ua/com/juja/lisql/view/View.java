@@ -1,10 +1,11 @@
 package ua.com.juja.lisql.view;
 /*
-* Standard View Interface
+* Lisandr
 * */
 public interface View {
 
-    void write(String message);
-
     String read();
+
+    void write(String message);
+    void write(String... messages);
 }

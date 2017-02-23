@@ -23,7 +23,7 @@ public class PGDatabaseManager implements DatabaseManager {
             String url = JDBC_TYPE + "://" + HOST + ":" + PORT + "/" + database;
             connection = DriverManager.getConnection(url, user, password);
             } catch (SQLException e) {
-                System.out.println(String.format("Can't get connection for database:%s user:%s", database, user));
+                System.out.println(String.format("Can't getText connection for database:%s user:%s", database, user));
                 e.printStackTrace();
                 connection = null;
             }
