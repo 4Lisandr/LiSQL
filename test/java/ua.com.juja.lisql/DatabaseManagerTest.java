@@ -1,12 +1,12 @@
-import ua.com.juja.lisql.DatabaseManager;
+import ua.com.juja.lisql.model.PGDatabaseManager;
 
 public class DatabaseManagerTest {
 
-    private DatabaseManager manager;
+    private PGDatabaseManager manager;
 
 //    @Before
 //    public void setup() {
-//        manager = new DatabaseManager();
+//        manager = new PGDatabaseManager();
 //        manager.connect("lisql", "postgres", "postgres");
 //    }
 //

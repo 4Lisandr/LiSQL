@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ua.vadim.sqlcmd</groupId>
+    <groupId>ua.com.juja.lisql</groupId>
     <artifactId>sqlcmd</artifactId>
     <version>0.0.1</version>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
+            <version>1.10.19</version>
         </dependency>
 
         <dependency>
@@ -81,7 +81,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ua.com.vadim.SQLcmd.SQLCmdMain</mainClass>
+                                    <mainClass>ua.com.juja.lisql.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
