@@ -1,14 +1,13 @@
-package ua.com.juja.lisql.controller.command;
+package ua.com.juja.lisql.controller.command.utils;
 
+import ua.com.juja.lisql.controller.command.ViewCommand;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
-public class Unknown implements Command {
-
-    private View view;
+public class Unknown extends ViewCommand {
 
     public Unknown(View view){
-        this.view = view;
+        super(view);
     }
 
     @Override
@@ -18,6 +17,6 @@ public class Unknown implements Command {
 
     @Override
     public void process(String command) {
-        view.write(Message.UNKNOWN+" " + command, "");
+        getView().write(Message.UNKNOWN+" " + command, "");
     }
 }

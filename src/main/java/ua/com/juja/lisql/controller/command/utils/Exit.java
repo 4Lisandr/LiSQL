@@ -1,14 +1,13 @@
-package ua.com.juja.lisql.controller.command;
+package ua.com.juja.lisql.controller.command.utils;
 
+import ua.com.juja.lisql.controller.command.ViewCommand;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
-public class Exit implements Command {
-
-    private View view;
+public class Exit extends ViewCommand {
 
     public Exit(View view){
-        this.view = view;
+        super(view);
     }
 
     @Override
@@ -18,7 +17,7 @@ public class Exit implements Command {
 
     @Override
     public void process(String command) {
-        view.write(Message.GOODBYE.toString());
+        getView().write(Message.GOODBYE.toString());
         throw new ExitException();
     }
 }

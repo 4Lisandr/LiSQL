@@ -1,6 +1,7 @@
-package ua.com.juja.lisql.controller.command;
+package ua.com.juja.lisql.controller.command.connection;
 
 
+import ua.com.juja.lisql.controller.command.ACommand;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 import ua.com.juja.lisql.view.Console;
@@ -10,16 +11,12 @@ import ua.com.juja.lisql.view.View;
 /**
  *
  */
-public class Connect implements Command {
+public class Connect extends ACommand {
 
     private static final String COMMAND_SAMPLE = "connect|sqlcmd|postgres|HcxbPRi5EoNB";
 
-    private DatabaseManager manager;
-    private View view;
-
     public Connect(DatabaseManager manager, View view) {
-        this.manager = manager;
-        this.view = view;
+        super(manager, view);
     }
 
     @Override
@@ -39,9 +36,9 @@ public class Connect implements Command {
         String userName = data[2];
         String password = data[3];
 
-        manager.connect(databaseName, userName, password);
+        getManager().connect(databaseName, userName, password);
 
-        view.write(Message.SUCCESS.toString(),"");
+        getView().write(Message.SUCCESS.toString(),"");
     }
 
     private int count() {

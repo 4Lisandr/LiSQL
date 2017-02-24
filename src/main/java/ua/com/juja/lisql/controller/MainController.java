@@ -1,6 +1,11 @@
 package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.*;
+import ua.com.juja.lisql.controller.command.connection.Connect;
+import ua.com.juja.lisql.controller.command.connection.IsConnected;
+import ua.com.juja.lisql.controller.command.utils.Exit;
+import ua.com.juja.lisql.controller.command.utils.ExitException;
+import ua.com.juja.lisql.controller.command.utils.Unknown;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
@@ -16,7 +21,7 @@ public class MainController {
         this.view = view;
         this.commands = new Command[] {
                 new Connect(manager, view),
-//                new IsConnected(manager, view),
+                new IsConnected(manager, view),
 //                new Help(view),
                 new Exit(view),
 //                new List(manager, view),
@@ -36,7 +41,9 @@ public class MainController {
     }
 
     private void doWork() {
+
         view.write(Message.HELLO.toString(), Message.START.toString());
+
         while (true) {
             String input = view.read();
 
