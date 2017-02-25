@@ -12,7 +12,7 @@ public class Console implements View {
         return scanner.nextLine();
     }
 
-    @Override
+    @Override // HELP
     public void write(String message) {
         System.out.print(message);
     }
@@ -20,9 +20,10 @@ public class Console implements View {
     @Override
     public void write(String... messages) {
         StringBuilder sb = new StringBuilder();
-        for (String message: messages){
-            sb.append(message).append(SEPARATOR);
+        for (int i = 0; i < messages.length-1; i++) {
+            sb.append(messages[i]).append(SEPARATOR);
         }
+        sb.append(messages[messages.length-1]);
         write(sb.toString());
     }
 
