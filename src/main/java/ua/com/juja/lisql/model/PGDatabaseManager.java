@@ -1,6 +1,7 @@
 package ua.com.juja.lisql.model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class PGDatabaseManager implements DatabaseManager {
 
@@ -42,7 +43,22 @@ public class PGDatabaseManager implements DatabaseManager {
      */
     @Override
     public String[] getTableNames() {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
+
+            ArrayList<String> tables = new ArrayList<>();
+            while (rs.next()) {
+                tables.add(rs.getString("table_name"));
+            }
+            rs.close();
+            stmt.close();
+            return (String[]) tables.toArray();
+        } catch (SQLException e) {
+            e.printStackTrace();
             return new String[0];
+        }
     }
 
     @Override
