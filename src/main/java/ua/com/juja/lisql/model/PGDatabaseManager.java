@@ -1,6 +1,8 @@
 package ua.com.juja.lisql.model;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PGDatabaseManager implements DatabaseManager {
 
@@ -41,18 +43,33 @@ public class PGDatabaseManager implements DatabaseManager {
      * Read access section
      */
     @Override
-    public String[] getTableNames() {
-            return new String[0];
+    public List<String> getTableNames() {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
+
+            ArrayList<String> tables = new ArrayList<>();
+            while (rs.next()) {
+                tables.add(rs.getString("table_name"));
+            }
+            rs.close();
+            stmt.close();
+            return tables;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     @Override
-    public String[] getTableColumns(String tableName) {
-        return new String[0];
+    public List<String> getTableColumns(String tableName) {
+        return new ArrayList<>();
     }
 
     @Override
-    public DataSet[] getTableData(String tableName) {
-            return new DataSet[0];
+    public List<DataSet> getTableData(String tableName) {
+        return new ArrayList<>();
     }
 
     private int getSize(String tableName) throws SQLException {

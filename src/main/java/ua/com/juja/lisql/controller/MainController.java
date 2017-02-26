@@ -3,6 +3,7 @@ package ua.com.juja.lisql.controller;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.connection.Connect;
 import ua.com.juja.lisql.controller.command.connection.IsConnected;
+import ua.com.juja.lisql.controller.command.read.DBList;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.EMessage;
@@ -17,11 +18,12 @@ public class MainController {
 
     private enum UsersCommands implements Command {
         CONNECT (new Connect(manager, view)),
+        LIST (new DBList(manager, view)),
         HELP    (new Help(view)),
         EXIT    (new Exit(view)),
         UNKNOWN (new Unknown(view)),
         IS_CONNECTED (new IsConnected(manager, view));
-//                new List(manager, view),
+//                new DBList(manager, view),
 //                new Clear(manager, view),
 //                new Create(manager, view),
 //                new Find(manager, view),
