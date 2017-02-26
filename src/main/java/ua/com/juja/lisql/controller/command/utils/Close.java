@@ -1,7 +1,6 @@
 package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.command.ViewCommand;
-import ua.com.juja.lisql.view.EMessage;
 import ua.com.juja.lisql.view.View;
 
 public class Close extends ViewCommand {
@@ -21,7 +20,7 @@ public class Close extends ViewCommand {
     @Override
     public void process(String command) {
         // Корректно закрыть программу
-        getView().write(EMessage.SUCCESS.toString());
+        //getView().write(EMessage.SUCCESS.toString());
     }
 
     public static boolean isCalled() {

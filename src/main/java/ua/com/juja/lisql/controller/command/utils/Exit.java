@@ -18,6 +18,6 @@ public class Exit extends ViewCommand {
     @Override
     public void process(String command) {
         getView().write(EMessage.GOODBYE.toString());
-        new Close(getView()).process("");
+        new Close(getView());
     }
 }

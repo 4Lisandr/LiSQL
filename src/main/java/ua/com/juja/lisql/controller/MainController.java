@@ -45,23 +45,9 @@ public class MainController {
         public void process(String strCommand) {
             command.process(strCommand);
         }
-    }
 
-    public MainController(View view, DatabaseManager manager) {
-        MainController.view = view;
-        MainController.manager = manager;
-    }
-
-    public void run() {
-        if (!Start.isCalled())
-            new Start(view).process("");
-
-
-        while (true) {
-
-            String input = view.read();
-
-            for (Command command : UsersCommands.values()) {
+        private static void handler(String input) {
+            for (Command command : values()) {
                 try {
                     if (command.canProcess(input)) {
                         command.process(input);
@@ -72,20 +58,39 @@ public class MainController {
                     break;
                 }
             }
-            if (!Close.isCalled())
+        }
+
+
+        private static void printError(Exception e) {
+            String message = e.getMessage();
+            Throwable cause = e.getCause();
+            if (cause != null) {
+                message += " " + cause.getMessage();
+            }
+            view.write(EMessage.FAIL + " " + message, EMessage.RETRY.toString());
+        }
+    }
+
+
+    public MainController(View view, DatabaseManager manager) {
+        MainController.view = view;
+        MainController.manager = manager;
+    }
+
+    public void run() {
+        if (!Start.isCalled()){
+            new Start(view).process("");
+        }
+
+        while (true) {
+            String input = view.read();
+            UsersCommands.handler(input);
+            if (!Close.isCalled()){// Ask user for next step
                 view.write(EMessage.INPUT.toString(),"");
+            }
             else
                 break;
         }
     }
 
-
-    private void printError(Exception e) {
-        String message = e.getMessage();
-        Throwable cause = e.getCause();
-        if (cause != null) {
-            message += " " + cause.getMessage();
-        }
-        view.write(EMessage.FAIL + " "+ message, EMessage.RETRY.toString());
-    }
 }
