@@ -2,7 +2,6 @@ package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.connection.Connect;
-import ua.com.juja.lisql.controller.command.connection.IsConnected;
 import ua.com.juja.lisql.controller.command.read.DBList;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
@@ -25,15 +24,14 @@ public class MainController {
         CONNECT (new Connect(manager, view)),
         HELP    (new Help(view)),
         EXIT    (new Exit(manager, view)),
-        IS_CONNECTED (new IsConnected(manager, view)), /*check connection!*/
-        LIST (new DBList(manager, view)),
-        FIND (new Find(manager, view)),
-//        CREATE (new Create(manager, view)),
-        UPDATE (null),
-        DELETE (null),
-        INSERT (null),
-//        CLEAR (new Clear(manager, view)),
-        DROP (null),
+        LIST    (new DBList(manager, view)),
+        FIND    (new Find(manager, view)),
+//        CREATE(new Create(manager, view)),
+//        UPDATE(new Update(manager, view)),
+//        DELETE(new Delete(manager, view)),
+//        INSERT(new Insert(manager, view)),
+//        CLEAR(new Clear(manager, view)),
+//        DROP (new Drop(manager, view)),
         UNKNOWN (new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 
         private final Command command;
