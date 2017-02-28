@@ -4,6 +4,7 @@ import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.connection.Connect;
 import ua.com.juja.lisql.controller.command.connection.IsConnected;
 import ua.com.juja.lisql.controller.command.read.DBList;
+import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.EMessage;
@@ -16,17 +17,24 @@ public class MainController {
     private static View view;
     private static DatabaseManager manager;
 
+    /**
+     * Keep strict order while iterate list of command
+     * Command Unknown contains greed condition - all other commands after it detected as Unknown!
+     */
     private enum UsersCommands implements Command {
         CONNECT (new Connect(manager, view)),
         HELP    (new Help(view)),
-        EXIT    (new Exit(view)),
-        IS_CONNECTED (new IsConnected(manager, view)), /*проверка подключения к БД*/
+        EXIT    (new Exit(manager, view)),
+        IS_CONNECTED (new IsConnected(manager, view)), /*check connection!*/
         LIST (new DBList(manager, view)),
-        UNKNOWN (new Unknown(view)); /* любая другая команда неопознана!*/
-//                new DBList(manager, view),
-//                new Clear(manager, view),
-//                new Create(manager, view),
-//                new Find(manager, view),
+        FIND (new Find(manager, view)),
+//        CREATE (new Create(manager, view)),
+        UPDATE (null),
+        DELETE (null),
+        INSERT (null),
+//        CLEAR (new Clear(manager, view)),
+        DROP (null),
+        UNKNOWN (new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 
         private final Command command;
 
