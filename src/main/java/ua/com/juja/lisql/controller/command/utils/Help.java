@@ -1,18 +1,23 @@
 package ua.com.juja.lisql.controller.command.utils;
 
-import ua.com.juja.lisql.controller.command.ViewCommand;
+import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.view.EMessage;
 import ua.com.juja.lisql.view.View;
 
-public class Help extends ViewCommand {
+public class Help extends Command {
 
     public Help(View view) {
         super(view);
     }
 
     @Override
-    public boolean canProcess(String command) {
-        return command.equalsIgnoreCase("help");
+    public String format() {
+        return "help";
+    }
+
+    @Override
+    public String description() {
+        return "for read help information";
     }
 
     @Override
@@ -21,4 +26,5 @@ public class Help extends ViewCommand {
     // Класс message содержит поле HELP  <String> EMessage.getHelp()
         getView().write(EMessage.HELP.toString());
     }
+
 }
