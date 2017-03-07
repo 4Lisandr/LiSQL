@@ -2,6 +2,7 @@ package ua.com.juja.lisql.controller.command;
 
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -9,11 +10,16 @@ import ua.com.juja.lisql.view.View;
  */
 public abstract class Command {
 
-    private View view;
-    private DatabaseManager manager;
+    protected View view;
+    protected DatabaseManager manager;
 
+    /** Specify this value in the constructor of your command*/
     private boolean isConnectionRequired;
+    /** Variable for system or inactive command*/
     private boolean isHiddenCommand;
+
+    protected static final boolean CONNECTION_REQUIRED = true;
+    protected static final boolean HIDDEN_COMMAND = true;
 
     //format; description; successMessage; failureMessages;
     private String[] attributes;
@@ -33,28 +39,26 @@ public abstract class Command {
         this.manager = manager;
     }
 
+    /** @param connect - use constant CONNECTION_REQUIRED, so value false is not designated! */
     public Command(DatabaseManager manager, View view, boolean connect) {
         this(manager, view);
         isConnectionRequired = connect;
     }
 
-    /** Getters */
-    public View getView() {
-        return view;
-    }
-    public DatabaseManager getManager() {
-        return manager;
-    }
-
+    /**
+     * Getters
+     * */
     public String format(){
         return getAttribute(0);
     }
     public String description(){
         return getAttribute(1);
     }
+
     public String success(){
         return getAttribute(2);
     }
+
     /**@param number of failure from 0*/
     public String failure(int number){
         int n = (number > 0 ? number : 0);
@@ -66,12 +70,20 @@ public abstract class Command {
                 attributes[i];
     }
 
+    public boolean isHidden() {
+        return isHiddenCommand;
+    }
+
     /** Setters */
     public void setAttributes(String ... text) {
         if (text != null){
             attributes = new String[text.length];
             System.arraycopy(text, 0, attributes, 0, text.length);
         }
+    }
+
+    public void hide() {
+        isHiddenCommand = HIDDEN_COMMAND;
     }
 
     /**
@@ -92,16 +104,16 @@ public abstract class Command {
                 isMatches;
     }
 
-    public String beginWith(String input) {
+    private String beginWith(String input) {
         if ((input==null)||input.trim().isEmpty())
             return "";
         else
-            return input.split("\\|")[0];
+            return input.split(Line.SPLITTER)[0];
     }
 
     public boolean isConnected(String command) {
-        if (!getManager().isConnected()){
-            getView().write(String.format(EMessage.DISCONNECTED.toString(), command));
+        if (!manager.isConnected()){
+            view.write(String.format(EMessage.DISCONNECTED.toString(), command));
             return false;
         }
         else

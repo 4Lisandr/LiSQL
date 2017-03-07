@@ -19,6 +19,6 @@ public class Unknown extends Command {
 
     @Override // A non-existent command was successfully detected and rendered harmless
     public void process(String command) {
-        getView().write(success() + " " + command, "");
+        view.write(success() + " " + command, "");
     }
 }

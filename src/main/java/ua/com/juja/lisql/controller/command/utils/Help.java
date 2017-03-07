@@ -15,7 +15,7 @@ public class Help extends Command {
     public void process(String command) {
     // А если вызвать сообщение полиморфно, с учетом локации?
     // Класс message содержит поле HELP  <String> EMessage.getHelp()
-        getView().write(EMessage.HELP.toString());
+        view.write(EMessage.HELP.toString());
     }
 
 }

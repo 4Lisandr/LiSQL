@@ -14,7 +14,7 @@ public class Exit extends Command {
 
     @Override
     public void process(String command) {
-        getView().write(success());
-        new Close(getManager(), getView());
+        view.write(success());
+        new Close(manager, view);
     }
 }

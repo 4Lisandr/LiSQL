@@ -22,7 +22,7 @@ public class Close extends Command {
     @Override
     public void process(String command) {
         // Корректно закрыть программу
-        getManager().disconnect();
+        manager.disconnect();
     }
 
     public static boolean isCalled() {

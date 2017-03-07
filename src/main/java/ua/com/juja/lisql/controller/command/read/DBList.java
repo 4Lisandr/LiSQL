@@ -10,17 +10,17 @@ import java.util.List;
 public class DBList extends Command {
 
     public DBList(DatabaseManager manager, View view){
-        super(manager, view, true);
+        super(manager, view, CONNECTION_REQUIRED);
         setAttributes("list", "for view all databases", "success", "fail");
     }
 
     @Override
     public void process(String command) {
 
-        List<String> tableNames = getManager().getTableNames();
+        List<String> tableNames = manager.getTableNames();
 
         String message = Arrays.toString(tableNames.toArray());
-        getView().write(message);
+        view.write(message);
     }
 
 }

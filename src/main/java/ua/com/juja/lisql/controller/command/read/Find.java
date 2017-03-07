@@ -12,7 +12,7 @@ import java.util.Set;
 public class Find extends Command {
 
     public Find(DatabaseManager manager, View view) {
-        super(manager, view, true);
+        super(manager, view, CONNECTION_REQUIRED);
         setAttributes("find|", "for search some records", "ok",
             EMessage.FAILED_COUNT.toString(),
             EMessage.TO_MANY_PARAMETERS.toString());
@@ -29,14 +29,14 @@ public class Find extends Command {
             throw new IllegalArgumentException(
                     String.format(failure(0), sample, data.length));
         if (data.length> sample)
-            getView().write(String.format(failure(1), sample-1));
+            view.write(String.format(failure(1), sample-1));
 
         String tableName = data[1];
 
-        List<String> tableColumns = getManager().getTableColumns(tableName);
+        List<String> tableColumns = manager.getTableColumns(tableName);
         printHeader(tableColumns);
 
-        List<DataSet> tableData = getManager().getTableData(tableName);
+        List<DataSet> tableData = manager.getTableData(tableName);
         printTable(tableData);
     }
 
@@ -54,7 +54,7 @@ public class Find extends Command {
         for (Object value : values) {
             result += value + "|";
         }
-        getView().write(result);
+        view.write(result);
     }
 
     private void printHeader(Iterable<String> tableColumns) {
@@ -62,9 +62,9 @@ public class Find extends Command {
         for (String name : tableColumns) {
             result += name + "|";
         }
-        getView().write("--------------------");
-        getView().write(result);
-        getView().write("--------------------");
+        view.write("--------------------");
+        view.write(result);
+        view.write("--------------------");
     }
 
 }

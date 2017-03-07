@@ -12,7 +12,7 @@ import ua.com.juja.lisql.view.View;
 public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
-        super(manager, view, true);
+        super(manager, view, CONNECTION_REQUIRED);
         setAttributes("create|", "to create database", EMessage.SUCCESS_RECORD.toString(),
             EMessage.ODD_PARAMETERS.toString());
     }
@@ -34,8 +34,8 @@ public class Create extends Command {
 
             dataSet.put(columnName, value);
         }
-        getManager().create(tableName, dataSet);
+        manager.create(tableName, dataSet);
 
-        getView().write(String.format(success(), dataSet, tableName));
+        view.write(String.format(success(), dataSet, tableName));
     }
 }

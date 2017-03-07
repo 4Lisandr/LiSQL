@@ -33,10 +33,10 @@ public class Connect extends Command {
         String userName = data[2];
         String password = data[3];
 
-        getManager().connect(databaseName, userName, password);
+        manager.connect(databaseName, userName, password);
 
         if (isConnected(databaseName))
-            getView().write(success(),"");
+            view.write(success(),"");
     }
 
     /** Some overhead just for avoid magic number 4 */
