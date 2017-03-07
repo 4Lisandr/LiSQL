@@ -8,7 +8,7 @@ import ua.com.juja.lisql.view.Console;
 import ua.com.juja.lisql.view.View;
 
 /*
-* Lisandr
+* Lisandr 2017
 * */
 public class Main {
     public static void main(String[] args) {

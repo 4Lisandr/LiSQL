@@ -9,7 +9,14 @@ public class PGDatabaseManager implements DatabaseManager {
     public static final String JDBC_TYPE = "jdbc:postgresql"; // database type (MySQL LiteSQL, etc...)
     public static final String HOST = "localhost";
     public static final int PORT = 5432;
+    public static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
+    public static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
+    public static final String SELECT_ALL = "SELECT * FROM public.";
+    public static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
+//    "INSERT INTO public." + tableName + " (" + tableNames + ")" +
+//            "VALUES (" + values + ")"
     private Connection connection;
+
     /*
      * Connection section
      */
@@ -26,9 +33,19 @@ public class PGDatabaseManager implements DatabaseManager {
             connection = DriverManager.getConnection(url, user, password);
             } catch (SQLException e) {
                 System.out.println(String.format("Can't getText connection for database:%s user:%s", database, user));
-                e.printStackTrace();
                 connection = null;
             }
+    }
+
+    @Override
+    public void disconnect() {
+        if(isConnected()) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -44,18 +61,25 @@ public class PGDatabaseManager implements DatabaseManager {
      */
     @Override
     public List<String> getTableNames() {
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                    "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
+        return getStrings(SELECT_TABLE_NAME, "table_name" );
+    }
 
-            ArrayList<String> tables = new ArrayList<>();
+    @Override
+    public List<String> getTableColumns(String tableName) {
+        return getStrings(SELECT_COLUMNS +"'"+tableName+"'", "column_name");
+    }
+
+    private List<String> getStrings(String query, String target) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)
+             ){
+
+            ArrayList<String> result = new ArrayList<>();
+
             while (rs.next()) {
-                tables.add(rs.getString("table_name"));
+                result.add(rs.getString(target));
             }
-            rs.close();
-            stmt.close();
-            return tables;
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -63,14 +87,28 @@ public class PGDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTableColumns(String tableName) {
-        return new ArrayList<>();
+    public List<DataSet> getTableData(String tableName) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(SELECT_ALL + tableName)
+             ){
+
+            ArrayList<DataSet> result = new ArrayList<>();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            while (rs.next()) {
+                DataSet dataSet = new DataSet();
+                result.add(dataSet);
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
+                }
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
-    @Override
-    public List<DataSet> getTableData(String tableName) {
-        return new ArrayList<>();
-    }
 
     private int getSize(String tableName) throws SQLException {
         return 0;
@@ -78,43 +116,44 @@ public class PGDatabaseManager implements DatabaseManager {
     /*
      * Write access section
      */
-
+    //todo - debug Create
     @Override
     public void create(String tableName, DataSet input) {
+        try (Statement stmt = connection.createStatement())
+        {
+            String tableNames = getNameFormatted(input, "%s,");
+            String values = getValuesFormatted(input, "'%s',");
 
-    }
-
-    public void clear(String tableName) {
-        try {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate("DELETE FROM public." + tableName);
-            stmt.close();
+            stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void create(DataSet input) {
-        try {
-            Statement stmt = connection.createStatement();
-
-            String tableNames = getNameFormated(input, "%s,");
-            String values = getValuesFormated(input, "'%s',");
-
-            stmt.executeUpdate("INSERT INTO public.user (" + tableNames + ")" +
-                    "VALUES (" + values + ")");
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    private String getFormatted(Iterable iterable, String format) {
+        String string = "";
+        for (Object o: iterable) {
+            string += String.format(format, o);
         }
+        string = string.substring(0, string.length() - 1);
+        return string;
     }
 
+    private String getNameFormatted(DataSet newValue, String format) {
+        return getFormatted(newValue.getNames(), format);
+    }
+
+    private String getValuesFormatted(DataSet input, String format) {
+        return getFormatted(input.getValues(), format);
+    }
+
+
+    @Override
     public void update(String tableName, int id, DataSet newValue) {
         try {
-            String tableNames = getNameFormated(newValue, "%s = ?,");
+            String tableNames = getNameFormatted(newValue, "%s = ?,");
 
-            String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id == ?";
-            System.out.println(sql);
+            String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             int index = 1;
@@ -122,7 +161,7 @@ public class PGDatabaseManager implements DatabaseManager {
                 ps.setObject(index, value);
                 index++;
             }
-            ps.setObject(index, id);
+            ps.setInt(index, id);
 
             ps.executeUpdate();
             ps.close();
@@ -131,22 +170,9 @@ public class PGDatabaseManager implements DatabaseManager {
         }
     }
 
-    private String getValuesFormated(DataSet input, String format) {
-        String values = "";
-        for (Object value: input.getValues()) {
-            values += String.format(format, value);
-        }
-        values = values.substring(0, values.length() - 1);
-        return values;
+    @Override
+    public void clear(String tableName) {
+
     }
 
-
-    private String getNameFormated(DataSet newValue, String format) {
-        String string = "";
-        for (String name : newValue.getNames()) {
-            string += String.format(format, name);
-        }
-        string = string.substring(0, string.length() - 1);
-        return string;
-    }
 }

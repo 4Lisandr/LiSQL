@@ -8,16 +8,7 @@ public class Help extends Command {
 
     public Help(View view) {
         super(view);
-    }
-
-    @Override
-    public String format() {
-        return "help";
-    }
-
-    @Override
-    public String description() {
-        return "for read help information";
+        setAttributes("help","for read help information");
     }
 
     @Override

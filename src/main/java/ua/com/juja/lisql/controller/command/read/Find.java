@@ -13,16 +13,9 @@ public class Find extends Command {
 
     public Find(DatabaseManager manager, View view) {
         super(manager, view, true);
-    }
-
-    @Override
-    public String format() {
-        return "find|";
-    }
-
-    @Override
-    public String description() {
-        return "for search some records";
+        setAttributes("find|", "for search some records", "ok",
+            EMessage.FAILED_COUNT.toString(),
+            EMessage.TO_MANY_PARAMETERS.toString());
     }
 
     @Override
@@ -30,13 +23,13 @@ public class Find extends Command {
 
         String[] data = command.split("\\|");
 
-        int length = "find|sample".split("\\|").length; //2
+        int sample = "find|sample".split("\\|").length; //2
 
-        if (data.length< length) // search only one parameter, other parameters ignored
+        if (data.length< sample) // search only one parameter, other parameters ignored
             throw new IllegalArgumentException(
-                    String.format(EMessage.FAILED_COUNT.toString(), length, data.length));
-        if (data.length> length)
-            getView().write(String.format(EMessage.TO_MANY_PARAMETERS.toString(), length-1));
+                    String.format(failure(0), sample, data.length));
+        if (data.length> sample)
+            getView().write(String.format(failure(1), sample-1));
 
         String tableName = data[1];
 

@@ -14,7 +14,7 @@ public class Console implements View {
 
     @Override // HELP
     public void write(String message) {
-        System.out.print(message);
+        System.out.println(message);
     }
 
     @Override

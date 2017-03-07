@@ -5,6 +5,8 @@ import ua.com.juja.lisql.controller.command.connection.Connect;
 import ua.com.juja.lisql.controller.command.read.DBList;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
+import ua.com.juja.lisql.controller.command.write.Create;
+import ua.com.juja.lisql.controller.command.write.Update;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.EMessage;
 import ua.com.juja.lisql.view.View;
@@ -20,14 +22,14 @@ public class MainController {
      * Keep strict order while iterate list of command
      * Command Unknown contains greed condition - all other commands after it detected as Unknown!
      */
-    private enum UsersCommands implements Command {
+    private enum UsersCommands {
         CONNECT (new Connect(manager, view)),
         HELP    (new Help(view)),
         EXIT    (new Exit(manager, view)),
         LIST    (new DBList(manager, view)),
         FIND    (new Find(manager, view)),
-//        CREATE(new Create(manager, view)),
-//        UPDATE(new Update(manager, view)),
+        CREATE  (new Create(manager, view)),
+        UPDATE  (new Update(manager, view)),
 //        DELETE(new Delete(manager, view)),
 //        INSERT(new Insert(manager, view)),
 //        CLEAR(new Clear(manager, view)),
@@ -44,18 +46,17 @@ public class MainController {
             return command;
         }
 
-        @Override
-        public boolean canProcess(String strCommand) {
-            return command.canProcess(strCommand);
+
+        private boolean canProcess(String input) {
+            return command.canProcess(input);
         }
 
-        @Override
-        public void process(String strCommand) {
-            command.process(strCommand);
+        private void process(String input) {
+            command.process(input);
         }
 
         private static void handler(String input) {
-            for (Command command : values()) {
+            for (UsersCommands command : values()) {
                 try {
                     if (command.canProcess(input)) {
                         command.process(input);
@@ -67,6 +68,7 @@ public class MainController {
                 }
             }
         }
+
 
 
         private static void printError(Exception e) {

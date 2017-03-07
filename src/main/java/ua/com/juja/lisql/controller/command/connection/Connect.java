@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller.command.connection;
 
 
-import ua.com.juja.lisql.controller.command.ACommand;
+import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 import ua.com.juja.lisql.view.Console;
@@ -11,26 +11,23 @@ import ua.com.juja.lisql.view.View;
 /**
  *
  */
-public class Connect extends ACommand {
+public class Connect extends Command {
 
     private static final String COMMAND_SAMPLE = "connect|sqlcmd|postgres|HcxbPRi5EoNB";
 
     public Connect(DatabaseManager manager, View view) {
         super(manager, view);
-    }
-
-    @Override
-    public boolean canProcess(String command) {
-        return command.startsWith("connect|");
+        setAttributes("connect|","подключение к БД",
+            EMessage.SUCCESS.toString(),EMessage.FAILED_COUNT.toString());
     }
 
     @Override
     public void process(String command) {
 
         String[] data = command.split("\\|");
-        if (data.length != count()) {
+        if (data.length != sample()) {
             throw new IllegalArgumentException(
-                    String.format(EMessage.FAILED_COUNT.toString(), count(), data.length));
+                String.format(failure(0), sample(), data.length));
         }
         String databaseName = data[1];
         String userName = data[2];
@@ -38,10 +35,12 @@ public class Connect extends ACommand {
 
         getManager().connect(databaseName, userName, password);
 
-        getView().write(EMessage.SUCCESS.toString(), "");
+        if (isConnected(databaseName))
+            getView().write(success(),"");
     }
 
-    private int count() {
+    /** Some overhead just for avoid magic number 4 */
+    private int sample() {
         return COMMAND_SAMPLE.split("\\|").length;
     }
 

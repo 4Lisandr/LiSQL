@@ -10,18 +10,11 @@ import ua.com.juja.lisql.view.View;
  * Lisandr 1.03.2017
  */
 public class Create extends Command {
+
     public Create(DatabaseManager manager, View view) {
         super(manager, view, true);
-    }
-
-    @Override
-    public String format() {
-        return "create|";
-    }
-
-    @Override
-    public String description() {
-        return "to create database";
+        setAttributes("create|", "to create database", EMessage.SUCCESS_RECORD.toString(),
+            EMessage.ODD_PARAMETERS.toString());
     }
 
     @Override
@@ -29,7 +22,7 @@ public class Create extends Command {
 
         String[] data = command.split("\\|");
         if (data.length % 2 != 0) {
-            throw new IllegalArgumentException(String.format(EMessage.ODD_PARAMETERS.toString(), data.length));
+            throw new IllegalArgumentException(String.format(failure(0), data.length));
         }
 
         String tableName = data[1];
@@ -43,6 +36,6 @@ public class Create extends Command {
         }
         getManager().create(tableName, dataSet);
 
-        getView().write(String.format(EMessage.SUCCESS_RECORD.toString(), dataSet, tableName));
+        getView().write(String.format(success(), dataSet, tableName));
     }
 }
