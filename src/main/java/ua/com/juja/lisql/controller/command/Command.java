@@ -1,7 +1,6 @@
 package ua.com.juja.lisql.controller.command;
 
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.EMessage;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
@@ -14,7 +13,6 @@ public abstract class Command {
     protected DatabaseManager manager;
 
     /** Specify this value in the constructor of your command*/
-    private boolean isConnectionRequired;
     /** Variable for system or inactive command*/
     private boolean isHiddenCommand;
 
@@ -37,12 +35,6 @@ public abstract class Command {
     public Command(DatabaseManager manager, View view) {
         this(view);
         this.manager = manager;
-    }
-
-    /** @param connect - use constant CONNECTION_REQUIRED, so value false is not designated! */
-    public Command(DatabaseManager manager, View view, boolean connect) {
-        this(manager, view);
-        isConnectionRequired = connect;
     }
 
     /**
@@ -91,17 +83,8 @@ public abstract class Command {
      * */
     public abstract void  process(String command);
 
-
     public boolean canProcess(String command){
-        return canProcess(command, isConnectionRequired);
-    }
-
-    public boolean canProcess(String command, boolean checkConnection){
-        boolean isMatches = beginWith(format()).equalsIgnoreCase(beginWith(command));
-
-        return checkConnection ?
-                isMatches && isConnected(command) :
-                isMatches;
+        return beginWith(format()).equalsIgnoreCase(beginWith(command));
     }
 
     private String beginWith(String input) {
@@ -111,13 +94,5 @@ public abstract class Command {
             return input.split(Line.SPLITTER)[0];
     }
 
-    public boolean isConnected(String command) {
-        if (!manager.isConnected()){
-            view.write(String.format(EMessage.DISCONNECTED.toString(), command));
-            return false;
-        }
-        else
-            return true;
-    }
 
 }
