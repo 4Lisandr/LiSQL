@@ -24,6 +24,7 @@ public class PGDatabaseManager implements DatabaseManager {
     static {
         try {
             Class.forName("org.postgresql.Driver");
+ //         DriverManager.registerDriver(new org.postgresql.Driver());
         } catch (ClassNotFoundException e) {
             //todo - во всех кэтчах залогировать все ошибки и пробросить на уровень выше (проброс по лейерам)
             // log.error("cannot connect", e);
@@ -46,6 +47,17 @@ public class PGDatabaseManager implements DatabaseManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean isConnected() {
+        try (Connection connection = connect(connectParameters);)
+        {
+            return true;
+        }
+        catch (SQLException e) {
+            return false;
+        }
     }
 
 
@@ -81,21 +93,23 @@ public class PGDatabaseManager implements DatabaseManager {
     }
 
     private List<String> getStrings(String query, String target) {
+
+        ArrayList<String> result = new ArrayList<>();
+
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)
              ){
 
-            ArrayList<String> result = new ArrayList<>();
-
-            while (rs.next()) {
+            while (rs.next())
                 result.add(rs.getString(target));
-            }
-            return result;
+
         } catch (SQLException e) {
+            // write log here!
             e.printStackTrace();
-            return new ArrayList<>();
         }
+
+        return result;
     }
 
     @Override

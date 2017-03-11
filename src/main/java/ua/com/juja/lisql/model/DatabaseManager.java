@@ -5,6 +5,7 @@ import java.util.List;
 public interface DatabaseManager {
     //Connection
     boolean canConnect(String database, String userName, String password);
+    boolean isConnected();
     //Read
     List<String> getTableNames();
     List<String> getTableColumns(String tableName);

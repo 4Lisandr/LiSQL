@@ -51,15 +51,15 @@ public class MainController {
             return command.canProcess(input);
         }
 
-        private void process(String input) {
-            command.process(input);
+        private void run(String input) {
+            command.run(input);
         }
 
         private static void handler(String input) {
             for (UsersCommands command : values()) {
                 try {
                     if (command.canProcess(input)) {
-                        command.process(input);
+                        command.run(input);
                         break;
                     }
                 } catch (Exception e) {
