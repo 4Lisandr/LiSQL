@@ -1,7 +1,7 @@
 package ua.com.juja.lisql;
 
 
-import ua.com.juja.lisql.controller.MainController;
+import ua.com.juja.lisql.controller.Controller;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 import ua.com.juja.lisql.view.Console;
@@ -15,7 +15,7 @@ public class Main {
         View view = new Console();
         DatabaseManager manager = new PGDatabaseManager();
 
-        MainController controller = new MainController(view, manager);
+        Controller controller = new Controller(view, manager);
         controller.run();
     }
 }

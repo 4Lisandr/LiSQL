@@ -10,6 +10,7 @@ public class Unknown extends Command {
         super(view);
         setAttributes("unknown", "the truth is out there...", EMessage.UNKNOWN.toString(),
             "This top secret level of this program, how do get this message at all?!!");
+        hide();
     }
 
     @Override
