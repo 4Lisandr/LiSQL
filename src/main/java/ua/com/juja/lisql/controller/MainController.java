@@ -22,63 +22,44 @@ public class MainController {
      * Keep strict order while iterate list of command
      * Command Unknown contains greed condition - all other commands after it detected as Unknown!
      */
-    private enum UsersCommands {
-        CONNECT (new UserConnect(manager, view)),
-        HELP    (new Help(view)),
-        EXIT    (new Exit(manager, view)),
-        LIST    (new DBList(manager, view)),
-        FIND    (new Find(manager, view)),
-        CREATE  (new Create(manager, view)),
-        UPDATE  (new Update(manager, view)),
+    private static final Command[] COMMANDS = new Command[]
+    {   new UserConnect(manager, view),
+        new Help(view),
+        new Exit(manager, view),
+        new DBList(manager, view),
+        new Find(manager, view),
+        new Create(manager, view),
+        new Update(manager, view),
 //        DELETE(new Delete(manager, view)),
 //        INSERT(new Insert(manager, view)),
 //        CLEAR(new Clear(manager, view)),
 //        DROP (new Drop(manager, view)),
-        UNKNOWN (new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
-
-        private final Command command;
-
-        UsersCommands(Command command) {
-            this.command = command;
-        }
-
-        public Command getCommand() {
-            return command;
-        }
+        new Unknown(view) /* Greed condition - all other commands are Unknown!*/
+    };
 
 
-        private boolean canProcess(String input) {
-            return command.canProcess(input);
-        }
-
-        private void run(String input) {
-            command.run(input);
-        }
-
-        private static void handler(String input) {
-            for (UsersCommands command : values()) {
-                try {
-                    if (command.canProcess(input)) {
-                        command.run(input);
-                        break;
-                    }
-                } catch (Exception e) {
-                    printError(e);
+    private static void handler(String input) {
+        for (Command command : COMMANDS) {
+            try {
+                if (command.canProcess(input)) {
+                    command.run(input);
                     break;
                 }
+            } catch (Exception e) {
+                printError(e);
+                break;
             }
         }
+    }
 
-
-
-        private static void printError(Exception e) {
-            String message = e.getMessage();
-            Throwable cause = e.getCause();
-            if (cause != null) {
-                message += " " + cause.getMessage();
-            }
-            view.write(EMessage.FAIL + " " + message, EMessage.RETRY.toString());
+    private static void printError(Exception e) {
+        String message = e.getMessage();
+        Throwable cause = e.getCause();
+        if (cause != null) {
+           message += " " + cause.getMessage();
         }
+
+        view.write(EMessage.FAIL + " " + message, EMessage.RETRY.toString());
     }
 
 
@@ -94,7 +75,7 @@ public class MainController {
 
         while (true) {
             String input = view.read();
-            UsersCommands.handler(input);
+            handler(input);
             if (!Close.isCalled()){// Ask user for next step
                 view.write(EMessage.INPUT.toString(),"");
             }
