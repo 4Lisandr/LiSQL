@@ -22,7 +22,7 @@ public class MainController {
      * Keep strict order while iterate list of command
      * Command Unknown contains greed condition - all other commands after it detected as Unknown!
      */
-    private static final Command[] COMMANDS = new Command[]
+    public static final Command[] COMMANDS = new Command[]
     {   new UserConnect(manager, view),
         new Help(view),
         new Exit(manager, view),
