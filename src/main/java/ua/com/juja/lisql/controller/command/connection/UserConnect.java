@@ -20,6 +20,7 @@ public class UserConnect extends Command {
         super(manager, view);
         setAttributes("connect|","подключение к БД",
             EMessage.SUCCESS.toString(),EMessage.FAILED_COUNT.toString());
+
     }
 
     @Override

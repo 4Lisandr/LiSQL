@@ -1,7 +1,9 @@
 package ua.com.juja.lisql.model;
 
 import java.util.List;
-
+/**
+ * DAO interface for CRUD operations with databases
+ * */
 public interface DatabaseManager {
     //Connection
     boolean canConnect(String database, String userName, String password);

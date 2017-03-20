@@ -1,30 +1,31 @@
 package ua.com.juja.lisql.model;
 
+
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PGDatabaseManager implements DatabaseManager {
 
-    public static final String POSTGRESQL = "postgresql"; // database type (MySQL LiteSQL, etc...)
-    public static final String HOST = "localhost";
-    public static final int PORT = 5432;
-    public static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
-    public static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
-    public static final String SELECT_ALL = "SELECT * FROM public.";
-    public static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
 
+    private static final String POSTGRESQL = "postgresql"; // database type (MySQL LiteSQL, etc...)
+    private static final String HOST = "localhost";
+    private static final int PORT = 5432;
+    private static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
+    private static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
+    private static final String SELECT_ALL = "SELECT * FROM public.";
+    private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
 
-    //    "INSERT INTO public." + tableName + " (" + tableNames + ")" +
-//            "VALUES (" + values + ")"
+    private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
     private static String[] connectParameters;
-    /**
-     * Driver initialisation
-     * */
+    /*
+      Driver initialisation
+      */
     static {
         try {
             Class.forName("org.postgresql.Driver");
- //         DriverManager.registerDriver(new org.postgresql.Driver());
         } catch (ClassNotFoundException e) {
             //todo - во всех кэтчах залогировать все ошибки и пробросить на уровень выше (проброс по лейерам)
             // log.error("cannot connect", e);
@@ -185,7 +186,6 @@ public class PGDatabaseManager implements DatabaseManager {
         try (Connection connection = connect(connectParameters);
              PreparedStatement ps = connection.prepareStatement(sql))
         {
-
             int index = 1;
             for (Object value : newValue.getValues()) {
                 ps.setObject(index, value);
@@ -202,6 +202,11 @@ public class PGDatabaseManager implements DatabaseManager {
     @Override
     public void clear(String tableName) {
 
+    }
+
+    public void exceptionHandler(String msg, Throwable e) throws DAOException {
+        log.error("Cannot create user", e);
+        throw new DAOException("Cannot create user", e);
     }
 
 }
