@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -15,7 +15,7 @@ public class Start extends Command {
     public Start(View view) {
         super(view);
         instances++;
-        setAttributes("run","warming up...", (EMessage.HELLO + " " + EMessage.START), "System failure!");
+        setAttributes("run","warming up...", (Message.HELLO + " " + Message.START), "System failure!");
     }
 
     @Override
@@ -25,7 +25,8 @@ public class Start extends Command {
 
     @Override
     public void process(String command) {
-        view.write(EMessage.HELLO.toString(), EMessage.START.toString());
+        if (canProcess(command))
+            view.write(Message.HELLO.toString(), Message.START.toString());
     }
 
 

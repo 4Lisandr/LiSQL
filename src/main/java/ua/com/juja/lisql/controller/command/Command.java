@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller.command;
 
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
@@ -92,13 +92,16 @@ public abstract class Command {
     public abstract void  process(String command);
 
 
-    public void run(String command){
+    public boolean run(String command){
+        if (canProcess(command))
+            if(!isConnectionRequired || manager.isConnected()){
+                process(command);
+                return true;
+            }
+            else
+                view.write("Connect required!");
 
-        if(!isConnectionRequired || manager.isConnected())
-            process(command);
-
-        else
-            view.write("Connect required!");
+        return false;
     }
 
 
@@ -115,7 +118,7 @@ public abstract class Command {
 
     public boolean isConnected(String command) {
         if (!manager.isConnected()){
-            view.write(String.format(EMessage.DISCONNECTED.toString(), command));
+            view.write(String.format(Message.DISCONNECTED.toString(), command));
             return false;
         }
         else

@@ -13,6 +13,7 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String POSTGRESQL = "postgresql"; // database type (MySQL LiteSQL, etc...)
     private static final String HOST = "localhost";
     private static final int PORT = 5432;
+
     private static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
     private static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
     private static final String SELECT_ALL = "SELECT * FROM public.";
@@ -27,10 +28,7 @@ public class PGDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            //todo - во всех кэтчах залогировать все ошибки и пробросить на уровень выше (проброс по лейерам)
-            // log.error("cannot connect", e);
-            System.out.println("Please add Postgresql JDBC jar to project.");
-            e.printStackTrace();
+            exceptionHandler("Cannot connect. Please add Postgresql JDBC jar to project.", e);
         }
     }
 
@@ -44,8 +42,7 @@ public class PGDatabaseManager implements DatabaseManager {
                 return true;
             }
         } catch (NullPointerException | SQLException e) {
-            // log.error("cannot connect", e);
-            e.printStackTrace();
+            exceptionHandler("cannot connect",e);
         }
         return false;
     }
@@ -204,9 +201,9 @@ public class PGDatabaseManager implements DatabaseManager {
 
     }
 
-    public void exceptionHandler(String msg, Throwable e) throws DAOException {
-        log.error("Cannot create user", e);
-        throw new DAOException("Cannot create user", e);
+    public static void exceptionHandler(String msg, Throwable e) {
+        log.error(msg, e);
+        throw new DAOException(msg, e);
     }
 
 }

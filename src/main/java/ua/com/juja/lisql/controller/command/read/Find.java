@@ -3,7 +3,7 @@ package ua.com.juja.lisql.controller.command.read;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 import java.util.List;
@@ -14,8 +14,8 @@ public class Find extends Command {
     public Find(DatabaseManager manager, View view) {
         super(manager, view);
         setAttributes("find|", "for search some records", "ok",
-            EMessage.FAILED_COUNT.toString(),
-            EMessage.TO_MANY_PARAMETERS.toString());
+            Message.FAILED_COUNT.toString(),
+            Message.TO_MANY_PARAMETERS.toString());
     }
 
     @Override

@@ -8,16 +8,17 @@ import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.controller.command.write.Create;
 import ua.com.juja.lisql.controller.command.write.Update;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Controller of commands
+ *  Controller of commands, singleton
  */
-public class Controller {
+public final class Controller {
+    private static Controller instance;
     private static View view;
     private static DatabaseManager manager;
 
@@ -61,47 +62,46 @@ public class Controller {
         private static void handler(String input) {
             for (Command command : getAll()) {
                 try {
-                    if (command.canProcess(input)) {
-                        command.run(input);
+                    if (command.run(input))
                         break;
-                    }
                 } catch (Exception e) {
                     printError(e);
                     break;
                 }
             }
         }
-
-        private static void printError(Exception e) {
-            String message = e.getMessage();
-            Throwable cause = e.getCause();
-            if (cause != null) {
-                message += " " + cause.getMessage();
-            }
-            view.write(EMessage.FAIL + " " + message, EMessage.RETRY.toString());
-        }
     }
 
-
-    public Controller(View view, DatabaseManager manager) {
+    private Controller(View view, DatabaseManager manager) {
         Controller.view = view;
         Controller.manager = manager;
+        instance = this;
+    }
+
+    public static Controller getInstance(View view, DatabaseManager manager) {
+        return (instance==null)?
+                new Controller(view, manager):
+                instance;
     }
 
     public void run() {
-        if (!Start.isCalled()){
-            new Start(view).process("");
-        }
+        new Start(view).process("");
 
-        while (true) {
+        while (!Close.isCalled()) {
+            view.write(Message.INPUT.toString(),"");
             String input = view.read();
             UsersCommand.handler(input);
-            if (!Close.isCalled()){// Ask user for next step
-                view.write(EMessage.INPUT.toString(),"");
-            }
-            else
-                break;
         }
+
+    }
+
+    private static void printError(Exception e) {
+        String message = e.getMessage();
+        Throwable cause = e.getCause();
+        if (cause != null) {
+            message += " " + cause.getMessage();
+        }
+        view.write(Message.FAIL + " " + message, Message.RETRY.toString());
     }
 
 }

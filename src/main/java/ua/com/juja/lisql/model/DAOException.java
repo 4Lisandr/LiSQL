@@ -1,12 +1,8 @@
 package ua.com.juja.lisql.model;
 
-import java.sql.SQLException;
+class DAOException extends RuntimeException {
 
-/**
- *
- */
-public class DAOException extends SQLException {
-    public DAOException(String s, Throwable e) {
-
+    DAOException(String reason, Throwable cause) {
+        super(reason, cause);
     }
 }

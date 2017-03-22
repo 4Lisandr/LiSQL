@@ -5,7 +5,7 @@ import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 import ua.com.juja.lisql.view.Console;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
@@ -19,7 +19,7 @@ public class UserConnect extends Command {
     public UserConnect(DatabaseManager manager, View view) {
         super(manager, view);
         setAttributes("connect|","подключение к БД",
-            EMessage.SUCCESS.toString(),EMessage.FAILED_COUNT.toString());
+            Message.SUCCESS.toString(), Message.FAILED_COUNT.toString());
 
     }
 

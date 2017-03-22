@@ -15,7 +15,7 @@ public class Main {
         View view = new Console();
         DatabaseManager manager = new PGDatabaseManager();
 
-        Controller controller = new Controller(view, manager);
+        Controller controller = Controller.getInstance(view, manager);
         controller.run();
     }
 }

@@ -3,7 +3,7 @@ package ua.com.juja.lisql.view;
 /**
  *  Lisandr 23.02.17
  */
-public enum EMessage { //todo реализовать мультиязычность - создать интерфейс, содержащий Enum
+public enum Message { //todo реализовать мультиязычность - создать интерфейс, содержащий Enum
     HELLO ("Привет юзер!"),
     START ("Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password"),
     INPUT ("Введи команду (или help для помощи):"),
@@ -28,7 +28,7 @@ public enum EMessage { //todo реализовать мультиязычнос�
 
     private final String message;
 
-    EMessage(String message) {
+    Message(String message) {
         this.message = message;
     }
 

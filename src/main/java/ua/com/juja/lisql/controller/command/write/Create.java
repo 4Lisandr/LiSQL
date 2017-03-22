@@ -3,7 +3,7 @@ package ua.com.juja.lisql.controller.command.write;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -13,8 +13,8 @@ public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("create|", "to create database", EMessage.SUCCESS_RECORD.toString(),
-            EMessage.ODD_PARAMETERS.toString());
+        setAttributes("create|", "to create database", Message.SUCCESS_RECORD.toString(),
+            Message.ODD_PARAMETERS.toString());
     }
 
     @Override

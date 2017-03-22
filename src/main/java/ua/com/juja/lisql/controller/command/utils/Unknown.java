@@ -1,14 +1,14 @@
 package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.view.EMessage;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 public class Unknown extends Command {
 
     public Unknown(View view){
         super(view);
-        setAttributes("unknown", "the truth is out there...", EMessage.UNKNOWN.toString(),
+        setAttributes("unknown", "the truth is out there...", Message.UNKNOWN.toString(),
             "This top secret level of this program, how do get this message at all?!!");
         hide();
     }
