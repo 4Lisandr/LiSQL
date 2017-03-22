@@ -49,7 +49,7 @@ public class PGDatabaseManager implements DatabaseManager {
 
     @Override
     public boolean isConnected() {
-        try (Connection connection = connect(connectParameters);)
+        try (Connection connection = connect(connectParameters))
         {
             return true;
         }
@@ -58,7 +58,9 @@ public class PGDatabaseManager implements DatabaseManager {
         }
     }
 
-
+    /**
+     * Don't share connection
+     * */
     private Connection connect(String database, String user, String password){
         Connection connect;
         try {

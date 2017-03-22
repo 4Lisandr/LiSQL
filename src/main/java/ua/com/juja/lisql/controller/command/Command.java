@@ -86,10 +86,6 @@ public abstract class Command {
         isHiddenCommand = HIDDEN_COMMAND;
     }
 
-    /**
-     * For the properly work you should implement this method in your command
-     * */
-    public abstract void  process(String command);
 
 
     public boolean run(String command){
@@ -104,16 +100,19 @@ public abstract class Command {
         return false;
     }
 
+    /**
+     * For the properly work you should implement this method in your command
+     * */
+    public abstract void  process(String command);
 
     public boolean canProcess(String command){
         return beginWith(format()).equalsIgnoreCase(beginWith(command));
     }
 
     private String beginWith(String input) {
-        if ((input==null)||input.trim().isEmpty())
-            return "";
-        else
-            return input.split(Line.SPLITTER)[0];
+        return ((input==null)||input.trim().isEmpty()) ?
+            "" :
+            Line.split(input)[0];
     }
 
     public boolean isConnected(String command) {

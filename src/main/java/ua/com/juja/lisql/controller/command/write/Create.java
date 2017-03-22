@@ -3,6 +3,7 @@ package ua.com.juja.lisql.controller.command.write;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
@@ -20,7 +21,7 @@ public class Create extends Command {
     @Override
     public void process(String command) {
 
-        String[] data = command.split("\\|");
+        String[] data = Line.split(command);
         if (data.length % 2 != 0) {
             throw new IllegalArgumentException(String.format(failure(0), data.length));
         }

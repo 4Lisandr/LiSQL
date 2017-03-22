@@ -3,6 +3,7 @@ package ua.com.juja.lisql.controller.command.read;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
@@ -21,9 +22,9 @@ public class Find extends Command {
     @Override
     public void process(String command) {
 
-        String[] data = command.split("\\|");
+        String[] data = Line.split(command);
 
-        int sample = "find|sample".split("\\|").length; //2
+        int sample = Line.split("find|sample").length; //2
 
         if (data.length< sample) // search only one parameter, other parameters ignored
             throw new IllegalArgumentException(

@@ -26,7 +26,7 @@ public class UserConnect extends Command {
     @Override
     public void process(String command) {
 
-        String[] data = command.split(Line.SPLITTER);
+        String[] data = Line.split(command);
         if (data.length != sample()) {
             throw new IllegalArgumentException(
                 String.format(failure(0), sample(), data.length));
@@ -41,7 +41,7 @@ public class UserConnect extends Command {
 
     /** Some overhead just for avoid magic number 4 */
     private int sample() {
-        return COMMAND_SAMPLE.split("\\|").length;
+        return Line.split(COMMAND_SAMPLE).length;
     }
 
     // todo не выводить "успех" при падении соединения
