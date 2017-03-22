@@ -20,7 +20,7 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
-    private static String[] connectParameters;
+    private static String[] connectParameters = new String[0];
     /*
       Driver initialisation
       */
@@ -51,9 +51,10 @@ public class PGDatabaseManager implements DatabaseManager {
     public boolean isConnected() {
         try (Connection connection = connect(connectParameters))
         {
-            return true;
+            return connection!= null;
         }
         catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

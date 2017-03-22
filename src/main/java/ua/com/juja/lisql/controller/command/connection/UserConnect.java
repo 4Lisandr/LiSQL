@@ -18,7 +18,7 @@ public class UserConnect extends Command {
 
     public UserConnect(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("connect|","подключение к БД",
+        setAttributes("connect","подключение к БД",
             Message.SUCCESS.toString(), Message.FAILED_COUNT.toString());
 
     }

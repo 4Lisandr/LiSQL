@@ -87,15 +87,13 @@ public abstract class Command {
     }
 
 
-
-    public boolean run(String command){
+    public boolean run(String command) throws CmdException {
         if (canProcess(command))
-            if(!isConnectionRequired || manager.isConnected()){
+            if (!isConnectionRequired || isConnected(command)){
                 process(command);
                 return true;
             }
-            else
-                view.write("Connect required!");
+            else throw new CmdException();
 
         return false;
     }
@@ -115,7 +113,7 @@ public abstract class Command {
             Line.split(input)[0];
     }
 
-    public boolean isConnected(String command) {
+    private boolean isConnected(String command) {
         if (!manager.isConnected()){
             view.write(String.format(Message.DISCONNECTED.toString(), command));
             return false;

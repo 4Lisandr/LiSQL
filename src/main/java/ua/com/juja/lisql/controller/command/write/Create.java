@@ -13,8 +13,8 @@ import ua.com.juja.lisql.view.View;
 public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
-        super(manager, view);
-        setAttributes("create|", "to create database", Message.SUCCESS_RECORD.toString(),
+        super(manager, view, CONNECTION_REQUIRED);
+        setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString(),
             Message.ODD_PARAMETERS.toString());
     }
 
