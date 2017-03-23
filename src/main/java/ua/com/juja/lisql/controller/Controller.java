@@ -1,15 +1,12 @@
 package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.connection.UserConnect;
-import ua.com.juja.lisql.controller.command.read.DBList;
-import ua.com.juja.lisql.controller.command.read.Find;
+import ua.com.juja.lisql.controller.command.connection.*;
+import ua.com.juja.lisql.controller.command.read.*;
+import ua.com.juja.lisql.controller.command.write.*;
 import ua.com.juja.lisql.controller.command.utils.*;
-import ua.com.juja.lisql.controller.command.write.Create;
-import ua.com.juja.lisql.controller.command.write.Update;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Message;
-import ua.com.juja.lisql.view.View;
+import ua.com.juja.lisql.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +31,9 @@ public final class Controller {
         FIND    (new Find(manager, view)),
         CREATE  (new Create(manager, view)),
         UPDATE  (new Update(manager, view)),
+        CLEAR(new Clear(manager, view)),
 //        DELETE(new Delete(manager, view)),
 //        INSERT(new Insert(manager, view)),
-//        CLEAR(new Clear(manager, view)),
 //        DROP (new Drop(manager, view)),
         UNKNOWN (new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 

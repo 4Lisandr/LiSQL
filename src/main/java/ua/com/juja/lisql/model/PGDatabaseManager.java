@@ -35,6 +35,7 @@ public class PGDatabaseManager implements DatabaseManager {
     /*
      * Open, check and close connection. Set parameters for further connections.
      */
+    @Override
     public boolean canConnect(String database, String user, String password) {
         try(Connection connect = connect(database, user, password)){
             if (connect!= null){
@@ -46,7 +47,6 @@ public class PGDatabaseManager implements DatabaseManager {
         }
         return false;
     }
-
     @Override
     public boolean isConnected() {
         try (Connection connection = connect(connectParameters))

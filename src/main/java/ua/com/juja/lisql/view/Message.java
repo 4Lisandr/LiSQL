@@ -4,27 +4,27 @@ package ua.com.juja.lisql.view;
  *  Lisandr 23.02.17
  */
 public enum Message { //todo реализовать мультиязычность - создать интерфейс, содержащий Enum
-    HELLO ("Привет юзер!"),
-    START ("Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password"),
-    INPUT ("Введи команду (или help для помощи):"),
-    HELP ("Помощь близко, вы там держитесь..."),
+    HELLO ("Hello, user!"),
+    START ("Enter, please the database name, username and password in the format: connect|database|userName|password"),
+    INPUT ("Enter the command (or help for read list of commands):"),
+    HELP ("List of commands:"),
 
-    FAIL ("Неудача! по причине:"),
-    SUCCESS ("Успех!"),
+    FAIL ("Failure! because of:"),
+    SUCCESS ("Success!"),
     /**
      *   String format here!
      **/
-    FAILED_COUNT ("Неверное число параметров, ожидается %s, но указано: %s"),
-    TO_MANY_PARAMETERS ("Задано слишком много параметров, обработано '%s', остальные - проигнорированны"),
-    ODD_PARAMETERS ("Должно быть четное количество параметров в формате " +
-        "create|tableName|column1|value1|column2|value2|...|columnN|valueN', но указано: '%s'"),
-    SUCCESS_RECORD ("Запись %s была успешно создана в таблице '%s'."),
-    DISCONNECTED ("Невозможно выполнить комманду '%s' без подключения (connect|database|userName|password)"),
+    FAILED_COUNT ("Wrong number of parameters, %s expected, but specified: %s"),
+    TO_MANY_PARAMETERS ("Too many parameters were specified, '%s' were processed, but others - ignored!"),
+    ODD_PARAMETERS ("There must be an even number of parameters in the format " +
+        "create|tableName|column1|value1|column2|value2|...|columnN|valueN', but specified: %s"),
+    SUCCESS_RECORD ("The record %s has created successfully in the table %s."),
+    DISCONNECTED ("Command %s couldn't executed without connection (connect|database|userName|password)"),
 
-    RETRY ("Повтори попытку."),
-    UNKNOWN ("Несуществующая команда:"),
+    RETRY ("Try again now or later..."),
+    UNKNOWN ("Unknown command:"),
 
-    GOODBYE ("Пока!");
+    GOODBYE ("Goodbye!");
 
     private final String message;
 

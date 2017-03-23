@@ -26,7 +26,7 @@ public class Start extends Command {
     @Override
     public void process(String command) {
         if (canProcess(command))
-            view.write(Message.HELLO.toString(), Message.START.toString());
+            view.write(Message.HELLO.toString()," ", Message.START.toString());
     }
 
 
