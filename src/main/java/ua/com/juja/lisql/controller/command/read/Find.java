@@ -13,7 +13,7 @@ import java.util.Set;
 public class Find extends Command {
 
     public Find(DatabaseManager manager, View view) {
-        super(manager, view, CONNECTION_REQUIRED);
+        super(manager, view);
         setAttributes("find", "for search some records", "ok",
             Message.FAILED_COUNT.toString(),
             Message.TO_MANY_PARAMETERS.toString());

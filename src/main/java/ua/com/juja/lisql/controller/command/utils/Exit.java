@@ -8,7 +8,7 @@ import ua.com.juja.lisql.view.View;
 public class Exit extends Command {
 
     public Exit(DatabaseManager manager, View view) {
-        super(manager, view);
+        super(manager, view, !CONNECTION_REQUIRED);
         setAttributes("exit", "for quit out", Message.GOODBYE.toString());
     }
 

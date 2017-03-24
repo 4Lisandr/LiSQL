@@ -94,11 +94,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        Throwable cause = e.getCause();
-        if (cause != null) {
-            message += " " + cause.getMessage();
-        }
-        view.write(Message.FAIL + " " + message, Message.RETRY.toString());
+        view.write(Message.FAIL+" ", message,". "+Message.RETRY);
     }
 
 }

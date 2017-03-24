@@ -17,7 +17,7 @@ public class UserConnect extends Command {
     private static final String COMMAND_SAMPLE = "connect|sqlcmd|postgres|HcxbPRi5EoNB";
 
     public UserConnect(DatabaseManager manager, View view) {
-        super(manager, view);
+        super(manager, view, !CONNECTION_REQUIRED);
         setAttributes("connect","connect to database",
             Message.SUCCESS.toString(), Message.FAILED_COUNT.toString());
 

@@ -11,7 +11,7 @@ import ua.com.juja.lisql.view.View;
 public class Clear extends Command {
 
     public Clear(DatabaseManager manager, View view) {
-        super(manager, view, CONNECTION_REQUIRED);
+        super(manager, view);
         setAttributes("clear|users", "clear table users", "now table is empty", "canceled");
         hide();
     }

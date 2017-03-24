@@ -10,7 +10,7 @@ import java.util.List;
 public class DBList extends Command {
 
     public DBList(DatabaseManager manager, View view){
-        super(manager, view, CONNECTION_REQUIRED);
+        super(manager, view);
         setAttributes("list", "for view all databases", "success", "fail");
     }
 

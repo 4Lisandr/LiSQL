@@ -14,7 +14,7 @@ public abstract class Command {
     protected DatabaseManager manager;
 
     /** Specify this value in the constructor of your command*/
-    private boolean isConnectionRequired;
+    private boolean isConnectionRequired = true;
     /** Variable for system or inactive command*/
     private boolean isHiddenCommand;
 
@@ -32,14 +32,16 @@ public abstract class Command {
     public Command(View view) {
         this();
         this.view = view;
+        isConnectionRequired = false;
     }
 
     public Command(DatabaseManager manager, View view) {
         this(view);
         this.manager = manager;
+        isConnectionRequired = true;
     }
 
-    /** @param connect - use constant CONNECTION_REQUIRED, so value false is not designated! */
+    /** @param connect - use constant CONNECTION_REQUIRED */
     public Command(DatabaseManager manager, View view, boolean connect) {
         this(manager, view);
         isConnectionRequired = connect;
@@ -93,7 +95,7 @@ public abstract class Command {
                 process(command);
                 return true;
             }
-            else throw new CmdException();
+            else throw new CmdException("missed connection", new RuntimeException());
 
         return false;
     }

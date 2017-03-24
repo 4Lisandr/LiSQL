@@ -10,7 +10,7 @@ import ua.com.juja.lisql.view.View;
 public class Update extends Command {
 
     public Update(DatabaseManager manager, View view) {
-        super(manager, view, CONNECTION_REQUIRED);
+        super(manager, view);
         setAttributes("update");
         hide();
     }

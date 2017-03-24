@@ -9,7 +9,7 @@ public enum Message { //todo реализовать мультиязычност
     INPUT ("Enter the command (or help for read list of commands):"),
     HELP ("List of commands:"),
 
-    FAIL ("Failure! because of:"),
+    FAIL ("Failure because of:"),
     SUCCESS ("Success!"),
     /**
      *   String format here!
