@@ -50,14 +50,14 @@ public abstract class Command {
     /**
      * Getters
      * */
-    public String format(){
+    protected String format(){
         return getAttribute(0);
     }
-    public String description(){
+    protected String description(){
         return getAttribute(1);
     }
 
-    public String success(){
+    protected String success(){
         return getAttribute(2);
     }
 
@@ -72,7 +72,7 @@ public abstract class Command {
                 attributes[i];
     }
 
-    public boolean isHidden() {
+    protected boolean isHidden() {
         return isHiddenCommand;
     }
 
@@ -84,7 +84,7 @@ public abstract class Command {
         }
     }
 
-    public void hide() {
+    protected void hide() {
         isHiddenCommand = HIDDEN_COMMAND;
     }
 
@@ -112,7 +112,7 @@ public abstract class Command {
     // check numbers of parameters
     protected boolean validate(String command){
         return true;
-    };
+    }
 
     private String beginWith(String input) {
         return ((input==null)||input.trim().isEmpty()) ?
@@ -130,6 +130,9 @@ public abstract class Command {
     }
 
     // < 2 - Exception (-1), == 2 - OK (0), > 2 Warning (1)
+    // ODD EVEN others condition( command, condition){
+    //  condition.check
+    // }
     protected String[] validArgs (String command, String sample) {
         int target = Line.split(sample).length;
         String[] data = Line.split(command);
@@ -139,6 +142,14 @@ public abstract class Command {
                     String.format(Message.FAILED_COUNT.toString(), target, data.length));
         if (data.length> target)
             view.write(String.format(Message.TO_MANY_PARAMETERS.toString(), target-1));
+        return data;
+    }
+
+    protected String[] validArgs (String command) {
+        String[] data = Line.split(command);
+        if (data.length %2 != 0)
+            throw new IllegalArgumentException(
+                    String.format(Message.ODD_PARAMETERS.toString(), data.length));
         return data;
     }
 }

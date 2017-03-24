@@ -18,6 +18,7 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
     private static final String SELECT_ALL = "SELECT * FROM public.";
     private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
+    private static final String DELETE = "DELETE FROM public.";
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
     private static String[] connectParameters = new String[0];
@@ -201,10 +202,16 @@ public class PGDatabaseManager implements DatabaseManager {
 
     @Override
     public void clear(String tableName) {
-
+        try (Connection connection = connect(connectParameters);
+             Statement stmt = connection.createStatement();
+        ){
+            stmt.executeUpdate(DELETE + tableName);
+        } catch (SQLException e) {
+            exceptionHandler("Could not clear table "+ tableName, e);
+        }
     }
 
-    public static void exceptionHandler(String msg, Throwable e) {
+    private static void exceptionHandler(String msg, Throwable e) {
         log.error(msg, e);
         throw new DAOException(msg, e);
     }

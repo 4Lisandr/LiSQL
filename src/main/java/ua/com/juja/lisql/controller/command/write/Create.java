@@ -3,7 +3,6 @@ package ua.com.juja.lisql.controller.command.write;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
@@ -14,18 +13,13 @@ public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString(),
-            Message.ODD_PARAMETERS.toString());
+        setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString());
     }
 
     @Override
     public void process(String command) {
 
-        String[] data = Line.split(command);
-        if (data.length % 2 != 0) {
-            throw new IllegalArgumentException(String.format(failure(0), data.length));
-        }
-
+        String[] data = validArgs(command);
         String tableName = data[1];
 
         DataSet dataSet = new DataSet();

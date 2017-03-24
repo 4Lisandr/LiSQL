@@ -2,7 +2,6 @@ package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -18,9 +17,9 @@ public class Clear extends Command {
 
     @Override
     public void process(String command) {
-        String[] arg = Line.split(command);
+        String[] arg = validArgs(command, "clear|users");
 
-        if (arg.length > 1 && confirm())
+        if (confirm())
             manager.clear(arg[1]);
         else
             view.write("Cancelled!");
