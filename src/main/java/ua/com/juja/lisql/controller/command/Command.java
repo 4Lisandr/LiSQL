@@ -106,15 +106,20 @@ public abstract class Command {
     public abstract void  process(String command);
 
     public boolean canProcess(String command){
-        return beginWith(format()).equalsIgnoreCase(beginWith(command));
+        return beginWith(format()).equalsIgnoreCase(beginWith(command)) &&
+                validate(command); //
     }
+    // check numbers of parameters
+    protected boolean validate(String command){
+        return true;
+    };
 
     private String beginWith(String input) {
         return ((input==null)||input.trim().isEmpty()) ?
             "" :
             Line.split(input)[0];
     }
-
+    // if connection issue
     private boolean isConnected(String command) {
         if (!manager.isConnected()){
             view.write(String.format(Message.DISCONNECTED.toString(), command));
@@ -124,4 +129,16 @@ public abstract class Command {
             return true;
     }
 
+    // < 2 - Exception (-1), == 2 - OK (0), > 2 Warning (1)
+    protected String[] validArgs (String command, String sample) {
+        int target = Line.split(sample).length;
+        String[] data = Line.split(command);
+
+        if (data.length < target)
+            throw new IllegalArgumentException(
+                    String.format(Message.FAILED_COUNT.toString(), target, data.length));
+        if (data.length> target)
+            view.write(String.format(Message.TO_MANY_PARAMETERS.toString(), target-1));
+        return data;
+    }
 }

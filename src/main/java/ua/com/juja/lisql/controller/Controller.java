@@ -57,14 +57,12 @@ public final class Controller {
         }
 
         private static void handler(String input) {
-            for (Command command : getAll()) {
-                try {
+            try {
+                for (Command command : getAll())
                     if (command.run(input))
                         break;
-                } catch (Exception e) {
+            } catch (Exception e) {
                     printError(e);
-                    break;
-                }
             }
         }
     }

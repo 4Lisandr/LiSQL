@@ -3,7 +3,6 @@ package ua.com.juja.lisql.controller.command.read;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
@@ -22,17 +21,7 @@ public class Find extends Command {
     @Override
     public void process(String command) {
 
-        String[] data = Line.split(command);
-
-        int sample = Line.split("find|sample").length; //2
-
-        if (data.length< sample) // search only one parameter, other parameters ignored
-            throw new IllegalArgumentException(
-                    String.format(failure(0), sample, data.length));
-        if (data.length> sample)
-            view.write(String.format(failure(1), sample-1));
-
-        String tableName = data[1];
+        String tableName = validArgs(command, "find|sample")[1];
 
         List<String> tableColumns = manager.getTableColumns(tableName);
         printHeader(tableColumns);
@@ -40,7 +29,6 @@ public class Find extends Command {
         List<DataSet> tableData = manager.getTableData(tableName);
         printTable(tableData);
     }
-
 
     //todo - remove view methods in view module
     private void printTable(List<DataSet> tableData) {
