@@ -26,7 +26,7 @@ public class UserConnect extends Command {
         String password = data[3];
 
         if (manager.canConnect(databaseName, userName, password))
-            view.write(success(),"");
+            view.write(success());
     }
 
 }
