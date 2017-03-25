@@ -50,10 +50,10 @@ public abstract class Command {
     /**
      * Getters
      * */
-    protected String format(){
+    public String format(){
         return getAttribute(0);
     }
-    protected String description(){
+    public String description(){
         return getAttribute(1);
     }
 
@@ -72,7 +72,7 @@ public abstract class Command {
                 attributes[i];
     }
 
-    protected boolean isHidden() {
+    public boolean isHidden() {
         return isHiddenCommand;
     }
 

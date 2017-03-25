@@ -15,11 +15,7 @@ public class Help extends Command {
 
     @Override
     public void process(String command) {
-    // А если вызвать сообщение полиморфно, с учетом локации?
-    // Класс message содержит поле HELP  <String> Message.getHelp()
         view.write(Message.HELP.toString());
-        //for each commands:
-        // tell about you!
         for(Command com: Controller.UsersCommand.getAll()){
             if(!com.isHidden())
                 view.write(Line.concat("\t", com.format(), " - ", com.description()));

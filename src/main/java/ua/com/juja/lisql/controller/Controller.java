@@ -83,7 +83,7 @@ public final class Controller {
         new Start(view).process("");
 
         while (!Close.isCalled()) {
-            view.write(Message.INPUT.toString(),"");
+            view.write(Message.INPUT.toString());
             String input = view.read();
             UsersCommand.handler(input);
         }

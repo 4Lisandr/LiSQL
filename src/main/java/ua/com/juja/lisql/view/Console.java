@@ -20,4 +20,21 @@ public class Console implements View {
         write(Line.concat(messages));
     }
 
+    //
+    public int userEvent(String msg, String... answers){
+        write(msg);
+        String read = read();
+        for (int i = 0; i < answers.length; i++) {
+            if (read.equalsIgnoreCase(answers[i]))
+                return i;
+        }
+
+        return -1;
+    }
+
+    @Override
+    public boolean confirm() {
+        write("Are you sure (Y/N)?");
+        return read().equals("Y");
+    }
 }

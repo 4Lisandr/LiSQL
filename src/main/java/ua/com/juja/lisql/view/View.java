@@ -8,4 +8,6 @@ public interface View {
 
     void write(String message);
     void write(String... messages);
+
+    boolean confirm();
 }

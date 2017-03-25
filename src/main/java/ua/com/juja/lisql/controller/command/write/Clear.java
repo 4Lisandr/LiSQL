@@ -19,14 +19,9 @@ public class Clear extends Command {
     public void process(String command) {
         String[] arg = validArgs(command, "clear|users");
 
-        if (confirm())
+        if (view.confirm())
             manager.clear(arg[1]);
         else
             view.write("Cancelled!");
-    }
-
-    private boolean confirm() {
-        view.write("Are you sure (Y/N)?");
-        return view.read().equals("Y");
     }
 }

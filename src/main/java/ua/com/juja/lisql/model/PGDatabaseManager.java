@@ -21,7 +21,9 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String DELETE = "DELETE FROM public.";
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
-    private static String[] connectParameters = new String[0];
+
+//    private static VirtualConnection virtual = null;
+    private String[] connectParameters = new String[0];
     /*
       Driver initialisation
       */
@@ -29,7 +31,7 @@ public class PGDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            exceptionHandler("Cannot connect. Please add Postgresql JDBC jar to project.", e);
+            exceptionHandler("Couldn't connect. Please add Postgresql JDBC jar to project.", e);
         }
     }
 
@@ -44,18 +46,20 @@ public class PGDatabaseManager implements DatabaseManager {
                 return true;
             }
         } catch (NullPointerException | SQLException e) {
-            exceptionHandler("cannot connect",e);
+            exceptionHandler("Couldn't connect",e);
         }
         return false;
     }
     @Override
     public boolean isConnected() {
+        if (connectParameters.length == 0)
+            return false;
+
         try (Connection connection = connect(connectParameters))
         {
             return connection!= null;
         }
         catch (SQLException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -69,7 +73,7 @@ public class PGDatabaseManager implements DatabaseManager {
             String url = String.format("jdbc:%s://%s:%s/%s", POSTGRESQL, HOST, PORT, database);
             connect = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            System.out.println(String.format("Can't getText connection for database:%s user:%s", database, user));
+            exceptionHandler(String.format("Couldn't getText connection for database:%s user:%s", database, user), e);
             connect = null;
         }
         return connect;
@@ -91,7 +95,7 @@ public class PGDatabaseManager implements DatabaseManager {
 
     @Override
     public List<String> getTableColumns(String tableName) {
-        return getStrings(SELECT_COLUMNS +"'"+tableName+"'", "column_name");
+        return getStrings(SELECT_COLUMNS+"'"+tableName+"'", "column_name");
     }
 
     private List<String> getStrings(String query, String target) {
@@ -101,14 +105,13 @@ public class PGDatabaseManager implements DatabaseManager {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)
-             ){
-
+             )
+        {
             while (rs.next())
                 result.add(rs.getString(target));
 
         } catch (SQLException e) {
-            // write log here!
-            e.printStackTrace();
+            exceptionHandler("Couldn't retrieve string value",e);
         }
 
         return result;
@@ -116,26 +119,28 @@ public class PGDatabaseManager implements DatabaseManager {
 
     @Override
     public List<DataSet> getTableData(String tableName) {
+        ArrayList<DataSet> result = new ArrayList<>();
+
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_ALL + tableName)
-             ){
-
-            ArrayList<DataSet> result = new ArrayList<>();
-            ResultSetMetaData rsmd = rs.getMetaData();
+             )
+        {
+            ResultSetMetaData meta = rs.getMetaData();
 
             while (rs.next()) {
                 DataSet dataSet = new DataSet();
                 result.add(dataSet);
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i), rs.getObject(i));
+                for (int i = 1; i <= meta.getColumnCount(); i++) {
+                    dataSet.put(meta.getColumnName(i), rs.getObject(i));
                 }
             }
-            return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            exceptionHandler("SQL",e);
             return new ArrayList<>();
         }
+
+        return result;
     }
 
 
