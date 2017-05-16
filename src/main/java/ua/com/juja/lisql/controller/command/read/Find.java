@@ -14,8 +14,8 @@ public class Find extends Command {
     public Find(DatabaseManager manager, View view) {
         super(manager, view);
         setAttributes("find", "for search some records", "ok",
-                Message.Say.FAIL_COUNT.toString(),
-                Message.Say.TO_MANY_PARAMETERS.toString());
+                Message.FAIL_COUNT.toString(),
+                Message.TO_MANY_PARAMETERS.toString());
     }
 
     @Override

@@ -87,7 +87,7 @@ public final class Controller {
         new Start(view).process("");
 
         while (!Close.isCalled()) {
-            view.write(Message.Say.INPUT.toString());
+            view.write(Message.INPUT.toString());
             String input = view.read();
             UsersCommand.handler(input);
         }
@@ -96,7 +96,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        view.write(Message.Say.FAIL + " ", message, ". " + Message.Say.RETRY);
+        view.write(Message.FAIL + " ", message, ". " + Message.RETRY);
     }
 
 }

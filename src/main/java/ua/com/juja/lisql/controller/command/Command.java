@@ -122,7 +122,7 @@ public abstract class Command {
     // if connection issue
     private boolean isConnected(String command) {
         if (!manager.isConnected()){
-            view.write(String.format(Message.Say.DISCONNECTED.toString(), command));
+            view.write(String.format(Message.DISCONNECTED.toString(), command));
             return false;
         }
         else
@@ -139,9 +139,9 @@ public abstract class Command {
 
         if (data.length < target)
             throw new IllegalArgumentException(
-                    String.format(Message.Say.FAIL_COUNT.toString(), target, data.length));
+                    String.format(Message.FAIL_COUNT.toString(), target, data.length));
         if (data.length> target)
-            view.write(String.format(Message.Say.TO_MANY_PARAMETERS.toString(), target-1));
+            view.write(String.format(Message.TO_MANY_PARAMETERS.toString(), target-1));
         return data;
     }
 
@@ -149,7 +149,7 @@ public abstract class Command {
         String[] data = Line.split(command);
         if (data.length %2 != 0)
             throw new IllegalArgumentException(
-                    String.format(Message.Say.ODD_PARAMETERS.toString(), data.length));
+                    String.format(Message.ODD_PARAMETERS.toString(), data.length));
         return data;
     }
 }
