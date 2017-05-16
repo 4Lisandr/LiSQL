@@ -9,7 +9,7 @@ public class Exit extends Command {
 
     public Exit(DatabaseManager manager, View view) {
         super(manager, view, !CONNECTION_REQUIRED);
-        setAttributes("exit", "for quit out", Message.GOODBYE.toString());
+        setAttributes("exit", "for quit out", Message.Say.BYE.toString());
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString());
+        setAttributes("create", "to create database", Message.Say.SUCCESS_RECORD.toString());
     }
 
     @Override

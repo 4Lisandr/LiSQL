@@ -13,7 +13,7 @@ public class UserConnect extends Command {
     public UserConnect(DatabaseManager manager, View view) {
         super(manager, view, !CONNECTION_REQUIRED);
         setAttributes("connect", "connect to database",
-                Message.SUCCESS.toString(), Message.FAILED_CONNECT.toString());
+                Message.Say.OK.toString(), Message.Say.FAIL_CONNECT.toString());
 
     }
 

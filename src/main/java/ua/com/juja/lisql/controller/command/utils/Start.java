@@ -15,7 +15,7 @@ public class Start extends Command {
     public Start(View view) {
         super(view);
         instances++;
-        setAttributes("run","warming up...", (Message.HELLO + " " + Message.START), "System failure!");
+        setAttributes("run","warming up...", (Message.Say.HELLO + " " + Message.Say.START), "System failure!");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Start extends Command {
     @Override
     public void process(String command) {
         if (canProcess(command))
-            view.write(Message.HELLO.toString()," ", Message.START.toString());
+            view.write(Message.Say.HELLO.toString()," ", Message.Say.START.toString());
     }
 
 

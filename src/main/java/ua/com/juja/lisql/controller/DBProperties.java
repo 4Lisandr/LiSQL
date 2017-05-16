@@ -5,9 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import static ua.com.juja.lisql.Config.PROPERTIES;
+
+
 public class DBProperties {
     private static final Properties properties = new Properties();
-    private static final File FILE_DB_PROPERTIES = new File("src/main/resources/database.properties");
+    private static final File FILE_DB_PROPERTIES = new File(PROPERTIES+"database.properties");
 
     static {
         try (FileInputStream fileInputStream = new FileInputStream(FILE_DB_PROPERTIES)) {

@@ -1,12 +1,16 @@
 package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.connection.*;
-import ua.com.juja.lisql.controller.command.read.*;
-import ua.com.juja.lisql.controller.command.write.*;
+import ua.com.juja.lisql.controller.command.connection.UserConnect;
+import ua.com.juja.lisql.controller.command.read.DBList;
+import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
+import ua.com.juja.lisql.controller.command.write.Clear;
+import ua.com.juja.lisql.controller.command.write.Create;
+import ua.com.juja.lisql.controller.command.write.Update;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.*;
+import ua.com.juja.lisql.view.Message;
+import ua.com.juja.lisql.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,7 @@ public final class Controller {
 
     /**
      * Keep strict order while iterate list of command
-     * Command Unknown contains greed condition - all other commands after it detected as Unknown!
+     * Command "Unknown" contains greed condition - all other commands after it detected as Unknown!
      */
     public enum UsersCommand {
         CONNECT(new UserConnect(manager, view)),
@@ -83,7 +87,7 @@ public final class Controller {
         new Start(view).process("");
 
         while (!Close.isCalled()) {
-            view.write(Message.INPUT.toString());
+            view.write(Message.Say.INPUT.toString());
             String input = view.read();
             UsersCommand.handler(input);
         }
@@ -92,7 +96,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        view.write(Message.FAIL + " ", message, ". " + Message.RETRY);
+        view.write(Message.Say.FAIL + " ", message, ". " + Message.Say.RETRY);
     }
 
 }

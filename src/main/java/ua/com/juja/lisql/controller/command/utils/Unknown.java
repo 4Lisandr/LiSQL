@@ -8,7 +8,7 @@ public class Unknown extends Command {
 
     public Unknown(View view){
         super(view);
-        setAttributes("unknown", "the truth is out there...", Message.UNKNOWN.toString(),
+        setAttributes("unknown", "the truth is out there...", Message.Say.UNKNOWN.toString(),
             "This top secret level of this program, how do get this message at all?!!");
         hide();
     }

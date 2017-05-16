@@ -1,40 +1,47 @@
 package ua.com.juja.lisql.view;
 
+import ua.com.juja.lisql.Config;
+
+import java.util.ResourceBundle;
+
 /**
  *  Lisandr 23.02.17
  */
-public enum Message { //todo реализовать мультиязычность - создать интерфейс, содержащий Enum
-    HELLO ("Hello, user!"),
-    START ("Enter, please the database name, username and password in the format: connect|database|userName|password"),
-    INPUT ("Enter the command (or help for read list of commands):"),
-    HELP ("List of commands:"),
+public class Message {
+    private static ResourceBundle res = ResourceBundle.getBundle(Config.COMMON);
 
-    FAIL ("Failure because of:"),
-    SUCCESS ("Success!"),
-    /**
-     *   String format here!
-     **/
-    FAILED_CONNECT ("Can't connect to database '%s' for user %s and password %s"),
-    FAILED_COUNT ("Wrong number of parameters, %s expected, but specified: %s"),
-    TO_MANY_PARAMETERS ("Too many parameters were specified, '%s' were processed, but others - ignored!"),
-    ODD_PARAMETERS ("There must be an even number of parameters in the format " +
-        "create|tableName|column1|value1|column2|value2|...|columnN|valueN', but specified: %s"),
-    SUCCESS_RECORD ("The record %s has created successfully in the table %s."),
-    DISCONNECTED ("Command %s couldn't executed without connection (connect|database|userName|password)"),
+    public enum Say { //todo реализовать мультиязычность - создать интерфейс, содержащий Enum
+        HELLO(res.getString("common.hello")),
+        START (res.getString("common.start")),
+        INPUT(res.getString("common.input")),
+        HELP(res.getString("common.help")),
 
-    RETRY ("Try again."),
-    UNKNOWN ("Unknown command:"),
+        FAIL(res.getString("common.fail")),
+        OK(res.getString("common.ok")),
+        /**
+         * String format here!
+         **/
+        FAIL_CONNECT (res.getString("common.fail.connect")),
+        FAIL_COUNT (res.getString("common.fail.count")),
+        TO_MANY_PARAMETERS (res.getString("common.fail.many")),
+        ODD_PARAMETERS (res.getString("common.fail.odd")),
+        SUCCESS_RECORD (res.getString("common.ok.record")),
+        DISCONNECTED (res.getString("common.fail.disconnected")),
 
-    GOODBYE ("Goodbye!");
+        RETRY (res.getString("common.try")),
+        UNKNOWN (res.getString("command.unknown")),
 
-    private final String message;
+        BYE (res.getString("common.bye"));
 
-    Message(String message) {
-        this.message = message;
-    }
+        private final String message;
 
-    @Override
-    public String toString() {
-        return message;
+        Say(String message) {
+            this.message = message;
+        }
+
+        @Override
+        public String toString() {
+            return message;
+        }
     }
 }
