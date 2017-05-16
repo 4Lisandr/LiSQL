@@ -2,6 +2,7 @@ package ua.com.juja.lisql.model;
 
 
 import org.apache.log4j.Logger;
+import ua.com.juja.lisql.controller.DBProperties;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ public class PGDatabaseManager implements DatabaseManager {
 
 
     private static final String POSTGRESQL = "postgresql"; // database type (MySQL LiteSQL, etc...)
-    private static final String HOST = "localhost";
-    private static final int PORT = 5432;
+    private static final String HOST = DBProperties.getServerIP();
+    private static final int PORT = DBProperties.getServerPort();
 
     private static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
     private static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
@@ -22,8 +23,9 @@ public class PGDatabaseManager implements DatabaseManager {
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
 
-//    private static VirtualConnection virtual = null;
+    //    private static VirtualConnection virtual = null;
     private String[] connectParameters = new String[0];
+
     /*
       Driver initialisation
       */
@@ -39,35 +41,34 @@ public class PGDatabaseManager implements DatabaseManager {
      * Open, check and close connection. Set parameters for further connections.
      */
     @Override
-    public boolean canConnect(String database, String user, String password) {
-        try(Connection connect = connect(database, user, password)){
-            if (connect!= null){
+    public boolean canConnect(String database, String user, String password) throws DAOException {
+        try (Connection connect = connect(database, user, password)) {
+            if (connect != null) {
                 connectParameters = new String[]{database, user, password};
                 return true;
             }
         } catch (NullPointerException | SQLException e) {
-            exceptionHandler("Couldn't connect",e);
+            exceptionHandler("Couldn't connect", e);
         }
         return false;
     }
+
     @Override
     public boolean isConnected() {
         if (connectParameters.length == 0)
             return false;
 
-        try (Connection connection = connect(connectParameters))
-        {
-            return connection!= null;
-        }
-        catch (SQLException e) {
+        try (Connection connection = connect(connectParameters)) {
+            return connection != null;
+        } catch (SQLException e) {
             return false;
         }
     }
 
     /**
      * Don't share connection
-     * */
-    private Connection connect(String database, String user, String password){
+     */
+    private Connection connect(String database, String user, String password) throws DAOException {
         Connection connect;
         try {
             String url = String.format("jdbc:%s://%s:%s/%s", POSTGRESQL, HOST, PORT, database);
@@ -79,9 +80,9 @@ public class PGDatabaseManager implements DatabaseManager {
         return connect;
     }
 
-    private Connection connect(String ... parameters){
+    private Connection connect(String... parameters) {
         return parameters == null || parameters.length != 3 ? null :
-            connect(parameters[0], parameters[1], parameters[2]);
+                connect(parameters[0], parameters[1], parameters[2]);
     }
 
 
@@ -89,13 +90,13 @@ public class PGDatabaseManager implements DatabaseManager {
      * Read access section
      */
     @Override
-    public List<String> getTableNames() {
-        return getStrings(SELECT_TABLE_NAME, "table_name" );
+    public List<String> getTableNames() throws DAOException {
+        return getStrings(SELECT_TABLE_NAME, "table_name");
     }
 
     @Override
-    public List<String> getTableColumns(String tableName) {
-        return getStrings(SELECT_COLUMNS+"'"+tableName+"'", "column_name");
+    public List<String> getTableColumns(String tableName) throws DAOException {
+        return getStrings(SELECT_COLUMNS + "'" + tableName + "'", "column_name");
     }
 
     private List<String> getStrings(String query, String target) {
@@ -105,27 +106,25 @@ public class PGDatabaseManager implements DatabaseManager {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)
-             )
-        {
+        ) {
             while (rs.next())
                 result.add(rs.getString(target));
 
         } catch (SQLException e) {
-            exceptionHandler("Couldn't retrieve string value",e);
+            exceptionHandler("Couldn't retrieve string value", e);
         }
 
         return result;
     }
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
+    public List<DataSet> getTableData(String tableName) throws DAOException {
         ArrayList<DataSet> result = new ArrayList<>();
 
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_ALL + tableName)
-             )
-        {
+        ) {
             ResultSetMetaData meta = rs.getMetaData();
 
             while (rs.next()) {
@@ -136,7 +135,7 @@ public class PGDatabaseManager implements DatabaseManager {
                 }
             }
         } catch (SQLException e) {
-            exceptionHandler("SQL",e);
+            exceptionHandler("SQL", e);
             return new ArrayList<>();
         }
 
@@ -147,27 +146,27 @@ public class PGDatabaseManager implements DatabaseManager {
     private int getSize(String tableName) throws SQLException {
         return 0;
     }
+
     /*
      * Write access section
      */
     //todo - debug Create
     @Override
-    public void create(String tableName, DataSet input) {
+    public void create(String tableName, DataSet input) throws DAOException {
         try (Connection connection = connect(connectParameters);
-             Statement stmt = connection.createStatement())
-        {
+             Statement stmt = connection.createStatement()) {
             String tableNames = getNameFormatted(input, "%s,");
             String values = getValuesFormatted(input, "'%s',");
 
             stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
         } catch (SQLException e) {
-            e.printStackTrace();
+            exceptionHandler("Couldn't create " + tableName, e);
         }
     }
 
     private String getFormatted(Iterable iterable, String format) {
         String string = "";
-        for (Object o: iterable) {
+        for (Object o : iterable) {
             string += String.format(format, o);
         }
         string = string.substring(0, string.length() - 1);
@@ -184,14 +183,13 @@ public class PGDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public void update(String tableName, int id, DataSet newValue) {
+    public void update(String tableName, int id, DataSet newValue) throws DAOException {
 
         String tableNames = getNameFormatted(newValue, "%s = ?,");
         String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
 
         try (Connection connection = connect(connectParameters);
-             PreparedStatement ps = connection.prepareStatement(sql))
-        {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
             for (Object value : newValue.getValues()) {
                 ps.setObject(index, value);
@@ -201,18 +199,18 @@ public class PGDatabaseManager implements DatabaseManager {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            exceptionHandler("Couldn't update " + tableName, e);
         }
     }
 
     @Override
-    public void clear(String tableName) {
+    public void clear(String tableName) throws DAOException {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
-        ){
+        ) {
             stmt.executeUpdate(DELETE + tableName);
         } catch (SQLException e) {
-            exceptionHandler("Could not clear table "+ tableName, e);
+            exceptionHandler("Couldn't clear table " + tableName, e);
         }
     }
 

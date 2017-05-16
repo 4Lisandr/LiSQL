@@ -14,6 +14,7 @@ public enum Message { //todo реализовать мультиязычност
     /**
      *   String format here!
      **/
+    FAILED_CONNECT ("Can't connect to database '%s' for user %s and password %s"),
     FAILED_COUNT ("Wrong number of parameters, %s expected, but specified: %s"),
     TO_MANY_PARAMETERS ("Too many parameters were specified, '%s' were processed, but others - ignored!"),
     ODD_PARAMETERS ("There must be an even number of parameters in the format " +
@@ -21,7 +22,7 @@ public enum Message { //todo реализовать мультиязычност
     SUCCESS_RECORD ("The record %s has created successfully in the table %s."),
     DISCONNECTED ("Command %s couldn't executed without connection (connect|database|userName|password)"),
 
-    RETRY ("Try again now or later..."),
+    RETRY ("Try again."),
     UNKNOWN ("Unknown command:"),
 
     GOODBYE ("Goodbye!");

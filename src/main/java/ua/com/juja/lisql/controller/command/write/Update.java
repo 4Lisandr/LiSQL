@@ -12,7 +12,7 @@ public class Update extends Command {
 
     public Update(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("update","to create database", Message.SUCCESS.toString());
+        setAttributes("update", "to create database", Message.SUCCESS.toString());
         hide();
     }
 

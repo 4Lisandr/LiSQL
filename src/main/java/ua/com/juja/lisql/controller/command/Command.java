@@ -1,8 +1,8 @@
 package ua.com.juja.lisql.controller.command;
 
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.Line;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 /**

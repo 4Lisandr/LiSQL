@@ -12,8 +12,8 @@ public class UserConnect extends Command {
 
     public UserConnect(DatabaseManager manager, View view) {
         super(manager, view, !CONNECTION_REQUIRED);
-        setAttributes("connect","connect to database",
-            Message.SUCCESS.toString());
+        setAttributes("connect", "connect to database",
+                Message.SUCCESS.toString(), Message.FAILED_CONNECT.toString());
 
     }
 
@@ -25,8 +25,9 @@ public class UserConnect extends Command {
         String userName = data[2];
         String password = data[3];
 
-        if (manager.canConnect(databaseName, userName, password))
-            view.write(success());
+        view.write(manager.canConnect(databaseName, userName, password) ?
+                success() :
+                String.format(failure(0), databaseName, userName, password));
     }
 
 }

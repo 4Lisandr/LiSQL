@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Controller of commands, singleton
+ * Controller of commands, singleton
  */
 public final class Controller {
     private static Controller instance;
@@ -24,18 +24,18 @@ public final class Controller {
      * Command Unknown contains greed condition - all other commands after it detected as Unknown!
      */
     public enum UsersCommand {
-        CONNECT (new UserConnect(manager, view)),
-        HELP    (new Help(view)),
-        EXIT    (new Exit(manager, view)),
-        LIST    (new DBList(manager, view)),
-        FIND    (new Find(manager, view)),
-        CREATE  (new Create(manager, view)),
-        UPDATE  (new Update(manager, view)),
+        CONNECT(new UserConnect(manager, view)),
+        HELP(new Help(view)),
+        EXIT(new Exit(manager, view)),
+        LIST(new DBList(manager, view)),
+        FIND(new Find(manager, view)),
+        CREATE(new Create(manager, view)),
+        UPDATE(new Update(manager, view)),
         CLEAR(new Clear(manager, view)),
-//        DELETE(new Delete(manager, view)),
+        //        DELETE(new Delete(manager, view)),
 //        INSERT(new Insert(manager, view)),
 //        DROP (new Drop(manager, view)),
-        UNKNOWN (new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
+        UNKNOWN(new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 
         private final Command command;
 
@@ -50,7 +50,7 @@ public final class Controller {
         public static List<Command> getAll() {
             ArrayList<Command> result = new ArrayList<>();
             for (UsersCommand usr : values()) {
-                if (usr!=null)
+                if (usr != null)
                     result.add(usr.getCommand());
             }
             return result;
@@ -62,7 +62,7 @@ public final class Controller {
                     if (command.run(input))
                         break;
             } catch (Exception e) {
-                    printError(e);
+                printError(e);
             }
         }
     }
@@ -74,9 +74,9 @@ public final class Controller {
     }
 
     public static Controller getInstance(View view, DatabaseManager manager) {
-        return (instance==null)?
-                new Controller(view, manager):
-                instance;
+        return instance != null ?
+                instance:
+                new Controller(view, manager);
     }
 
     public void run() {
@@ -92,7 +92,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        view.write(Message.FAIL+" ", message,". "+Message.RETRY);
+        view.write(Message.FAIL + " ", message, ". " + Message.RETRY);
     }
 
 }

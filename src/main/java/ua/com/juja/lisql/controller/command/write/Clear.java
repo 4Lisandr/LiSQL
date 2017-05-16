@@ -11,19 +11,23 @@ public class Clear extends Command {
 
     public Clear(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("clear|users", "clear table users", "now table is empty", "canceled");
+        setAttributes("clear", "clear the table",
+                "now table %s is empty", "Couldn't clear table %s", "canceled");
         hide();
     }
 
     @Override
     public void process(String command) {
-        String[] arg = validArgs(command, "clear|users");
+        String[] table = validArgs(command, "clear|users");
 
-        if (view.confirm()){
-            manager.clear(arg[1]);
-            view.write(success());
-        }
-        else
-            view.write(failure(0));
+        if (view.confirm()) {
+            try {
+                manager.clear(table[1]);
+            } catch (Exception e) {
+                view.write(String.format(failure(0), table[1]));
+            }
+            view.write(String.format(success(), table[1]));
+        } else
+            view.write(failure(1));
     }
 }

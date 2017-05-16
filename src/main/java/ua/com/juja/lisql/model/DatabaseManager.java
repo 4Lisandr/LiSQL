@@ -6,15 +6,15 @@ import java.util.List;
  * */
 public interface DatabaseManager {
     //Connection
-    boolean canConnect(String database, String userName, String password);
+    boolean canConnect(String database, String userName, String password) throws DAOException;
     boolean isConnected();
     //Read
-    List<String> getTableNames();
-    List<String> getTableColumns(String tableName);
-    List<DataSet> getTableData(String tableName);
+    List<String> getTableNames() throws DAOException;
+    List<String> getTableColumns(String tableName) throws DAOException;
+    List<DataSet> getTableData(String tableName) throws DAOException;
     //Write
-    void create(String tableName, DataSet input);
-    void update(String tableName, int id, DataSet newValue);
-    void clear(String tableName);
+    void create(String tableName, DataSet input) throws DAOException;
+    void update(String tableName, int id, DataSet newValue) throws DAOException;
+    void clear(String tableName) throws DAOException;
 
 }
