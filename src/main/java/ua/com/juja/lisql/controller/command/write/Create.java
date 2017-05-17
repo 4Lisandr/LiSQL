@@ -16,9 +16,9 @@ public class Create extends Command {
         setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString());
     }
 
+    // Sample: create|tableName|column1|value1
     @Override
     public void process(String command) {
-
         String[] data = validArgs(command);
         String tableName = data[1];
 

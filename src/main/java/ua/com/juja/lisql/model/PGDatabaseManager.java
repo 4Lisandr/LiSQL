@@ -2,7 +2,6 @@ package ua.com.juja.lisql.model;
 
 
 import org.apache.log4j.Logger;
-import ua.com.juja.lisql.controller.DBProperties;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -160,6 +159,7 @@ public class PGDatabaseManager implements DatabaseManager {
 
             stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
         } catch (SQLException e) {
+            e.printStackTrace();
             exceptionHandler("Couldn't create " + tableName, e);
         }
     }

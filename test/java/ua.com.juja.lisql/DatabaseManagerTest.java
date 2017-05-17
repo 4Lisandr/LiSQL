@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ua.com.juja.lisql.model.DBProperties;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DatabaseManagerTest {
-    public static final String DB_NAME = "sqlcmd";
-    public static final String USER = "postgres";
-    public static final String PASSWORD = "HcxbPRi5EoNB";
+    public static final String DB_NAME = DBProperties.getDatabaseName();
+    public static final String USER = DBProperties.getUserName();
+    public static final String PASSWORD = DBProperties.getPassword();
 
-    public static final String[] TABLES = {"test", "users", "numbers", "mart2017", "Кирилица"};
+    public static final String[] TABLES = {"test", "users", "numbers", "user", "mart2017", "Кирилица", "my_table"};
 
     private PGDatabaseManager manager;
 

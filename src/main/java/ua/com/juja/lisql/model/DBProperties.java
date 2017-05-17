@@ -1,4 +1,4 @@
-package ua.com.juja.lisql.controller;
+package ua.com.juja.lisql.model;
 
 import java.io.File;
 import java.io.FileInputStream;
