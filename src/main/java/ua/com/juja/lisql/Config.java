@@ -1,9 +1,11 @@
 package ua.com.juja.lisql;
 
+import ua.com.juja.lisql.view.UTF8Control;
+
 import java.util.ResourceBundle;
 
 public interface Config {
     String PROPERTIES = "src/main/resources/";
-    String COMMON = "ua.com.juja.lisql.view.bundle.common";
-    ResourceBundle RES = ResourceBundle.getBundle(COMMON);
+    String BUNDLE = "ua.com.juja.lisql.view.bundle.common";
+    ResourceBundle RES = ResourceBundle.getBundle(BUNDLE, new UTF8Control());
 }
