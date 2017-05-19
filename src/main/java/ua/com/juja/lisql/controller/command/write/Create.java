@@ -13,10 +13,12 @@ public class Create extends Command {
 
     public Create(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("create", "to create database", Message.SUCCESS_RECORD.toString());
+        setAttributes(Message.CREATE);
     }
 
     // Sample: create|tableName|column1|value1
+    // if column1 = id, then ID INT PRIMARY KEY NOT NULL,
+    // value1 - type detect
     @Override
     public void process(String command) {
         String[] data = validArgs(command);
