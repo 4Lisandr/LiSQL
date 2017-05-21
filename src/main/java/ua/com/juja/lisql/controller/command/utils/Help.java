@@ -10,12 +10,12 @@ public class Help extends Command {
 
     public Help(View view) {
         super(view);
-        setAttributes("help","for read help information");
+        setAttributes(Message.HELP);
     }
 
     @Override
     public void process(String command) {
-        view.write(Message.HELP.toString());
+        view.write(Message.CMD_LIST.toString());
         for(Command com: Controller.UsersCommand.getAll()){
             if(!com.isHidden())
                 view.write(Line.concat("\t", com.format(), " - ", com.description()));

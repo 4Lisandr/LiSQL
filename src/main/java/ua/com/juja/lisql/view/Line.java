@@ -26,17 +26,29 @@ public final class Line {
         return concat(",", false, args);
     }
 
-    public static String concat(String suffix, boolean inBegin, Iterable args) {
+    public static String concat(boolean inBegin, String suffix, Iterable args) {
         List<String> list = new ArrayList();
         for (Object o : args) {
             if (o != null)
                 list.add(o.toString());
         }
         return list.size() == 0 ? "" :
-                concat(suffix, inBegin, list.toArray(new String[list.size()]));
+                concat(inBegin, suffix, list.toArray(new String[list.size()]));
     }
 
-    public static String concat(String suffix, boolean inBegin, String... args) {
+    public static String concat(String suffix, Object... args) {
+        if (args==null)
+            return "";
+
+        String[] strings = new String[args.length];
+        for (int i = 0; i < args.length; i++) {
+            strings[i] = args[i].toString();
+        }
+
+        return concat(false, suffix, strings);
+    }
+
+    public static String concat(boolean inBegin, String suffix, String... args) {
         if (args == null || args.length == 0)
             return "";
 

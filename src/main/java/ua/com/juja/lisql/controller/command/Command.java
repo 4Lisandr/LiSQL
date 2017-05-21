@@ -21,12 +21,10 @@ public abstract class Command {
     protected static final boolean CONNECTION_REQUIRED = true;
     protected static final boolean HIDDEN_COMMAND = true;
 
-    //format; description; successMessage; failureMessages;
+    // format; description; successMessage; failureMessages;
     private String[] attributes;
 
-    /**
-     * Default constructor reserved
-     */
+    /** Default constructor reserved*/
     public Command() {}
 
     public Command(View view) {
@@ -76,8 +74,14 @@ public abstract class Command {
         return isHiddenCommand;
     }
 
-    /** Setters */
-    public void setAttributes(String ... text) {
+    /**
+     * Setters
+     * */
+    public void setAttributes(Message message) {
+        setAttributes(Message.getCommandAttributes(message));
+    }
+
+    private void setAttributes(String[] text) {
         if (text != null){
             attributes = new String[text.length];
             System.arraycopy(text, 0, attributes, 0, text.length);
@@ -88,7 +92,9 @@ public abstract class Command {
         isHiddenCommand = HIDDEN_COMMAND;
     }
 
-
+    /**
+     * Work section
+     * */
     public boolean run(String command) throws CmdException {
         if (canProcess(command))
             if (!isConnectionRequired || isConnected(command)){
@@ -100,16 +106,16 @@ public abstract class Command {
         return false;
     }
 
-    /**
-     * For the properly work you should implement this method in your command
-     * */
     public abstract void  process(String command);
 
     public boolean canProcess(String command){
         return beginWith(format()).equalsIgnoreCase(beginWith(command)) &&
-                validate(command); //
+                validate(command);
     }
-    // check numbers of parameters
+
+    /**
+     * Validators section
+     **/
     protected boolean validate(String command){
         return true;
     }
@@ -119,7 +125,7 @@ public abstract class Command {
             "" :
             Line.split(input)[0];
     }
-    // if connection issue
+
     private boolean isConnected(String command) {
         if (!manager.isConnected()){
             view.write(String.format(Message.DISCONNECTED.toString(), command));
@@ -129,10 +135,6 @@ public abstract class Command {
             return true;
     }
 
-    // < 2 - Exception (-1), == 2 - OK (0), > 2 Warning (1)
-    // ODD EVEN others condition( command, condition){
-    //  condition.check
-    // }
     protected String[] validArgs (String command, String sample) {
         int target = Line.split(sample).length;
         String[] data = Line.split(command);

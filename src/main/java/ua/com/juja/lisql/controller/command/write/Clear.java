@@ -2,6 +2,7 @@ package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 /**
@@ -11,9 +12,7 @@ public class Clear extends Command {
 
     public Clear(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes("clear", "clear the table",
-                "now table %s is empty", "Couldn't clear table %s", "canceled");
-        hide();
+        setAttributes(Message.CLEAR);
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Console implements View {
         return scanner.nextLine();
     }
 
-    @Override // HELP
+    @Override // CMD_LIST
     public void write(String message) {
         System.out.println(message);
     }

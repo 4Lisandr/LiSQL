@@ -2,7 +2,7 @@ package ua.com.juja.lisql.model;
 
 import java.util.HashSet;
 import java.util.Set;
-
+// Заменить на HashMap
 public class DataSet {
 
     static class Data {

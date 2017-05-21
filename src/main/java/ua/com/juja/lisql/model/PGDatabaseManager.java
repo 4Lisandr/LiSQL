@@ -149,15 +149,29 @@ public class PGDatabaseManager implements DatabaseManager {
     /*
      * Write access section
      */
-    //todo - debug Create
+
+    /**
+     *  Example of query CREATE TABLE:
+     *  CREATE TABLE COMPANY(
+     *  ID INT PRIMARY KEY     NOT NULL,
+     *  NAME           TEXT    NOT NULL,
+     *  ADDRESS        CHAR(50),
+     *  SALARY         REAL
+     *  );
+     **/
     @Override
     public void create(String tableName, DataSet input) throws DAOException {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement()) {
-            String tableNames = getNameFormatted(input, "%s,");
+            String tableNames = getNamesFormatted(input, "%s,");
             String values = getValuesFormatted(input, "'%s',");
 
-            stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
+//            stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
+
+//            stmt.executeUpdate("CREATE TABLE public." + tableName);
+            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
+                    "VALUES (" + values + ")");
+
         } catch (SQLException e) {
             e.printStackTrace();
             exceptionHandler("Couldn't create " + tableName, e);
@@ -173,7 +187,7 @@ public class PGDatabaseManager implements DatabaseManager {
         return string;
     }
 
-    private String getNameFormatted(DataSet newValue, String format) {
+    private String getNamesFormatted(DataSet newValue, String format) {
         return getFormatted(newValue.getNames(), format);
     }
 
@@ -185,7 +199,7 @@ public class PGDatabaseManager implements DatabaseManager {
     @Override
     public void update(String tableName, int id, DataSet newValue) throws DAOException {
 
-        String tableNames = getNameFormatted(newValue, "%s = ?,");
+        String tableNames = getNamesFormatted(newValue, "%s = ?,");
         String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
 
         try (Connection connection = connect(connectParameters);

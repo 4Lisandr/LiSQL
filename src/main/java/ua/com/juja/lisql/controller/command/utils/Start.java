@@ -15,7 +15,7 @@ public class Start extends Command {
     public Start(View view) {
         super(view);
         instances++;
-        setAttributes("run","warming up...", (Message.HELLO + " " + Message.START), "System failure!");
+//        setAttributes("run","warming up...", (Message.HELLO + " " + Message.START), "System failure!");
     }
 
     @Override

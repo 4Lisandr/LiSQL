@@ -2,6 +2,7 @@ package ua.com.juja.lisql.controller.command.read;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ public class DBList extends Command {
 
     public DBList(DatabaseManager manager, View view){
         super(manager, view);
-        setAttributes("list", "for view all databases", "success", "fail");
+        setAttributes(Message.LIST);
     }
 
     @Override

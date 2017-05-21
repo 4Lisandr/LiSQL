@@ -12,9 +12,7 @@ public class UserConnect extends Command {
 
     public UserConnect(DatabaseManager manager, View view) {
         super(manager, view, !CONNECTION_REQUIRED);
-        setAttributes("connect", "connect to database",
-                Message.OK.toString(), Message.FAIL_CONNECT.toString());
-
+        setAttributes(Message.CONNECT);
     }
 
     @Override
