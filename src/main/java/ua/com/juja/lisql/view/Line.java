@@ -7,7 +7,9 @@ public final class Line {
     public static final String SEPARATOR = System.getProperty("line.separator");
     public static final String PIPE = "\\|";
     public static final String HYPHEN = " -";
+    public static final String SEMICOLON = ";";
     public static final String HORIZONTAL = "--------------------";
+
 
     public static String[] split(String s) {
         if (s == null || s.length() == 0)
@@ -19,11 +21,17 @@ public final class Line {
     }
 
     public static String concat(String... args) {
-        return concat("", true, args);
+        return concat(true,"", args);
     }
 
     public static String toCSV(String... args) {
-        return concat(",", false, args);
+        return concat(false, SEMICOLON, args);
+    }
+
+    public static String[] parseCSV(String csvString){
+        return csvString == null ?
+                new String[0]:
+                csvString.split(";");
     }
 
     public static String concat(boolean inBegin, String suffix, Iterable args) {
@@ -36,23 +44,11 @@ public final class Line {
                 concat(inBegin, suffix, list.toArray(new String[list.size()]));
     }
 
-    public static String concat(String suffix, Object... args) {
-        if (args==null)
-            return "";
-
-        String[] strings = new String[args.length];
-        for (int i = 0; i < args.length; i++) {
-            strings[i] = args[i].toString();
-        }
-
-        return concat(false, suffix, strings);
-    }
-
     public static String concat(boolean inBegin, String suffix, String... args) {
         if (args == null || args.length == 0)
             return "";
 
-        StringBuilder sb = new StringBuilder(
+        StringBuffer sb = new StringBuffer(
                 inBegin ? suffix : ""
         );
 
@@ -63,15 +59,4 @@ public final class Line {
         return result.substring(0, result.length() - suffix.length());
     }
 
-
-    /**
-     * For multithreading
-     */
-    public static String concat(boolean anyFlag, String... args) {
-        StringBuffer result = new StringBuffer();
-        for (String arg : args) {
-            result.append(arg);
-        }
-        return result.toString();
-    }
 }

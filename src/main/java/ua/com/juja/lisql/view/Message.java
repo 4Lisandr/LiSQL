@@ -1,11 +1,8 @@
 package ua.com.juja.lisql.view;
 
+import org.apache.commons.lang3.ArrayUtils;
 import ua.com.juja.lisql.Config;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+// Класс тесно связан с командой - нужна инверсия зависимости!
 public enum Message {
     HELLO   ("common.hello"),
     START   ("common.start"),
@@ -34,9 +31,9 @@ public enum Message {
     LIST    ("command.list",OK,FAIL),
     FIND    ("command.find", OK,FAIL_COUNT,TO_MANY_PARAMETERS),
     CREATE  ("command.create", SUCCESS_RECORD),
-    UPDATE  ("command.update","to create database", OK),
+    UPDATE  ("command.update"/*, "to create database", OK*/),
 
-    CLEAR   ("command.clear", "now table %s is empty", "Couldn't clear table %s", "canceled"),
+    CLEAR   ("command.clear"/*, "now table %s is empty", "Couldn't clear table %s", "canceled"*/),
     DELETE  ("command.delete"),
     INSERT  ("command.insert"),
     DROP    ("command.drop"),
@@ -48,9 +45,16 @@ public enum Message {
         this.message = Config.RES.getString(message);
     }
 
-    Message(String s, Object... messages) {
-        this(s);
-        message = Line.concat(Line.PIPE, message, messages);
+    Message(String properties, Message... messages) {
+        String[] attributes = messages != null ?
+            new String[messages.length + 1] :
+            new String[]{properties};
+
+        if (attributes.length>1){
+            attributes = ArrayUtils.addAll(new String[]{properties}, asStrings(messages));
+        }
+
+        this.message = Line.toCSV(attributes);
     }
 
     @Override
@@ -58,13 +62,23 @@ public enum Message {
         return message;
     }
 
+    private String[] asStrings(Message ... messages){
+        String[] res = messages!= null ?
+                new String[messages.length]:
+                new String [0];
+
+        for (int i = 0; i < res.length ; i++) {
+            res[i] = messages[i].toString();
+        }
+        return res;
+    }
+    /**
+     * http://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java
+     * */
     public static String[] getCommandAttributes (Message message){
-        String a[] = {message.name().toLowerCase()};
-        String b[] = message.toString().split(Line.PIPE);
+        String[] name = new String[] {message.name().toLowerCase()};
+        String split[] = Line.parseCSV(message.toString());
 
-        List <String>list = new ArrayList(Arrays.asList(a));
-        list.addAll(Arrays.asList(b));
-
-        return (String[]) list.toArray();
+        return (String[]) ArrayUtils.addAll(name, split);
     }
 }
