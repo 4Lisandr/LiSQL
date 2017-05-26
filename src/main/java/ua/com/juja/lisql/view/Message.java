@@ -39,33 +39,34 @@ public enum Message {
     DROP    ("command.drop"),
     UNKNOWN ("command.unknown");
 
-    private String message;
+    private String csvMessage;
 
-    Message(String message) {
-        this.message = Config.RES.getString(message);
+    Message(String properties) {
+        this.csvMessage = Config.RES.getString(properties);
     }
 
     Message(String properties, Message... messages) {
-        String[] attributes = messages != null ?
-            new String[messages.length + 1] :
-            new String[]{properties};
+        this(properties);
+        String[] attributes = (messages == null) ?
+            new String[]{csvMessage}:
+            new String[messages.length + 1];
 
         if (attributes.length>1){
-            attributes = ArrayUtils.addAll(new String[]{properties}, asStrings(messages));
+            attributes = ArrayUtils.addAll(new String[]{csvMessage}, asStrings(messages));
         }
 
-        this.message = Line.toCSV(attributes);
+        this.csvMessage = Line.toCSV(attributes);
     }
 
     @Override
     public String toString() {
-        return message;
+        return csvMessage;
     }
 
     private String[] asStrings(Message ... messages){
-        String[] res = messages!= null ?
-                new String[messages.length]:
-                new String [0];
+        String[] res = (messages == null) ?
+                new String [0]:
+                new String[messages.length];
 
         for (int i = 0; i < res.length ; i++) {
             res[i] = messages[i].toString();
@@ -79,6 +80,6 @@ public enum Message {
         String[] name = new String[] {message.name().toLowerCase()};
         String split[] = Line.parseCSV(message.toString());
 
-        return (String[]) ArrayUtils.addAll(name, split);
+        return ArrayUtils.addAll(name, split);
     }
 }

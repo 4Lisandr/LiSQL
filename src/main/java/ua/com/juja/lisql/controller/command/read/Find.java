@@ -35,13 +35,13 @@ public class Find extends Command {
     }
 
     private void printRow(DataSet row) {
-        view.write(Line.concat(true, "|", row.getValues()));
+        view.write(Line.concat(2, "|", row.getValues()));
     }
 
     private void printHeader(Iterable<String> tableColumns) {
-        String header = Line.concat(true, "|", tableColumns);
+        String header = Line.concat(2, "|", tableColumns);
         if (header.length() > 0)
-            header = Line.concat(false, Line.SEPARATOR,
+            header = Line.concat(2, Line.SEPARATOR,
                     Line.HORIZONTAL,
                     header,
                     Line.HORIZONTAL);
