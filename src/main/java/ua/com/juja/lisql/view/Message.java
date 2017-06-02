@@ -76,9 +76,9 @@ public enum Message {
     /**
      * http://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java
      * */
-    public static String[] getCommandAttributes (Message message){
-        String[] name = new String[] {message.name().toLowerCase()};
-        String split[] = Line.parseCSV(message.toString());
+    public String[] getCommandAttributes (){
+        String[] name = new String[] {name().toLowerCase()};
+        String split[] = Line.parseCSV(toString());
 
         return ArrayUtils.addAll(name, split);
     }
