@@ -31,11 +31,11 @@ public enum Message {
     LIST    ("command.list",OK,FAIL),
     FIND    ("command.find", OK,FAIL_COUNT,TO_MANY_PARAMETERS),
     CREATE  ("command.create", SUCCESS_RECORD),
-    UPDATE  ("command.update"/*, "to create database", OK*/),
+    UPDATE  ("command.update"/*, "to insert database", OK*/),
 
     CLEAR   ("command.clear"/*, "now table %s is empty", "Couldn't clear table %s", "canceled"*/),
     DELETE  ("command.delete"),
-    INSERT  ("command.insert"),
+    INSERT  ("command.insert", SUCCESS_RECORD),
     DROP    ("command.drop"),
     UNKNOWN ("command.unknown");
 

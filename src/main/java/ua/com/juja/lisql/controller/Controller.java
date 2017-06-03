@@ -6,7 +6,7 @@ import ua.com.juja.lisql.controller.command.read.DBList;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.controller.command.write.Clear;
-import ua.com.juja.lisql.controller.command.write.Create;
+import ua.com.juja.lisql.controller.command.write.Insert;
 import ua.com.juja.lisql.controller.command.write.Update;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Message;
@@ -33,11 +33,10 @@ public final class Controller {
         EXIT(new Exit(manager, view)),
         LIST(new DBList(manager, view)),
         FIND(new Find(manager, view)),
-        CREATE(new Create(manager, view)),
+        INSERT(new Insert(manager, view)),
         UPDATE(new Update(manager, view)),
         CLEAR(new Clear(manager, view)),
         //        DELETE(new Delete(manager, view)),
-//        INSERT(new Insert(manager, view)),
 //        DROP (new Drop(manager, view)),
         UNKNOWN(new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 

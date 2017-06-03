@@ -1,59 +1,23 @@
 package ua.com.juja.lisql.model;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-// Заменить на HashMap
-public class DataSet {
 
-    static class Data {
-        private String name;
-        private Object value;
+/**
+ *
+ */
+public interface DataSet {
+    void put(String name, Object value);
 
-        public Data(String name, Object value) {
-            this.name = name;
-            this.value = value;
-        }
+    List<Object> getValues();
 
-        public String getName() {
-            return name;
-        }
+    Set<String> getNames();
 
-        public Object getValue() {
-            return value;
-        }
-    }
-    // Unique values only
-    public Set<Data> data = new HashSet<>();
+    Object get(String name);
 
-    public void put(String name, Object value) {
-        data.add(new Data(name, value));
-    }
+    String[] getNames(Object o);
 
-    public Set<Object> getValues() {
-        Set<Object> result = new HashSet<>();
-        for (Data d: data) {
-            result.add(d.getValue());
-        }
-        return result;
-    }
+    Object getType(String name);
 
-    public Set<String> getNames() {
-        Set<String> result = new HashSet<>();
-        for (Data d: data) {
-            result.add(d.getName());
-        }
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("DataSet{\n");
-        for (Data d: data){
-            sb.append("name: ").append(d.getName());
-            sb.append("value: ").append(d.getValue()).append("\n");
-        }
-        sb.append("}");
-
-        return sb.toString();
-    }
+    void update(DataSet source);
 }

@@ -3,6 +3,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import ua.com.juja.lisql.model.DBProperties;
 import ua.com.juja.lisql.model.DataSet;
+import ua.com.juja.lisql.model.DataSetImpl;
 import ua.com.juja.lisql.model.PGDatabaseManager;
 
 import java.util.Arrays;
@@ -37,11 +38,11 @@ public class DatabaseManagerTest {
         manager.clear("users");
 
         // when
-        DataSet input = new DataSet();
+        DataSet input = new DataSetImpl();
         input.put("id", 113);
         input.put("name", "Stiven");
         input.put("password", "pass");
-        manager.create("users", input);
+        manager.insert("users", input);
 
         // then
         List<DataSet> users = manager.getTableData("user");
@@ -61,7 +62,7 @@ public class DatabaseManagerTest {
 //        input.put("id", 13);
 //        input.put("name", "Stiven");
 //        input.put("password", "pass");
-//        manager.create(input);
+//        manager.insert(input);
 //
 //        // when
 //        DataSet newValue = new DataSet();

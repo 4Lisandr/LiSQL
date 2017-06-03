@@ -127,7 +127,7 @@ public class PGDatabaseManager implements DatabaseManager {
             ResultSetMetaData meta = rs.getMetaData();
 
             while (rs.next()) {
-                DataSet dataSet = new DataSet();
+                DataSet dataSet = new DataSetImpl();
                 result.add(dataSet);
                 for (int i = 1; i <= meta.getColumnCount(); i++) {
                     dataSet.put(meta.getColumnName(i), rs.getObject(i));
@@ -150,6 +150,7 @@ public class PGDatabaseManager implements DatabaseManager {
      * Write access section
      */
 
+    @Override
     /**
      *  Example of query CREATE TABLE:
      *  CREATE TABLE COMPANY(
@@ -159,22 +160,24 @@ public class PGDatabaseManager implements DatabaseManager {
      *  SALARY         REAL
      *  );
      **/
-    @Override
     public void create(String tableName, DataSet input) throws DAOException {
+        // Not implemented yet
+    }
+
+
+    @Override
+    public void insert(String tableName, DataSet input) throws DAOException {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement()) {
             String tableNames = getNamesFormatted(input, "%s,");
             String values = getValuesFormatted(input, "'%s',");
 
-//            stmt.executeUpdate(String.format(INSERT_FORMAT, tableName, tableNames, values));
-
-//            stmt.executeUpdate("CREATE TABLE public." + tableName);
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
                     "VALUES (" + values + ")");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            exceptionHandler("Couldn't create " + tableName, e);
+            exceptionHandler("Couldn't insert " + tableName, e);
         }
     }
 
