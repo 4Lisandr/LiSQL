@@ -11,7 +11,6 @@ public final class Line {
     public static final String HORIZONTAL = "--------------------";
 
     /**
-     *
      * @param s
      * @return
      */
@@ -25,7 +24,6 @@ public final class Line {
     }
 
     /**
-     *
      * @param args
      * @return
      */
@@ -50,7 +48,7 @@ public final class Line {
     public static String[] parseCSV(String csvString){
         return csvString == null ?
                 new String[0]:
-                csvString.split(";");
+                csvString.split(SEMICOLON);
     }
 
     /**

@@ -2,7 +2,6 @@ package ua.com.juja.lisql.controller.command;
 
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Line;
-import ua.com.juja.lisql.view.Message;
 import ua.com.juja.lisql.view.View;
 
 public abstract class Command {
@@ -18,7 +17,9 @@ public abstract class Command {
     /** Variable for system or inactive command*/
     private boolean isHiddenCommand;
 
-    // format; description; successMessage; failureMessages;
+    //todo отрефакторить, но оставить простую инициализацию
+    //          format; description; successMessage; failureMessages;
+    // -------> format; description; onEvents;
     private String[] attributes;
 
     /** Default constructor reserved*/
@@ -43,8 +44,12 @@ public abstract class Command {
     }
 
     /**
-     * Setters
+     * Setters section
      * */
+
+    /**
+     * @param message - format, description, successMessage, failureMessages;
+     */
     public void setAttributes(Message message) {
         setAttributes(message.getCommandAttributes());
     }
@@ -107,21 +112,16 @@ public abstract class Command {
     public abstract void  process(String command);
 
     public boolean canProcess(String command){
-        return beginWith(format()).equalsIgnoreCase(beginWith(command)) &&
-                validate(command);
+        return beginWith(format()).equalsIgnoreCase(beginWith(command));
     }
 
     /**
      * Validators section
      **/
-    protected boolean validate(String command){
-        return true;
-    }
-
-    private String beginWith(String input) {
-        return ((input==null)||input.trim().isEmpty()) ?
+    private String beginWith(String command) {
+        return ((command==null)||command.trim().isEmpty()) ?
             "" :
-            Line.split(input)[0];
+            Line.split(command)[0];
     }
 
     private boolean isConnected(String command) {
@@ -133,7 +133,7 @@ public abstract class Command {
             return true;
     }
 
-    protected String[] validArgs (String command, String sample) {
+    protected String[] validArguments(String command, String sample) {
         int target = Line.split(sample).length;
         String[] data = Line.split(command);
 
@@ -145,7 +145,7 @@ public abstract class Command {
         return data;
     }
 
-    protected String[] validArgs (String command) {
+    protected String[] validArguments(String command) {
         String[] data = Line.split(command);
         if (data.length %2 != 0)
             throw new IllegalArgumentException(

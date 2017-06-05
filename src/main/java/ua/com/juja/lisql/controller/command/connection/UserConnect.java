@@ -3,7 +3,7 @@ package ua.com.juja.lisql.controller.command.connection;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Message;
+import ua.com.juja.lisql.controller.command.Message;
 import ua.com.juja.lisql.view.View;
 
 public class UserConnect extends Command {
@@ -17,15 +17,15 @@ public class UserConnect extends Command {
 
     @Override
     public void process(String command) {
-        String[] data = validArgs(command, COMMAND_SAMPLE);
+        String[] data = validArguments(command, COMMAND_SAMPLE);
 
         String databaseName = data[1];
         String userName = data[2];
         String password = data[3];
 
         view.write(manager.canConnect(databaseName, userName, password) ?
-                success() :
-                String.format(failure(0), databaseName, userName, password));
+            success() :
+            String.format(failure(0), databaseName, userName, password));
     }
 
 }

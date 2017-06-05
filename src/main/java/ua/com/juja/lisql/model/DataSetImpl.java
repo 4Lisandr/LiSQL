@@ -28,7 +28,7 @@ public class DataSetImpl implements DataSet {
     }
 
     @Override
-    public String[] getNames(Object o){
+    public String[] findNames(Object o){
         if (!data.containsValue(o))
             return new String[0];
 
@@ -59,6 +59,26 @@ public class DataSetImpl implements DataSet {
             put(name, data);
         }
     }
+
+    private static String getFormatted(Iterable iterable, String format) {
+        String string = "";
+        for (Object o : iterable) {
+            string += String.format(format, o);
+        }
+        string = string.substring(0, string.length() - 1);
+        return string;
+    }
+
+    @Override
+    public String getNamesFormatted(String format) {
+        return getFormatted(getNames(), format);
+    }
+
+    @Override
+    public String getValuesFormatted(String format) {
+        return getFormatted(getValues(), format);
+    }
+
 
     @Override
     public String toString() {

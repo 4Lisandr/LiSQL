@@ -4,7 +4,7 @@ import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Line;
-import ua.com.juja.lisql.view.Message;
+import ua.com.juja.lisql.controller.command.Message;
 import ua.com.juja.lisql.view.View;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class Find extends Command {
     @Override
     public void process(String command) {
 
-        String tableName = validArgs(command, "find|sample")[1];
+        String tableName = validArguments(command, "find|sample")[1];
 
         List<String> tableColumns = manager.getTableColumns(tableName);
         printHeader(tableColumns);

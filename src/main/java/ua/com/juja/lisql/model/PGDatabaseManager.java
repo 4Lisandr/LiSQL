@@ -19,6 +19,8 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String SELECT_ALL = "SELECT * FROM public.";
     private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
     private static final String DELETE = "DELETE FROM public.";
+    private static final String DELETE_FORMAT = DELETE+"%s WHERE %s = %s";
+
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
 
@@ -169,8 +171,8 @@ public class PGDatabaseManager implements DatabaseManager {
     public void insert(String tableName, DataSet input) throws DAOException {
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement()) {
-            String tableNames = getNamesFormatted(input, "%s,");
-            String values = getValuesFormatted(input, "'%s',");
+            String tableNames = input.getNamesFormatted("%s,");
+            String values = input.getValuesFormatted("'%s',");
 
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
                     "VALUES (" + values + ")");
@@ -181,42 +183,38 @@ public class PGDatabaseManager implements DatabaseManager {
         }
     }
 
-    private String getFormatted(Iterable iterable, String format) {
-        String string = "";
-        for (Object o : iterable) {
-            string += String.format(format, o);
-        }
-        string = string.substring(0, string.length() - 1);
-        return string;
-    }
-
-    private String getNamesFormatted(DataSet newValue, String format) {
-        return getFormatted(newValue.getNames(), format);
-    }
-
-    private String getValuesFormatted(DataSet input, String format) {
-        return getFormatted(input.getValues(), format);
-    }
 
 
     @Override
     public void update(String tableName, int id, DataSet newValue) throws DAOException {
 
-        String tableNames = getNamesFormatted(newValue, "%s = ?,");
+        String tableNames = newValue.getNamesFormatted("%s = ?,");
         String sql = "UPDATE public." + tableName + " SET " + tableNames + " WHERE id = ?";
 
         try (Connection connection = connect(connectParameters);
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             int index = 1;
             for (Object value : newValue.getValues()) {
-                ps.setObject(index, value);
+                statement.setObject(index, value);
                 index++;
             }
-            ps.setInt(index, id);
+            statement.setInt(index, id);
 
-            ps.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
             exceptionHandler("Couldn't update " + tableName, e);
+        }
+    }
+
+    @Override
+    public void delete(String tableName, String[] split) throws DAOException {
+        String sql = String.format(DELETE_FORMAT, tableName, split[0], split[1]);
+        try(Connection connection = connect(connectParameters);
+            PreparedStatement statement = connection.prepareStatement(sql)){
+
+            statement.executeUpdate();
+        } catch (SQLException e){
+                exceptionHandler("Couldn't delete "+tableName, e);
         }
     }
 

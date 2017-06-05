@@ -1,5 +1,6 @@
 package ua.com.juja.lisql.model;
 
+import java.sql.SQLException;
 import java.util.List;
 /**
  * DAO interface for CRUD operations with databases
@@ -18,6 +19,7 @@ public interface DatabaseManager {
     void create(String tableName, DataSet input) throws DAOException;
     void insert(String tableName, DataSet input) throws DAOException;
     void update(String tableName, int id, DataSet newValue) throws DAOException;
+    void delete(String s, String[] split) throws SQLException;
     void clear(String tableName) throws DAOException;
 
 }

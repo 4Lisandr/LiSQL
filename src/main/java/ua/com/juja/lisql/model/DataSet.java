@@ -15,9 +15,13 @@ public interface DataSet {
 
     Object get(String name);
 
-    String[] getNames(Object o);
+    String[] findNames(Object o);
 
     Object getType(String name);
 
     void update(DataSet source);
+
+    String getNamesFormatted(String format);
+
+    String getValuesFormatted(String format);
 }

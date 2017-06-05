@@ -1,7 +1,9 @@
-package ua.com.juja.lisql.view;
+package ua.com.juja.lisql.controller.command;
 
 import org.apache.commons.lang3.ArrayUtils;
 import ua.com.juja.lisql.Config;
+import ua.com.juja.lisql.view.Line;
+
 // Класс тесно связан с командой - нужна инверсия зависимости!
 public enum Message {
     HELLO   ("common.hello"),
@@ -31,12 +33,12 @@ public enum Message {
     LIST    ("command.list",OK,FAIL),
     FIND    ("command.find", OK,FAIL_COUNT,TO_MANY_PARAMETERS),
     CREATE  ("command.create", SUCCESS_RECORD),
-    UPDATE  ("command.update"/*, "to insert database", OK*/),
+    UPDATE  ("command.update", "to insert database", OK.toString()),
 
-    CLEAR   ("command.clear"/*, "now table %s is empty", "Couldn't clear table %s", "canceled"*/),
-    DELETE  ("command.delete"),
+    CLEAR   ("command.clear", "now table %s is empty", "Couldn't clear table %s", "canceled"),
+    DELETE  ("command.delete", "row is delete", FAIL.toString()),
     INSERT  ("command.insert", SUCCESS_RECORD),
-    DROP    ("command.drop"),
+    DROP    ("command.drop", OK, FAIL),
     UNKNOWN ("command.unknown");
 
     private String csvMessage;
@@ -45,17 +47,21 @@ public enum Message {
         this.csvMessage = Config.RES.getString(properties);
     }
 
-    Message(String properties, Message... messages) {
+    Message(String properties, String... strings) {
         this(properties);
-        String[] attributes = (messages == null) ?
+        String[] attributes = (strings == null) ?
             new String[]{csvMessage}:
-            new String[messages.length + 1];
+            new String[strings.length + 1];
 
         if (attributes.length>1){
-            attributes = ArrayUtils.addAll(new String[]{csvMessage}, asStrings(messages));
+            attributes = ArrayUtils.addAll(new String[]{csvMessage}, strings);
         }
 
         this.csvMessage = Line.toCSV(attributes);
+    }
+
+    Message(String properties, Message... messages) {
+        this(properties, asStrings(messages));
     }
 
     @Override
@@ -63,22 +69,22 @@ public enum Message {
         return csvMessage;
     }
 
-    private String[] asStrings(Message ... messages){
-        String[] res = (messages == null) ?
+    private static String[] asStrings(Message ... messages){
+        String[] result = (messages == null) ?
                 new String [0]:
                 new String[messages.length];
 
-        for (int i = 0; i < res.length ; i++) {
-            res[i] = messages[i].toString();
+        for (int i = 0; i < result.length ; i++) {
+            result[i] = messages[i].toString();
         }
-        return res;
+        return result;
     }
     /**
      * http://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java
      * */
     public String[] getCommandAttributes (){
-        String[] name = new String[] {name().toLowerCase()};
-        String split[] = Line.parseCSV(toString());
+        String[] name = new String[] {this.name().toLowerCase()};
+        String split[] = Line.parseCSV(this.toString());
 
         return ArrayUtils.addAll(name, split);
     }
