@@ -57,7 +57,7 @@ public final class Controller {
             return result;
         }
 
-        private static void handler(String input) {
+        private static void handle(String input) {
             try {
                 for (Command command : getAll())
                     if (command.run(input))
@@ -86,7 +86,7 @@ public final class Controller {
         while (!Close.isCalled()) {
             view.write(Message.INPUT.toString());
             String input = view.read();
-            UsersCommand.handler(input);
+            UsersCommand.handle(input);
         }
 
     }

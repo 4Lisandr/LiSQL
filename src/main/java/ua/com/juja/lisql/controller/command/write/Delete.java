@@ -17,7 +17,6 @@ public class Delete extends Command {
     @Override
     public void process(String command) {
         String[] table = validArguments(command, "delete|users|id=10");
-        //DELETE FROM products WHERE price = 10;
         if (view.confirm()) {
             try {
                 manager.delete(table[1], table[2].split("="));

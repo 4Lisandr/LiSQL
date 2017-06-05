@@ -35,10 +35,10 @@ public enum Message {
     CREATE  ("command.create", SUCCESS_RECORD),
     UPDATE  ("command.update", "to insert database", OK.toString()),
 
-    CLEAR   ("command.clear", "now table %s is empty", "Couldn't clear table %s", "canceled"),
+    CLEAR   ("command.clear", "now table %s is empty", "Couldn't clear table %s", "operation is canceled"),
     DELETE  ("command.delete", "row is delete", FAIL.toString()),
     INSERT  ("command.insert", SUCCESS_RECORD),
-    DROP    ("command.drop", OK, FAIL),
+    DROP    ("command.drop", "database deleted", FAIL.toString(), "operation is canceled"),
     UNKNOWN ("command.unknown");
 
     private String csvMessage;

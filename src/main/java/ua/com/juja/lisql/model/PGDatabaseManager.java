@@ -19,7 +19,8 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String SELECT_ALL = "SELECT * FROM public.";
     private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
     private static final String DELETE = "DELETE FROM public.";
-    private static final String DELETE_FORMAT = DELETE+"%s WHERE %s = %s";
+    private static final String DELETE_FORMAT = "DELETE FROM %s WHERE %s = %s";
+    private static final String DROP = "DROP TABLE ";
 
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
@@ -163,24 +164,20 @@ public class PGDatabaseManager implements DatabaseManager {
      *  );
      **/
     public void create(String tableName, DataSet input) throws DAOException {
-        // Not implemented yet
+        // Not implemented yet properly
+        String sql = "CREATE TABLE "+tableName+"(ID INT PRIMARY KEY NOT NULL," +
+                "NAME TEXT NOT NULL);";
+        write(sql, tableName);
     }
 
 
     @Override
     public void insert(String tableName, DataSet input) throws DAOException {
-        try (Connection connection = connect(connectParameters);
-             Statement stmt = connection.createStatement()) {
-            String tableNames = input.getNamesFormatted("%s,");
-            String values = input.getValuesFormatted("'%s',");
-
-            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + tableNames + ")" +
-                    "VALUES (" + values + ")");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            exceptionHandler("Couldn't insert " + tableName, e);
-        }
+        String tableNames = input.getNamesFormatted("%s,");
+        String values = input.getValuesFormatted("'%s',");
+        String sql = "INSERT INTO public." + tableName + " (" + tableNames + ")" +
+                    "VALUES (" + values + ")";
+        write(sql, tableName);
     }
 
 
@@ -209,23 +206,28 @@ public class PGDatabaseManager implements DatabaseManager {
     @Override
     public void delete(String tableName, String[] split) throws DAOException {
         String sql = String.format(DELETE_FORMAT, tableName, split[0], split[1]);
-        try(Connection connection = connect(connectParameters);
-            PreparedStatement statement = connection.prepareStatement(sql)){
-
-            statement.executeUpdate();
-        } catch (SQLException e){
-                exceptionHandler("Couldn't delete "+tableName, e);
-        }
+        write(sql, tableName);
     }
 
     @Override
     public void clear(String tableName) throws DAOException {
+        String sql = DELETE + tableName;
+        write(sql, tableName);
+    }
+
+    @Override
+    public void drop(String tableName) {
+        String sql = DROP + tableName;
+        write(sql, tableName);
+    }
+
+    private void write(String sql, String tableName){
         try (Connection connection = connect(connectParameters);
              Statement stmt = connection.createStatement();
         ) {
-            stmt.executeUpdate(DELETE + tableName);
+            stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            exceptionHandler("Couldn't clear table " + tableName, e);
+            exceptionHandler("Couldn't process table " + tableName, e);
         }
     }
 
