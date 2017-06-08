@@ -1,5 +1,4 @@
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ua.com.juja.lisql.model.DBProperties;
 import ua.com.juja.lisql.model.DataSet;
@@ -16,7 +15,7 @@ public class DatabaseManagerTest {
     public static final String USER = DBProperties.getUserName();
     public static final String PASSWORD = DBProperties.getPassword();
 
-    public static final String[] TABLES = {"test", "users", "numbers", "user", "mart2017", "Кирилица", "my_table"};
+    public static final String[] TABLES = {"test", "users", "numbers", "user", "mart2017", "Кирилица", "my_table", "tableName"};
 
     private PGDatabaseManager manager;
 
@@ -32,7 +31,7 @@ public class DatabaseManagerTest {
         assertEquals(Arrays.asList(TABLES), tableNames);
     }
 
-    @Ignore
+    @Test
     public void testGetTableData() {
         // given
         manager.clear("users");
@@ -45,37 +44,43 @@ public class DatabaseManagerTest {
         manager.insert("users", input);
 
         // then
-        List<DataSet> users = manager.getTableData("user");
+        List<DataSet> users = manager.getTableData("users");
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals(Arrays.asList("name", "password", "id"), user.getNames());
-        assertEquals(Arrays.asList("Stiven", "pass", "13"), user.getValues());
+        assertEquals("[name, password, id]", user.getNames().toString());
+        assertEquals("[Stiven, pass, 113]", user.getValues().toString());
     }
 
-//    @Test
-//    public void testUpdateTableData() {
-//        // given
-//        manager.clear("user");
-//
-//        DataSet input = new DataSet();
-//        input.put("id", 13);
-//        input.put("name", "Stiven");
-//        input.put("password", "pass");
-//        manager.insert(input);
-//
-//        // when
-//        DataSet newValue = new DataSet();
-//        newValue.put("password", "pass2");
-//        newValue.put("name", "Pup");
-//        manager.update("user", 13, newValue);
-//
-//        // then
-//        DataSet[] users = manager.getTableData("user");
-//        assertEquals(1, users.length);
-//
-//        DataSet user = users[0];
-//        assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
-//        assertEquals("[Pup, pass2, 13]", Arrays.toString(user.getValues()));
-//    }
+    @Test
+    public void testUpdateTableData() {
+        // given
+        manager.clear("user");
+
+        DataSet[] input = new DataSet[5];
+        for (int i = 0; i < input.length; i++) {
+            input[i] = new DataSetImpl();
+            input[i].put("id", -13+i);
+            input[i].put("name", "Stiven"+i);
+            input[i].put("password", "pass"+i);
+            input[i].put("active", i%2==0);
+            manager.insert("user", input[i]);
+        }
+
+
+        // when
+        DataSet newValue = new DataSetImpl();
+        newValue.put("password", "pass2");
+        newValue.put("name", "Pup");
+        newValue.put("active", true);
+        manager.update("user", -13, newValue);
+
+        // then
+        List <DataSet> users = manager.getTableData("user");
+        assertEquals(5, users.size());
+
+        DataSet user = users.get(4);
+        assertEquals("[name, password, id, active]", user.getNames().toString());
+        assertEquals("[Pup, pass2, -13, true]", user.getValues().toString());
+    }
 }

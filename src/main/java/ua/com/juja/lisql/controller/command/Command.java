@@ -12,14 +12,12 @@ public abstract class Command {
     protected static final boolean CONNECTION_REQUIRED = true;
     protected static final boolean HIDDEN = true;
 
-    /** Specify this value in the constructor of your command*/
     private boolean isConnectionRequired = CONNECTION_REQUIRED;
-    /** Variable for system or inactive command*/
     private boolean isHiddenCommand;
 
     //todo отрефакторить, но оставить простую инициализацию
     //          format; description; successMessage; failureMessages;
-    // -------> format; description; onEvents;
+    // -------> format; description; sample; class OnEvents(List Successes, List Errors);
     private String[] attributes;
 
     /** Default constructor reserved*/
@@ -71,12 +69,17 @@ public abstract class Command {
     public String format(){
         return getAttribute(0);
     }
+
     public String description(){
         return getAttribute(1);
     }
 
     protected String success(){
         return getAttribute(2);
+    }
+
+    public String failure(){
+        return failure(0);
     }
 
     /**@param number of failure from 0*/
@@ -99,14 +102,16 @@ public abstract class Command {
      * Work section
      * */
     public boolean run(String command) throws CmdException {
-        if (canProcess(command))
-            if (!isConnectionRequired || isConnected(command)){
-                process(command);
-                return true;
-            }
-            else throw new CmdException("missed connection", new RuntimeException());
+        if (!canProcess(command)) {
+            return false;
+        }
+        if (isConnectionRequired && !isConnected(command)) {
+            throw new CmdException("missed connection", new RuntimeException());
+        } else {
+            process(command);
+            return true;
+        }
 
-        return false;
     }
 
     public abstract void  process(String command);
@@ -135,14 +140,14 @@ public abstract class Command {
 
     protected String[] validArguments(String command, String sample) {
         int target = Line.split(sample).length;
-        String[] data = Line.split(command);
+        String[] result = Line.split(command);
 
-        if (data.length < target)
+        if (result.length < target)
             throw new IllegalArgumentException(
-                    String.format(Message.FAIL_COUNT.toString(), target, data.length));
-        if (data.length> target)
+                    String.format(Message.FAIL_COUNT.toString(), target, result.length));
+        if (result.length> target)
             view.write(String.format(Message.TO_MANY_PARAMETERS.toString(), target-1));
-        return data;
+        return result;
     }
 
     protected String[] validArguments(String command) {

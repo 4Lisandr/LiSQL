@@ -51,17 +51,20 @@ public final class Controller {
         public static List<Command> getAll() {
             ArrayList<Command> result = new ArrayList<>();
             for (UsersCommand usr : values()) {
-                if (usr != null)
+                if (usr != null) {
                     result.add(usr.getCommand());
+                }
             }
             return result;
         }
 
         private static void handle(String input) {
             try {
-                for (Command command : getAll())
-                    if (command.run(input))
+                for (Command command : getAll()){
+                    if (command.run(input)){
                         break;
+                    }
+                }
             } catch (Exception e) {
                 printError(e);
             }
@@ -75,9 +78,9 @@ public final class Controller {
     }
 
     public static Controller getInstance(View view, DatabaseManager manager) {
-        return instance != null ?
-                instance:
-                new Controller(view, manager);
+        return instance == null ?
+                new Controller(view, manager) :
+                instance;
     }
 
     public void run() {
