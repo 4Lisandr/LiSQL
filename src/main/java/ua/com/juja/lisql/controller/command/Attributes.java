@@ -50,9 +50,4 @@ public class Attributes {
         return (attributes==null|| attributes.length < i+1) ? "" :
                 attributes[i];
     }
-
-    public static void main(String[] args) {
-        new Attributes("","","");
-    }
-
 }
