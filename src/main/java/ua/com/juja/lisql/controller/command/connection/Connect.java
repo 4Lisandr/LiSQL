@@ -6,11 +6,11 @@ import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.controller.command.Message;
 import ua.com.juja.lisql.view.View;
 
-public class UserConnect extends Command {
+public class Connect extends Command {
 
     private static final String COMMAND_SAMPLE = "connect|sqlcmd|postgres|HcxbPRi5EoNB";
 
-    public UserConnect(DatabaseManager manager, View view) {
+    public Connect(DatabaseManager manager, View view) {
         super(manager, view, !CONNECTION_REQUIRED);
         setAttributes(Message.CONNECT);
     }

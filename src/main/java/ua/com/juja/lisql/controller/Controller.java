@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.connection.UserConnect;
+import ua.com.juja.lisql.controller.command.connection.Connect;
 import ua.com.juja.lisql.controller.command.read.DBList;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
@@ -26,7 +26,7 @@ public final class Controller {
      * Command "Unknown" contains greed condition - all other commands after it detected as Unknown!
      */
     public enum UsersCommand {
-        CONNECT(new UserConnect(manager, view)),
+        CONNECT(new Connect(manager, view)),
         HELP(new Help(view)),
         EXIT(new Exit(manager, view)),
         LIST(new DBList(manager, view)),
