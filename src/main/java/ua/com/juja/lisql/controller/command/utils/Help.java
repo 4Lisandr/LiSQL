@@ -17,8 +17,10 @@ public class Help extends Command {
     public void process(String command) {
         view.write(Message.CMD_LIST.toString());
         for(Command com: Controller.UsersCommand.getAll()){
-            if(!com.isHidden())
+            if(!com.isHidden()){
                 view.write(Line.concat("\t", com.format(), " - ", com.description()));
+//                view.write(com.sample());
+            }
         }
     }
 
