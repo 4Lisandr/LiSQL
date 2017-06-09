@@ -27,5 +27,4 @@ public class Connect extends Command {
             success() :
             String.format(failure(0), databaseName, userName, password));
     }
-
 }
