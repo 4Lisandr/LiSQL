@@ -7,7 +7,6 @@ import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.controller.command.write.*;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.controller.command.Message;
 import ua.com.juja.lisql.view.View;
 
 import java.util.ArrayList;
@@ -87,7 +86,7 @@ public final class Controller {
         new Start(view).process("");
 
         while (!Close.isCalled()) {
-            view.write(Message.INPUT.toString());
+            view.write(Command.Message.INPUT.toString());
             String input = view.read();
             UsersCommand.handle(input);
         }
@@ -96,7 +95,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        view.write(Message.FAIL + " ", message, ". " + Message.RETRY);
+        view.write(Command.Message.FAIL + " ", message, ". " + Command.Message.RETRY);
     }
 
 }

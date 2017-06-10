@@ -1,7 +1,6 @@
 package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.Message;
 import ua.com.juja.lisql.view.View;
 
 public class Unknown extends Command {

@@ -8,7 +8,7 @@ public class Close extends Command {
 
     private static boolean isCalled;
 
-    public Close(DatabaseManager manager, View view) {
+    Close(DatabaseManager manager, View view) {
         super(manager, view);
         isCalled = true;
 //        setAttributes("close", "shutdown...", "shutdown...", "System failure!");
