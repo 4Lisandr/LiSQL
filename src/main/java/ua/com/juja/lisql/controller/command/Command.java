@@ -1,24 +1,20 @@
 package ua.com.juja.lisql.controller.command;
 
+import org.apache.commons.lang3.ArrayUtils;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
 public abstract class Command {
+    protected static final boolean CONNECTION_REQUIRED = true;
 
     protected View view;
     protected DatabaseManager manager;
 
-    protected static final boolean CONNECTION_REQUIRED = true;
-    protected static final boolean HIDDEN = true;
-
     private boolean isConnectionRequired = CONNECTION_REQUIRED;
     private boolean isHiddenCommand;
 
-    //todo отрефакторить, но оставить простую инициализацию
-    //          format; description; successMessage; failureMessages;
-    // -------> format; description; sample; class OnEvents(List Successes, List Errors);
-    private String[] attributes;
+    private Attributes attributes = new Attributes("","");
 
     /** Default constructor reserved*/
     public Command() {}
@@ -46,57 +42,45 @@ public abstract class Command {
      * */
 
     /**
-     * @param message - format, description, successMessage, failureMessages;
+     * @param message - sample, description, cases;
      */
     public void setAttributes(Message message) {
-        setAttributes(message.getCommandAttributes());
-    }
-
-    private void setAttributes(String[] text) {
-        if (text != null){
-            attributes = new String[text.length];
-            System.arraycopy(text, 0, attributes, 0, text.length);
-        }
+        attributes = new Attributes(message.getCommandAttributes());
     }
 
     protected void hide() {
-        isHiddenCommand = HIDDEN;
+        isHiddenCommand = true;
     }
 
-    /**
-     * Getters
-     * */
-    public String format(){
-        return getAttribute(0);
-    }
-
-    public String description(){
-        return getAttribute(1);
-    }
-
-    protected String success(){
-        return getAttribute(2);
-    }
-
-    public String failure(){
-        return failure(0);
-    }
-
-    /**@param number of failure from 0*/
-    public String failure(int number){
-        int n = (number > 0 ? number : 0);
-        return getAttribute(3+n);
-    }
-
-    private String getAttribute(int i) {
-        return (attributes==null|| attributes.length < i+1) ? "" :
-                attributes[i];
-    }
-
+    //Getters
     public boolean isHidden() {
         return isHiddenCommand;
     }
 
+
+    public String sample(){
+        return attributes.sample();
+    }
+
+    public String format(){
+        return attributes.format();
+    }
+
+    public String description(){
+        return attributes.description();
+    }
+
+    protected String success(){
+        return attributes.success();
+    }
+
+    public String failure(){
+        return attributes.failure();
+    }
+
+    public String failure(int i){
+        return attributes.failure(i);
+    }
 
     /**
      * Work section
@@ -117,7 +101,7 @@ public abstract class Command {
     public abstract void  process(String command);
 
     public boolean canProcess(String command){
-        return beginWith(format()).equalsIgnoreCase(beginWith(command));
+        return beginWith(attributes.format()).equalsIgnoreCase(beginWith(command));
     }
 
     /**
@@ -156,5 +140,60 @@ public abstract class Command {
             throw new IllegalArgumentException(
                     String.format(Message.ODD_PARAMETERS.toString(), data.length));
         return data;
+    }
+
+    /**
+     *  sample; description; successMessage; failureMessages;
+     * -------> class OnCase {String success; String failure;
+     */
+    public class Attributes {
+        String [] attributes;
+        /**
+         * Example for command Connect:
+         * @param sample "connect|sqlcmd|postgres|HcxbPRi5EoNB"
+         * @param description - get from properties command.connect
+         * @param cases - OK, FAIL
+         */
+        public Attributes(String sample, String description, String... cases) {
+            attributes = ArrayUtils.addAll(new String[] {sample, description}, cases);
+        }
+
+        public Attributes(String[] array) {
+            if (array==null || array.length < 2){
+                throw new IllegalArgumentException("Must be at least 2 element in array!");
+            }
+            attributes = array;
+        }
+        //getters
+        public String sample(){
+            return getAttribute(0);
+        }
+
+        public String format(){
+            return Line.split(sample())[0];
+        }
+
+        public String description(){
+            return getAttribute(1);
+        }
+
+        protected String success(){
+            return getAttribute(2);
+        }
+
+        public String failure(){
+            return failure(0);
+        }
+
+        /**@param number of failure from 0*/
+        public String failure(int number){
+            int n = (number > 0 ? number : 0);
+            return getAttribute(3+n);
+        }
+
+        private String getAttribute(int i) {
+            return (attributes==null|| attributes.length < i+1) ? "" :
+                    attributes[i];
+        }
     }
 }
