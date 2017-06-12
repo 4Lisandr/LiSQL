@@ -24,10 +24,7 @@ public final class Controller {
     private static View view;
     private static DatabaseManager manager;
 
-    /**
-     * Keep strict order while iterate list of command
-     * Command "Unknown" contains greed condition - all other commands after it detected as Unknown!
-     */
+    //Command "Unknown" contains greed condition - all other commands after it detected as Unknown!
     public enum UsersCommand {
         CONNECT(new Connect(manager, view)),
         HELP(new Help(view)),
