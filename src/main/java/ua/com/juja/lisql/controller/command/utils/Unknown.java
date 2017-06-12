@@ -1,13 +1,16 @@
 package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.command.Command;
+import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.view.View;
+
+import static ua.com.juja.lisql.controller.command.TextBundle.UNKNOWN;
 
 public class Unknown extends Command {
 
     public Unknown(View view){
         super(view);
-        setAttributes(Message.UNKNOWN);
+        setTextBuilder(new TextBuilder("", UNKNOWN.toString()));
         hide();
     }
 

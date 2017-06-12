@@ -1,17 +1,20 @@
 package ua.com.juja.lisql.controller.command.read;
 
 import ua.com.juja.lisql.controller.command.Command;
+import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static ua.com.juja.lisql.controller.command.TextBundle.LIST;
+
 public class DBList extends Command {
 
     public DBList(DatabaseManager manager, View view){
         super(manager, view);
-        setAttributes(Message.LIST);
+        setTextBuilder(new TextBuilder("list", LIST.toString()));
     }
 
     @Override

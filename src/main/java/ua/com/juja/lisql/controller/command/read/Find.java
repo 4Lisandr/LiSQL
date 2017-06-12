@@ -1,6 +1,7 @@
 package ua.com.juja.lisql.controller.command.read;
 
 import ua.com.juja.lisql.controller.command.Command;
+import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Line;
@@ -8,17 +9,19 @@ import ua.com.juja.lisql.view.View;
 
 import java.util.List;
 
+import static ua.com.juja.lisql.controller.command.TextBundle.FIND;
+
 public class Find extends Command {
 
     public Find(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes(Message.FIND);
+        setTextBuilder(new TextBuilder("find|sample", FIND.toString()));
     }
 
     @Override
     public void process(String command) {
 
-        String tableName = validArguments(command, "find|sample")[1];
+        String tableName = validArguments(command)[1];
 
         List<String> tableColumns = manager.getTableColumns(tableName);
         printHeader(tableColumns);
