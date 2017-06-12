@@ -9,7 +9,6 @@ public enum TextBundle {
     START("common.start"),
     INPUT("common.input"),
     CMD_LIST("common.list"),
-
     FAIL("common.fail"),
     OK("common.ok"),
     RETRY("common.try"),
