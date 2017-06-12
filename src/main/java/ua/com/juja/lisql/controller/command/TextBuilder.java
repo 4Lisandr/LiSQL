@@ -7,7 +7,7 @@ import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 import static ua.com.juja.lisql.controller.command.TextBundle.OK;
 
 /**
- *  sample; description; successMessage; failureMessages;
+ * sample; description; successMessage; failureMessages;
  * -------> class OnCase {String success; String failure;
  */
 public class TextBuilder {
@@ -19,60 +19,63 @@ public class TextBuilder {
     private static final String SUCCESS_TEXT = OK.toString();
     private static final String FAIL_TEXT = FAIL.toString();
 
+    String[] attributes;
 
-    String [] attributes;
     /**
      * Example for command Connect:
-     * @param sample "connect|sqlcmd|postgres|HcxbPRi5EoNB"
+     *
+     * @param sample      "connect|sqlcmd|postgres|HcxbPRi5EoNB"
      * @param description - get description from properties command.connect
-     * @param cases - SUCCESS, FAILURE
+     * @param cases       - SUCCESS, FAILURE
      */
     public TextBuilder(String sample, String description, String... cases) {
-        this(ArrayUtils.addAll(new String[] {sample, description}, cases));
+        this(ArrayUtils.addAll(new String[]{sample, description}, cases));
     }
 
     private TextBuilder(String[] array) {
-        if (array==null || array.length < 2){
+        if (array == null || array.length < 2) {
             throw new IllegalArgumentException("Must be at least 2 element in array!");
         }
         attributes = array;
     }
 
     //getters
-    protected String sample(){
+    protected String sample() {
         return getAttribute(SAMPLE);
     }
 
-    protected String format(){
+    protected String format() {
         return Line.split(sample())[0];
     }
 
-    protected String description(){
+    protected String description() {
         return getAttribute(DESCRIPTION);
     }
 
-    protected String success(){
+    protected String success() {
         String result = getAttribute(SUCCESS);
         return result.equals("") ?
-                SUCCESS_TEXT:
+                SUCCESS_TEXT :
                 result;
     }
 
-    protected String failure(){
+    protected String failure() {
         String result = failure(0);
-        return result.equals("")?
-                FAIL_TEXT:
+        return result.equals("") ?
+                FAIL_TEXT :
                 result;
     }
 
-    /**@param number of failure from 0*/
-    protected String failure(int number){
+    /**
+     * @param number of failure from 0
+     */
+    protected String failure(int number) {
         int n = (number > 0 ? number : 0);
-        return getAttribute(FAILURE +n);
+        return getAttribute(FAILURE + n);
     }
 
     private String getAttribute(int i) {
-        if (attributes==null|| i < 0)
+        if (attributes == null || i < 0)
             return "";
 
         return (attributes.length < i + 1) ? "" :
