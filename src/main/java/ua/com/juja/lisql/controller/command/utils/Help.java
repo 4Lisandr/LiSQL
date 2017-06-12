@@ -21,7 +21,11 @@ public class Help extends Command {
         view.write(CMD_LIST.toString());
         for (Command com : Controller.UsersCommand.getAll()) {
             if (!com.isHidden()) {
-                view.write(Line.concat("\t", com.format(), " - ", com.description()));
+                String sample = com.sample().equals(com.format()) ?
+                        "" :
+                        " (" + com.sample() + ")";
+
+                view.write(Line.concat("\t", com.format(), " - ", com.description(), sample));
             }
         }
     }

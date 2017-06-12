@@ -20,7 +20,7 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String INSERT_FORMAT = "INSERT INTO public.%s (%s) VALUES (%s)";
     private static final String DELETE = "DELETE FROM public.";
     private static final String DELETE_FORMAT = "DELETE FROM %s WHERE %s = %s";
-    private static final String DROP = "DROP TABLE ";
+    private static final String DROP = "DROP TABLE public.";
 
 
     private static final Logger log = Logger.getLogger(PGDatabaseManager.class);

@@ -52,7 +52,7 @@ public abstract class Command {
     }
 
 
-    protected String sample() {
+    public String sample() {
         return textBuilder.sample();
     }
 
