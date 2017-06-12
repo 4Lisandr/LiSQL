@@ -1,24 +1,26 @@
 package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
+import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DataSetImpl;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
+import static ua.com.juja.lisql.controller.command.TextBundle.INSERT;
+import static ua.com.juja.lisql.controller.command.TextBundle.SUCCESS_RECORD;
 
 /**
  * Lisandr 1.03.2017
  */
 public class Insert extends Command {
 
+    // Sample: insert|tableName|column1|value1 (length> 1 && length%2 == 0)
     public Insert(DatabaseManager manager, View view) {
         super(manager, view);
-        setAttributes(Message.INSERT);
+        setTextBuilder(new TextBuilder("insert|tableName|column1|value1", INSERT.toString(),
+            SUCCESS_RECORD.toString()));
     }
 
-    // Sample: insert|tableName|column1|value1
-    // if column1 = id, then ID INT PRIMARY KEY NOT NULL,
-    // value1 - type detect
     @Override
     public void process(String command) {
         String[] data = validArguments(command);

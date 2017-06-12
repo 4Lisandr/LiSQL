@@ -12,6 +12,10 @@ import ua.com.juja.lisql.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
+import static ua.com.juja.lisql.controller.command.TextBundle.INPUT;
+import static ua.com.juja.lisql.controller.command.TextBundle.RETRY;
+
 /**
  * Controller of commands, singleton
  */
@@ -86,7 +90,7 @@ public final class Controller {
         new Start(view).process("");
 
         while (!Close.isCalled()) {
-            view.write(Command.Message.INPUT.toString());
+            view.write(INPUT.toString());
             String input = view.read();
             UsersCommand.handle(input);
         }
@@ -95,7 +99,7 @@ public final class Controller {
 
     private static void printError(Exception e) {
         String message = e.getMessage();
-        view.write(Command.Message.FAIL + " ", message, ". " + Command.Message.RETRY);
+        view.write(FAIL + " ", message, ". " + RETRY);
     }
 
 }
