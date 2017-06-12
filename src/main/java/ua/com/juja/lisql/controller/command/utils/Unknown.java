@@ -8,7 +8,7 @@ import static ua.com.juja.lisql.controller.command.TextBundle.UNKNOWN;
 
 public class Unknown extends Command {
 
-    public Unknown(View view){
+    public Unknown(View view) {
         super(view);
         setTextBuilder(new TextBuilder("", UNKNOWN.toString()));
         hide();

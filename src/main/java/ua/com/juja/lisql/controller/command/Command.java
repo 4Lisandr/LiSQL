@@ -17,8 +17,11 @@ public abstract class Command {
 
     private TextBuilder textBuilder;
 
-    /** Default constructor reserved*/
-    public Command() {}
+    /**
+     * Default constructor reserved
+     */
+    public Command() {
+    }
 
     public Command(View view) {
         this();
@@ -34,7 +37,7 @@ public abstract class Command {
 
     /**
      * Setters section
-     * */
+     */
     public void setTextBuilder(TextBuilder textBuilder) {
         this.textBuilder = textBuilder;
     }
@@ -49,33 +52,33 @@ public abstract class Command {
     }
 
 
-    protected String sample(){
+    protected String sample() {
         return textBuilder.sample();
     }
 
-    public String format(){
+    public String format() {
         return textBuilder.format();
     }
 
-    public String description(){
+    public String description() {
         return textBuilder.description();
     }
 
-    protected String success(){
+    protected String success() {
         return textBuilder.success();
     }
 
-    protected String failure(){
+    protected String failure() {
         return textBuilder.failure();
     }
 
-    protected String failure(int i){
+    protected String failure(int i) {
         return textBuilder.failure(i);
     }
 
     /**
      * Work section
-     * */
+     */
     public boolean run(String command) throws CmdException {
         if (!canProcess(command)) {
             return false;
@@ -88,9 +91,9 @@ public abstract class Command {
         }
     }
 
-    protected abstract void  process(String command);
+    protected abstract void process(String command);
 
-    protected boolean canProcess(String command){
+    protected boolean canProcess(String command) {
         return beginWith(textBuilder.format()).equalsIgnoreCase(beginWith(command));
     }
 
@@ -98,17 +101,16 @@ public abstract class Command {
      * Validators section
      **/
     private String beginWith(String command) {
-        return ((command==null)||command.trim().isEmpty()) ?
-            "" :
-            Line.split(command)[0];
+        return ((command == null) || command.trim().isEmpty()) ?
+                "" :
+                Line.split(command)[0];
     }
 
     private boolean isConnected(String command) {
-        if (!manager.isConnected()){
+        if (!manager.isConnected()) {
             view.write(String.format(DISCONNECTED.toString(), command));
             return false;
-        }
-        else
+        } else
             return true;
     }
 
@@ -119,8 +121,8 @@ public abstract class Command {
         if (result.length < target)
             throw new IllegalArgumentException(
                     String.format(FAIL_COUNT.toString(), target, result.length));
-        if (result.length> target)
-            view.write(String.format(TO_MANY_PARAMETERS.toString(), target-1));
+        if (result.length > target)
+            view.write(String.format(TO_MANY_PARAMETERS.toString(), target - 1));
         return result;
     }
 

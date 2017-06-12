@@ -15,7 +15,7 @@ public class Connect extends Command {
         super(manager, view);
         isConnectionRequired = false;
         setTextBuilder(new TextBuilder("connect|sqlcmd|postgres|HcxbPRi5EoNB",
-            CONNECT.toString()));
+                CONNECT.toString()));
     }
 
     @Override
@@ -27,8 +27,8 @@ public class Connect extends Command {
         String password = data[3];
 
         view.write(manager.canConnect(databaseName, userName, password) ?
-            success() :
-            String.format(failure(0), databaseName, userName, password));
+                success() :
+                String.format(failure(0), databaseName, userName, password));
     }
 
 }

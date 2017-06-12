@@ -6,9 +6,6 @@ import ua.com.juja.lisql.controller.command.TextBundle;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-/**
- *
- */
 public class Clear extends Command {
 
     public Clear(DatabaseManager manager, View view) {

@@ -19,8 +19,8 @@ public class Help extends Command {
     @Override
     public void process(String command) {
         view.write(CMD_LIST.toString());
-        for(Command com: Controller.UsersCommand.getAll()){
-            if(!com.isHidden()){
+        for (Command com : Controller.UsersCommand.getAll()) {
+            if (!com.isHidden()) {
                 view.write(Line.concat("\t", com.format(), " - ", com.description()));
             }
         }

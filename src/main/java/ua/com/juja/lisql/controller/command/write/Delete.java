@@ -8,14 +8,11 @@ import ua.com.juja.lisql.view.View;
 import static ua.com.juja.lisql.controller.command.TextBundle.DELETE;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 
-/**
- *  Delete record from database
- */
 public class Delete extends Command {
     public Delete(DatabaseManager manager, View view) {
         super(manager, view);
         setTextBuilder(new TextBuilder("delete|users|id=10", DELETE.toString(),
-        "row is delete", FAIL.toString()));
+                "row is delete", FAIL.toString()));
     }
 
     @Override

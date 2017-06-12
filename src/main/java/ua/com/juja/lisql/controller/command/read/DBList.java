@@ -12,7 +12,7 @@ import static ua.com.juja.lisql.controller.command.TextBundle.LIST;
 
 public class DBList extends Command {
 
-    public DBList(DatabaseManager manager, View view){
+    public DBList(DatabaseManager manager, View view) {
         super(manager, view);
         setTextBuilder(new TextBuilder("list", LIST.toString()));
     }

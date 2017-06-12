@@ -8,14 +8,11 @@ import ua.com.juja.lisql.view.View;
 import static ua.com.juja.lisql.controller.command.TextBundle.DROP;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 
-/**
- *
- */
 public class Drop extends Command {
     public Drop(DatabaseManager manager, View view) {
         super(manager, view);
         setTextBuilder(new TextBuilder("drop|users", DROP.toString(),
-        "database deleted", FAIL.toString(), "operation is canceled"));
+                "database deleted", FAIL.toString(), "operation is canceled"));
     }
 
     @Override
