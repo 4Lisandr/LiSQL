@@ -8,6 +8,7 @@ import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.INSERT;
+import static ua.com.juja.lisql.controller.command.TextBundle.ODD_PARAMETERS;
 import static ua.com.juja.lisql.controller.command.TextBundle.SUCCESS_RECORD;
 
 /**
@@ -24,7 +25,9 @@ public class Insert extends Command {
 
     @Override
     public void process(String command) {
-        String[] data = validArguments(command, true);
+        String[] data = validArguments(command, new Validator(
+                n -> n % 2 == 0,
+                ODD_PARAMETERS.toString(), true));
         String tableName = data[1];
 
         DataSet dataSet = new DataSetImpl();
