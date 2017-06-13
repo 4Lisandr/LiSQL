@@ -181,7 +181,7 @@ public class PGDatabaseManager implements DatabaseManager {
     }
 
 
-
+    //todo - реализовать правильно, передавать имя колонки в запрос вместо id
     @Override
     public void update(String tableName, int id, DataSet newValue) throws DAOException {
 

@@ -4,6 +4,8 @@ import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
+import java.util.function.Predicate;
+
 import static ua.com.juja.lisql.controller.command.TextBundle.*;
 
 public abstract class Command {
@@ -112,6 +114,23 @@ public abstract class Command {
             return false;
         } else
             return true;
+    }
+
+    //todo - дописать
+    protected String[] validArguments(String command, Predicate<Integer> argumentsNumber, String exception) {
+        String[] result = Line.split(command);
+        if (argumentsNumber.test(result.length)) {
+            return result;
+        } else throw new IllegalArgumentException(exception);
+    }
+
+    protected String[] validArguments(String command, int atLeast) {
+        String[] result = Line.split(command);
+
+        if (result.length < atLeast)
+            throw new IllegalArgumentException(
+                    String.format(FAIL_COUNT.toString(), atLeast, result.length));
+        return result;
     }
 
     protected String[] validArguments(String command) {

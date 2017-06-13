@@ -35,6 +35,7 @@ public final class Controller {
         UPDATE(new Update(manager, view)),
         CLEAR(new Clear(manager, view)),
         DELETE(new Delete(manager, view)),
+        CREATE(new Create(manager, view)),
         DROP (new Drop(manager, view)),
         UNKNOWN(new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 
