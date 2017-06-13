@@ -15,7 +15,7 @@ public class DatabaseManagerTest {
     public static final String USER = DBProperties.getUserName();
     public static final String PASSWORD = DBProperties.getPassword();
 
-    public static final String[] TABLES = {"test", "users", "numbers", "user", "mart2017", "Кирилица", "my_table", "tableName"};
+    public static final String[] TABLES = {"test", "users", "user", "Кирилица"};
 
     private PGDatabaseManager manager;
 

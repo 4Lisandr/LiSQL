@@ -116,12 +116,22 @@ public abstract class Command {
             return true;
     }
 
-    //todo - дописать
-    protected String[] validArguments(String command, Predicate<Integer> argumentsNumber, String exception) {
+    //todo - проверить stringFormat
+    public String[] validArguments(String command, Validator... validators) {
         String[] result = Line.split(command);
-        if (argumentsNumber.test(result.length)) {
-            return result;
-        } else throw new IllegalArgumentException(exception);
+        int target = Line.split(sample()).length;
+
+        for (Validator v : validators) {
+            Predicate<Integer> p = v.getPredicate();
+            if (!p.test(result.length)) {
+                if (v.isException)
+                    throw new IllegalArgumentException(
+                            String.format(v.getReport(), result.length));
+                else
+                    view.write(String.format(v.getReport(), target - 1));
+            }
+        }
+        return result;
     }
 
     protected String[] validArguments(String command, int atLeast) {
@@ -145,11 +155,27 @@ public abstract class Command {
         return result;
     }
 
-    protected String[] validArguments(String command, boolean isEven) {
-        String[] result = Line.split(command);
-        if (!(result.length % 2 == 0) == isEven)
-            throw new IllegalArgumentException(
-                    String.format(ODD_PARAMETERS.toString(), result.length));
-        return result;
+    public class Validator {
+        Predicate<Integer> predicate;
+        String report;
+        boolean isException;
+
+        public Validator(Predicate<Integer> predicate, String report, boolean isException) {
+            this.predicate = predicate;
+            this.report = report;
+            this.isException = isException;
+        }
+
+        public Predicate<Integer> getPredicate() {
+            return predicate;
+        }
+
+        public String getReport() {
+            return report;
+        }
+
+        public boolean isException() {
+            return isException;
+        }
     }
 }
