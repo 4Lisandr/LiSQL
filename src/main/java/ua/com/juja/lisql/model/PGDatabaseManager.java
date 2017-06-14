@@ -156,6 +156,7 @@ public class PGDatabaseManager implements DatabaseManager {
     @Override
     /**
      *  Example of query CREATE TABLE:
+     *  CREATE TABLE public.tableName
      *  CREATE TABLE COMPANY(
      *  ID INT PRIMARY KEY     NOT NULL,
      *  NAME           TEXT    NOT NULL,
@@ -164,18 +165,18 @@ public class PGDatabaseManager implements DatabaseManager {
      *  );
      **/
     public void create(String tableName, DataSet input) throws DAOException {
-        // Not implemented yet properly
-        String sql = "CREATE TABLE "+tableName+"(ID INT PRIMARY KEY NOT NULL," +
-                "NAME TEXT NOT NULL);";
+        String columns = input.getNamesFormatted("%s TEXT,");
+        String sql = "CREATE TABLE public."+tableName+"(ID INT PRIMARY KEY NOT NULL," +
+                columns+ ");";
         write(sql, tableName);
     }
 
 
     @Override
     public void insert(String tableName, DataSet input) throws DAOException {
-        String tableNames = input.getNamesFormatted("%s,");
+        String columns = input.getNamesFormatted("%s,");
         String values = input.getValuesFormatted("'%s',");
-        String sql = "INSERT INTO public." + tableName + " (" + tableNames + ")" +
+        String sql = "INSERT INTO public." + tableName + " (" + columns + ")" +
                     "VALUES (" + values + ")";
         write(sql, tableName);
     }

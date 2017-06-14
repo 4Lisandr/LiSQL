@@ -21,6 +21,7 @@ public enum TextBundle {
     TO_MANY_PARAMETERS("common.fail.many"),
     ODD_PARAMETERS("common.fail.odd"),
     SUCCESS_RECORD("common.ok.record"),
+    SUCCESS_DATABASE("common.ok.database"),
     DISCONNECTED("common.fail.disconnected"),
     /*
     * Block of command interface
