@@ -19,6 +19,9 @@ public interface DatabaseManager {
     void create(String tableName, DataSet input) throws DAOException;
     void insert(String tableName, DataSet input) throws DAOException;
     void update(String tableName, int id, DataSet newValue) throws DAOException;
+    void update(String tableName, DataSet newValue) throws DAOException;
+
+
     void delete(String s, String[] split) throws SQLException;
     void clear(String tableName) throws DAOException;
     void drop(String s);
