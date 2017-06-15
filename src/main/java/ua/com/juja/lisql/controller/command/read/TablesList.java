@@ -10,9 +10,9 @@ import java.util.List;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.LIST;
 
-public class DBList extends Command {
+public class TablesList extends Command {
 
-    public DBList(DatabaseManager manager, View view) {
+    public TablesList(DatabaseManager manager, View view) {
         super(manager, view);
         setTextBuilder(new TextBuilder("list", LIST.toString()));
     }

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PGDatabaseManager implements DatabaseManager {
 
@@ -153,7 +154,6 @@ public class PGDatabaseManager implements DatabaseManager {
      * Write access section
      */
 
-    @Override
     /**
      *  Example of query CREATE TABLE:
      *  CREATE TABLE public.tableName
@@ -164,6 +164,7 @@ public class PGDatabaseManager implements DatabaseManager {
      *  SALARY         REAL
      *  );
      **/
+    @Override
     public void create(String tableName, DataSet input) throws DAOException {
         String columns = input.getNamesFormatted("%s TEXT,");
         String sql = "CREATE TABLE public."+tableName+"(ID INT PRIMARY KEY NOT NULL," +
@@ -182,7 +183,21 @@ public class PGDatabaseManager implements DatabaseManager {
     }
 
 
-    //todo - реализовать правильно, передавать имя колонки в запрос вместо id
+    @Override
+    public void update(String tableName, DataSet newValue) throws DAOException {
+
+        Set names = newValue.getNames();
+        List values = newValue.getValues();
+        String[] columns = (String[]) names.stream().toArray(String[]::new);
+        // 0 - имя столбца записи которое проверяется
+        // 1 -  имя обновляемого столбца записи
+        String sql = "UPDATE public." + tableName + " SET " +
+                columns[1] + " = "+values.get(1)+" WHERE "+
+                columns[0]+" = "+values.get(0);
+
+        write(sql, tableName);
+    }
+
     @Override
     public void update(String tableName, int id, DataSet newValue) throws DAOException {
 
@@ -231,7 +246,8 @@ public class PGDatabaseManager implements DatabaseManager {
             exceptionHandler("Couldn't process table " + tableName, e);
         }
     }
-
+    //todo - improve logging
+    // https://dzone.com/articles/9-logging-sins-in-your-java-applications?utm_source=Top%205&utm_medium=email&utm_campaign=2017-06-09
     private static void exceptionHandler(String msg, Throwable e) {
         log.error(msg, e);
         throw new DAOException(msg, e);

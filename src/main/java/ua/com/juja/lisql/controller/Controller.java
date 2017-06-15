@@ -2,7 +2,7 @@ package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.connection.Connect;
-import ua.com.juja.lisql.controller.command.read.DBList;
+import ua.com.juja.lisql.controller.command.read.TablesList;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.controller.command.write.*;
@@ -29,7 +29,7 @@ public final class Controller {
         CONNECT(new Connect(manager, view)),
         HELP(new Help(view)),
         EXIT(new Exit(manager, view)),
-        LIST(new DBList(manager, view)),
+        LIST(new TablesList(manager, view)),
         FIND(new Find(manager, view)),
         INSERT(new Insert(manager, view)),
         UPDATE(new Update(manager, view)),
