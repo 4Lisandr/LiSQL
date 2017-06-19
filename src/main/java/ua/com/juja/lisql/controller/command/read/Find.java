@@ -14,7 +14,7 @@ public class Find extends Command {
 
     public Find(DatabaseManager manager, View view) {
         super(manager, view);
-        setContent(new Content("find|sample", FIND.toString()));
+        setContent(new Content("find|getSample", FIND.toString()));
     }
 
     @Override

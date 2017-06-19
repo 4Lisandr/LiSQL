@@ -14,7 +14,7 @@ public enum TextBundle {
     RETRY("common.try"),
     BYE("common.bye"),
     /**
-     * String format here!
+     * String takeFormat here!
      **/
     FAIL_CONNECT("common.fail.connect"),
     FAIL_COUNT("common.fail.count"),

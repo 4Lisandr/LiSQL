@@ -55,27 +55,27 @@ public abstract class Command {
 
 
     public String sample() {
-        return content.sample();
+        return content.getSample();
     }
 
     public String format() {
-        return content.format();
+        return content.takeFormat();
     }
 
     public String description() {
-        return content.description();
+        return content.getDescription();
     }
 
     protected String success() {
-        return content.success();
+        return content.takeSuccess();
     }
 
     protected String failure() {
-        return content.failure();
+        return content.takeFailure();
     }
 
     protected String failure(int i) {
-        return content.failure(i);
+        return content.takeFailure(i);
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class Command {
     protected abstract void process(String command);
 
     protected boolean canProcess(String command) {
-        return beginWith(content.format()).equalsIgnoreCase(beginWith(command));
+        return beginWith(content.takeFormat()).equalsIgnoreCase(beginWith(command));
     }
 
     /**
