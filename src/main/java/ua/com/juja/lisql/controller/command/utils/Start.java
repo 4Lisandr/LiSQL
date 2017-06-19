@@ -11,29 +11,19 @@ import static ua.com.juja.lisql.controller.command.TextBundle.START;
  * Безусловный вызов при старте программы
  */
 public class Start extends Command {
-
-    private static int instances;
-
     public Start(View view) {
         super(view);
-        instances++;
-//        setTextBuilder("run","warming up...", (Message.HELLO + " " + Message.START), "System failure!");
     }
 
     @Override
     public boolean canProcess(String command) {
-        return instances == 1;
+        return true;
     }
 
     @Override
     public void process(String command) {
         if (canProcess(command))
             view.write(HELLO.toString(), " ", START.toString());
-    }
-
-
-    public static boolean isCalled() {
-        return instances > 0;
     }
 
 }

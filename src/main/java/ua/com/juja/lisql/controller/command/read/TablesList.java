@@ -5,8 +5,6 @@ import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-import java.util.List;
-
 import static ua.com.juja.lisql.controller.command.TextBundle.LIST;
 
 public class TablesList extends Command {
@@ -18,11 +16,7 @@ public class TablesList extends Command {
 
     @Override
     public void process(String command) {
-
-        List<String> tableNames = manager.getTableNames();
-
-        String message = tableNames.toString();
-        view.write(message);
+        view.write(manager.getTableNames().toString());
     }
 
 }

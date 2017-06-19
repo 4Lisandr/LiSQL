@@ -18,23 +18,25 @@ public class Create extends Command {
         setTextBuilder(new TextBuilder("create|tableName|column1|column2|...|columnN",
                 CREATE.toString(), SUCCESS_DATABASE.toString()));
     }
+
     //todo - debug table creation
     @Override
     protected void process(String command) {
-        String[] data = validArguments(command, new Validator(
-                n -> n > 2,
-                FAIL_COUNT.toString(), true));
+        String[] args = validArguments(command,
+                new Validator(n -> n > 2, FAIL_COUNT.toString(), true));
 
+        String table = args[SAMPLE_TABLE];
+        manager.create(table, makeDataSet(args));
 
+        view.write(String.format(success(), table));
+    }
+
+    private DataSet makeDataSet(String[] data) {
         DataSet dataSet = new DataSetImpl();
-        for (int index = SAMPLE_TABLE +1; index < data.length; index++) {
+        for (int index = SAMPLE_TABLE + 1; index < data.length; index++) {
             String columnName = data[index];
             dataSet.put(columnName, "");
         }
-
-        String table = data[SAMPLE_TABLE];
-        manager.create(table, dataSet);
-
-        view.write(String.format(success(), table));
+        return dataSet;
     }
 }

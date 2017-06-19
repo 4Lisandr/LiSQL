@@ -17,7 +17,7 @@ public class Clear extends Command {
     @Override
     public void process(String command) {
         String[] args = validArguments(command);
-        String table =  args[TextBuilder.SAMPLE_TABLE];
+        String table = args[TextBuilder.SAMPLE_TABLE];
 
         if (view.confirm()) {
             try {
