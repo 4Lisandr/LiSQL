@@ -25,7 +25,7 @@ public class Console implements View {
     @Override
     public void write(List<List<?>> table) {
         printHeader(table.get(0));
-        for (int i = 1; i < table.size() ; i++) {
+        for (int i = 1; i < table.size(); i++) {
             write(Line.concat(2, "|", table.get(i)));
         }
     }
@@ -52,7 +52,7 @@ public class Console implements View {
         return Line.concat(-1, "", list);
     }
 
-    public int userEvent(String msg, String... answers){
+    public int userEvent(String msg, String... answers) {
         write(msg);
         String read = read();
         for (int i = 0; i < answers.length; i++) {

@@ -28,11 +28,10 @@ public final class Line {
      * @return
      */
     public static String concat(String... args) {
-        return concat(-1,"", args);
+        return concat(-1, "", args);
     }
 
     /**
-     *
      * @param args
      * @return
      */
@@ -41,18 +40,16 @@ public final class Line {
     }
 
     /**
-     *
      * @param csvString
      * @return
      */
-    public static String[] parseCSV(String csvString){
+    public static String[] parseCSV(String csvString) {
         return csvString == null ?
-                new String[0]:
+                new String[0] :
                 csvString.split(SEMICOLON);
     }
 
     /**
-     *
      * @param bound
      * @param suffix
      * @param args
@@ -69,9 +66,8 @@ public final class Line {
     }
 
     /**
-     *
      * @param bounds -1 - ignore suffix, 0 - no suffix in begin,
-     *                1 - suffix in the begin of line, 2 - suffix in the begin and in the end of line
+     *               1 - suffix in the begin of line, 2 - suffix in the begin and in the end of line
      * @param suffix
      * @param args
      */
@@ -79,7 +75,7 @@ public final class Line {
         if (args == null || args.length == 0)
             return "";
 
-        if(suffix==null || bounds == -1)
+        if (suffix == null || bounds == -1)
             suffix = "";
 
         StringBuffer sb = new StringBuffer(suffix);
@@ -93,11 +89,11 @@ public final class Line {
 
     private static String trim(int bounds, String suffix, String line) {
         int begin = (bounds == 0) ?
-                suffix.length():
+                suffix.length() :
                 0;
 
         int end = (bounds == 2) ?
-                0:
+                0 :
                 suffix.length();
 
         return line.substring(begin, line.length() - end);
