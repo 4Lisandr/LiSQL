@@ -52,6 +52,11 @@ public class DataSetImpl implements DataSet {
     }
 
     @Override
+    public int size(){
+        return data.size();
+    }
+
+    @Override
     public void update(DataSet source) {
         Set<String> columns = source.getNames();
         for (String name : columns) {

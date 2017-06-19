@@ -19,6 +19,8 @@ public interface DataSet {
 
     Object getType(String name);
 
+    int size();
+
     void update(DataSet source);
 
     String getNamesFormatted(String format);

@@ -4,10 +4,12 @@ import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.FIND;
 
@@ -23,34 +25,42 @@ public class Find extends Command {
 
         String tableName = validArguments(command)[1];
 
+        Map<String, List<String>> table = new LinkedHashMap<>();
         List<String> tableColumns = manager.getTableColumns(tableName);
-        printHeader(tableColumns);
-
         List<DataSet> tableData = manager.getTableData(tableName);
-        printTable(tableData);
+        putHeader(tableColumns, table);
+        putData(tableData, table);
+
+        view.write(table);
     }
 
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row : tableData) {
-            printRow(row);
+    private void putHeader(Iterable<String> tableColumns, Map <String, List<String>>map) {
+        for(String name: tableColumns){
+            map.put(name, new ArrayList<String>());
         }
     }
 
-    private void printRow(DataSet row) {
-        view.write(Line.concat(2, "|", row.getValues()));
+    private void putHeader(Iterable<String> tableColumns, List<List<String>> table) {
+        for(String name: tableColumns){
+            List<String> head = new ArrayList<String>();
+            head.add(name);
+            table.add(head);
+        }
     }
 
-    private void printHeader(Iterable<String> tableColumns) {
-        String header = Line.concat(2, "|", tableColumns);
-        if (header.length() > 0)
-            header = Line.concat(2, Line.SEPARATOR,
-                    Line.HORIZONTAL,
-                    header,
-                    Line.HORIZONTAL);
-        else
-            header = "No content in this table!";
-
-        view.write(header);
+    private void putData(List<DataSet> tableData, Map <String, List<String>>map) {
+        for (DataSet row : tableData) {
+            putRow(row, map);
+        }
     }
 
+    private void putRow(DataSet row, Map<String, List<String>> map) {
+        if(row.size()!=map.size())
+            throw new IllegalArgumentException("Different sizes of data!");
+
+        for (Map.Entry<String, List<String>> entry : map.entrySet()){
+            String matchedValue = (String) row.get(entry.getKey());
+            entry.getValue().add(matchedValue);
+        }
+    }
 }

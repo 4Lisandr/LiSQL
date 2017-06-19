@@ -5,7 +5,6 @@ import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.LIST;
@@ -22,7 +21,7 @@ public class TablesList extends Command {
 
         List<String> tableNames = manager.getTableNames();
 
-        String message = Arrays.toString(tableNames.toArray());
+        String message = tableNames.toString();
         view.write(message);
     }
 
