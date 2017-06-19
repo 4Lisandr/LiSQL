@@ -8,7 +8,7 @@ public final class Line {
     public static final String PIPE = "\\|";
     public static final String HYPHEN = " -";
     public static final String SEMICOLON = ";";
-    public static final String HORIZONTAL = "--------------------";
+    public static final String HORIZONTAL = "-";
 
     /**
      * @param s
