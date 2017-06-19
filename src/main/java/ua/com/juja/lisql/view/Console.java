@@ -1,9 +1,6 @@
 package ua.com.juja.lisql.view;
 
-import ua.com.juja.lisql.model.DataSet;
-
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Console implements View {
@@ -25,30 +22,17 @@ public class Console implements View {
     }
 
     @Override
-    public void write(Map<String, List<String>> table) {
-
-    }
-
-    private void printTable(List<DataSet> tableData) {
-        for (DataSet row : tableData) {
-            printRow(row);
+    public void write(List<List<?>> table) {
+        printHeader(table.get(0));
+        for (int i = 1; i < table.size() ; i++) {
+            write(Line.concat(2, "|", table.get(i)));
         }
     }
 
-    private List getRow(DataSet row) {
-        return row.getValues();
-    }
-
-    private void printRow(DataSet row) {
-        write(Line.concat(2, "|", row.getValues()));
-    }
-
-
-
-    private void printHeader(Iterable<String> tableColumns) {
+    private void printHeader(Iterable<?> tableColumns) {
         String header = Line.concat(2, "|", tableColumns);
         if (header.length() > 0)
-            header = Line.concat(2, Line.SEPARATOR,
+            header = Line.concat(1, Line.SEPARATOR,
                     Line.HORIZONTAL,
                     header,
                     Line.HORIZONTAL);
@@ -58,7 +42,6 @@ public class Console implements View {
         write(header);
     }
 
-    //
     public int userEvent(String msg, String... answers){
         write(msg);
         String read = read();

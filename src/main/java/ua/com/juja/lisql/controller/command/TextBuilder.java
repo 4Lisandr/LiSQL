@@ -11,10 +11,10 @@ import static ua.com.juja.lisql.controller.command.TextBundle.OK;
  * -------> class OnCase {String success; String failure;
  */
 public class TextBuilder {
-    private static final int SAMPLE = 0;
-    private static final int DESCRIPTION = 1;
-    private static final int SUCCESS = 2;
-    private static final int FAILURE = 3;
+    public static final int SAMPLE = 0;
+    public static final int DESCRIPTION = 1;
+    public static final int SUCCESS = 2;
+    public static final int FAILURE = 3;
 
     private static final String SUCCESS_TEXT = OK.toString();
     private static final String FAIL_TEXT = FAIL.toString();

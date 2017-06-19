@@ -6,10 +6,7 @@ import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.FIND;
 
@@ -25,42 +22,19 @@ public class Find extends Command {
 
         String tableName = validArguments(command)[1];
 
-        Map<String, List<String>> table = new LinkedHashMap<>();
+        List<List<?>> table = new ArrayList<>();
         List<String> tableColumns = manager.getTableColumns(tableName);
         List<DataSet> tableData = manager.getTableData(tableName);
-        putHeader(tableColumns, table);
+        table.add(tableColumns);
         putData(tableData, table);
 
         view.write(table);
     }
 
-    private void putHeader(Iterable<String> tableColumns, Map <String, List<String>>map) {
-        for(String name: tableColumns){
-            map.put(name, new ArrayList<String>());
-        }
-    }
-
-    private void putHeader(Iterable<String> tableColumns, List<List<String>> table) {
-        for(String name: tableColumns){
-            List<String> head = new ArrayList<String>();
-            head.add(name);
-            table.add(head);
-        }
-    }
-
-    private void putData(List<DataSet> tableData, Map <String, List<String>>map) {
+    private void putData(List<DataSet> tableData, List<List<?>> table) {
         for (DataSet row : tableData) {
-            putRow(row, map);
+            table.add(row.getValues());
         }
     }
 
-    private void putRow(DataSet row, Map<String, List<String>> map) {
-        if(row.size()!=map.size())
-            throw new IllegalArgumentException("Different sizes of data!");
-
-        for (Map.Entry<String, List<String>> entry : map.entrySet()){
-            String matchedValue = (String) row.get(entry.getKey());
-            entry.getValue().add(matchedValue);
-        }
-    }
 }
