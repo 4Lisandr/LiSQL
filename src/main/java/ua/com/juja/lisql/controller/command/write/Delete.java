@@ -1,18 +1,18 @@
 package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.TextBuilder;
+import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-import static ua.com.juja.lisql.controller.command.TextBuilder.SAMPLE_TABLE;
+import static ua.com.juja.lisql.controller.command.Content.SAMPLE_TABLE;
 import static ua.com.juja.lisql.controller.command.TextBundle.DELETE;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 
 public class Delete extends Command {
     public Delete(DatabaseManager manager, View view) {
         super(manager, view);
-        setTextBuilder(new TextBuilder("delete|users|id=10", DELETE.toString(),
+        setContent(new Content("delete|users|id=10", DELETE.toString(),
                 "row is delete", FAIL.toString()));
     }
 

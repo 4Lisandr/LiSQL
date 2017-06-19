@@ -2,7 +2,7 @@ package ua.com.juja.lisql.controller.command.connection;
 
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.TextBuilder;
+import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
@@ -14,7 +14,7 @@ public class Connect extends Command {
     public Connect(DatabaseManager manager, View view) {
         super(manager, view);
         isConnectionRequired = false;
-        setTextBuilder(new TextBuilder("connect|sqlcmd|postgres|HcxbPRi5EoNB",
+        setContent(new Content("connect|sqlcmd|postgres|HcxbPRi5EoNB",
                 CONNECT.toString()));
     }
 

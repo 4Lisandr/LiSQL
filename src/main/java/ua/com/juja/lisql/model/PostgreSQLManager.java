@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class PGDatabaseManager implements DatabaseManager {
+public class PostgreSQLManager implements DatabaseManager {
 
 
     private static final String POSTGRESQL = "postgresql"; // database type (MySQL LiteSQL, etc...)
@@ -24,7 +24,7 @@ public class PGDatabaseManager implements DatabaseManager {
     private static final String DROP = "DROP TABLE public.";
 
 
-    private static final Logger log = Logger.getLogger(PGDatabaseManager.class);
+    private static final Logger log = Logger.getLogger(PostgreSQLManager.class);
 
     //    private static VirtualConnection virtual = null;
     private String[] connectParameters = new String[0];

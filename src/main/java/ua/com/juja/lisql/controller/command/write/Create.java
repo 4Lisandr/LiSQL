@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.TextBuilder;
+import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DataSetImpl;
 import ua.com.juja.lisql.model.DatabaseManager;
@@ -11,11 +11,11 @@ import static ua.com.juja.lisql.controller.command.TextBundle.CREATE;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL_COUNT;
 import static ua.com.juja.lisql.controller.command.TextBundle.SUCCESS_DATABASE;
 
-import static ua.com.juja.lisql.controller.command.TextBuilder.SAMPLE_TABLE;
+import static ua.com.juja.lisql.controller.command.Content.SAMPLE_TABLE;
 
 public class Create extends Command {
     public Create(DatabaseManager manager, View view) {
-        setTextBuilder(new TextBuilder("create|tableName|column1|column2|...|columnN",
+        setContent(new Content("create|tableName|column1|column2|...|columnN",
                 CREATE.toString(), SUCCESS_DATABASE.toString()));
     }
 

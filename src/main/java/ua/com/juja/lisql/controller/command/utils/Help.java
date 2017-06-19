@@ -2,7 +2,7 @@ package ua.com.juja.lisql.controller.command.utils;
 
 import ua.com.juja.lisql.controller.Controller;
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.TextBuilder;
+import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
@@ -15,7 +15,7 @@ public class Help extends Command {
 
     public Help(View view) {
         super(view);
-        setTextBuilder(new TextBuilder("help", HELP.toString()));
+        setContent(new Content("help", HELP.toString()));
     }
 
     @Override

@@ -10,7 +10,7 @@ import static ua.com.juja.lisql.controller.command.TextBundle.OK;
  * sample; description; successMessage; failureMessages;
  * -------> class OnCase {String success; String failure;
  */
-public class TextBuilder {
+public class Content {
     public static final int SAMPLE = 0, SAMPLE_FORMAT = 0;
     public static final int DESCRIPTION = 1, SAMPLE_TABLE = 1;
     public static final int SUCCESS = 2;
@@ -28,11 +28,11 @@ public class TextBuilder {
      * @param description - get description from properties command.connect
      * @param cases       - SUCCESS, FAILURE
      */
-    public TextBuilder(String sample, String description, String... cases) {
+    public Content(String sample, String description, String... cases) {
         this(ArrayUtils.addAll(new String[]{sample, description}, cases));
     }
 
-    private TextBuilder(String[] array) {
+    private Content(String[] array) {
         if (array == null || array.length < 2) {
             throw new IllegalArgumentException("Must be at least 2 element in array!");
         }

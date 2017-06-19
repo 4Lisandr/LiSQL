@@ -16,8 +16,8 @@ public abstract class Command {
 
     protected boolean isConnectionRequired;
     private boolean isHiddenCommand;
-    //todo - refactor into interface TextBuilder -> Content(Container c)
-    private TextBuilder textBuilder;
+    //todo - refactor into interface Content -> Content(Container c)
+    private Content content;
 
     /**
      * Default constructor reserved
@@ -40,8 +40,8 @@ public abstract class Command {
     /**
      * Setters section
      */
-    public void setTextBuilder(TextBuilder textBuilder) {
-        this.textBuilder = textBuilder;
+    public void setContent(Content content) {
+        this.content = content;
     }
 
     protected void hide() {
@@ -55,27 +55,27 @@ public abstract class Command {
 
 
     public String sample() {
-        return textBuilder.sample();
+        return content.sample();
     }
 
     public String format() {
-        return textBuilder.format();
+        return content.format();
     }
 
     public String description() {
-        return textBuilder.description();
+        return content.description();
     }
 
     protected String success() {
-        return textBuilder.success();
+        return content.success();
     }
 
     protected String failure() {
-        return textBuilder.failure();
+        return content.failure();
     }
 
     protected String failure(int i) {
-        return textBuilder.failure(i);
+        return content.failure(i);
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class Command {
     protected abstract void process(String command);
 
     protected boolean canProcess(String command) {
-        return beginWith(textBuilder.format()).equalsIgnoreCase(beginWith(command));
+        return beginWith(content.format()).equalsIgnoreCase(beginWith(command));
     }
 
     /**

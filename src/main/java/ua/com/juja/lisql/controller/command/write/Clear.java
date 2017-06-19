@@ -1,7 +1,7 @@
 package ua.com.juja.lisql.controller.command.write;
 
 import ua.com.juja.lisql.controller.command.Command;
-import ua.com.juja.lisql.controller.command.TextBuilder;
+import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.controller.command.TextBundle;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
@@ -10,14 +10,14 @@ public class Clear extends Command {
 
     public Clear(DatabaseManager manager, View view) {
         super(manager, view);
-        setTextBuilder(new TextBuilder("clear|users", TextBundle.CLEAR.toString(),
+        setContent(new Content("clear|users", TextBundle.CLEAR.toString(),
                 "now table %s is empty", "Couldn't clear table %s", "operation is canceled"));
     }
 
     @Override
     public void process(String command) {
         String[] args = validArguments(command);
-        String table = args[TextBuilder.SAMPLE_TABLE];
+        String table = args[Content.SAMPLE_TABLE];
 
         if (view.confirm()) {
             try {

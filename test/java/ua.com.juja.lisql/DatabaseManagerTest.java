@@ -3,7 +3,7 @@ import org.junit.Test;
 import ua.com.juja.lisql.model.DBProperties;
 import ua.com.juja.lisql.model.DataSet;
 import ua.com.juja.lisql.model.DataSetImpl;
-import ua.com.juja.lisql.model.PGDatabaseManager;
+import ua.com.juja.lisql.model.PostgreSQLManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,11 +17,11 @@ public class DatabaseManagerTest {
 
     public static final String[] TABLES = {"test", "users", "user", "Кирилица"};
 
-    private PGDatabaseManager manager;
+    private PostgreSQLManager manager;
 
     @Before
     public void setup() {
-        manager = new PGDatabaseManager();
+        manager = new PostgreSQLManager();
         manager.canConnect(DB_NAME, USER, PASSWORD);
     }
 
