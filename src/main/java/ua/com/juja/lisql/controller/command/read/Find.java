@@ -20,7 +20,7 @@ public class Find extends Command {
     @Override
     public void process(String command) {
 
-        String tableName = validArguments(command)[1];
+        String tableName = validArguments(command)[TextBuilder.SAMPLE_TABLE];
 
         List<List<?>> table = new ArrayList<>();
         List<String> tableColumns = manager.getTableColumns(tableName);

@@ -16,15 +16,16 @@ public class Clear extends Command {
 
     @Override
     public void process(String command) {
-        String[] table = validArguments(command);
+        String[] args = validArguments(command);
+        String table =  args[TextBuilder.SAMPLE_TABLE];
 
         if (view.confirm()) {
             try {
-                manager.clear(table[1]);
+                manager.clear(table);
             } catch (Exception e) {
-                view.write(String.format(failure(0), table[1]));
+                view.write(String.format(failure(0), table));
             }
-            view.write(String.format(success(), table[1]));
+            view.write(String.format(success(), table));
         } else
             view.write(failure(1));
     }

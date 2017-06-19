@@ -28,7 +28,7 @@ public class Connect extends Command {
 
         view.write(manager.canConnect(databaseName, userName, password) ?
                 success() :
-                String.format(failure(0), databaseName, userName, password));
+                String.format(failure(), databaseName, userName, password));
     }
 
 }

@@ -11,8 +11,8 @@ import static ua.com.juja.lisql.controller.command.TextBundle.OK;
  * -------> class OnCase {String success; String failure;
  */
 public class TextBuilder {
-    public static final int SAMPLE = 0;
-    public static final int DESCRIPTION = 1;
+    public static final int SAMPLE = 0, SAMPLE_FORMAT = 0;
+    public static final int DESCRIPTION = 1, SAMPLE_TABLE = 1;
     public static final int SUCCESS = 2;
     public static final int FAILURE = 3;
 
@@ -45,7 +45,7 @@ public class TextBuilder {
     }
 
     protected String format() {
-        return Line.split(sample())[0];
+        return Line.split(sample())[SAMPLE_FORMAT];
     }
 
     protected String description() {

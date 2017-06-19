@@ -28,7 +28,7 @@ public class Insert extends Command {
         String[] data = validArguments(command, new Validator(
                 n -> n % 2 == 0,
                 ODD_PARAMETERS.toString(), true));
-        String tableName = data[1];
+        String table = data[TextBuilder.SAMPLE_TABLE];
 
         DataSet dataSet = new DataSetImpl();
         for (int index = 1; index < (data.length / 2); index++) {
@@ -37,8 +37,8 @@ public class Insert extends Command {
 
             dataSet.put(columnName, value);
         }
-        manager.insert(tableName, dataSet);
+        manager.insert(table, dataSet);
 
-        view.write(String.format(success(), dataSet, tableName));
+        view.write(String.format(success(), dataSet, table));
     }
 }

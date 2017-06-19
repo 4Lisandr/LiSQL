@@ -24,7 +24,7 @@ public class Update extends Command {
         String[] data = validArguments(command, new Validator(
                 n -> n == 6,
                 FAIL_COUNT.toString(), true));
-        String tableName = data[1];
+        String table = data[TextBuilder.SAMPLE_TABLE];
 
         DataSet dataSet = new DataSetImpl();
         for (int index = 2; index < (data.length / 2); index += 2) {
@@ -33,8 +33,8 @@ public class Update extends Command {
 
             dataSet.put(columnName, value);
         }
-        manager.update(tableName, dataSet);
+        manager.update(table, dataSet);
 
-        view.write(String.format(success(), dataSet, tableName));
+        view.write(String.format(success(), dataSet, table));
     }
 }

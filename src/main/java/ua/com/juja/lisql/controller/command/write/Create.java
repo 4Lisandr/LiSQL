@@ -11,6 +11,8 @@ import static ua.com.juja.lisql.controller.command.TextBundle.CREATE;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL_COUNT;
 import static ua.com.juja.lisql.controller.command.TextBundle.SUCCESS_DATABASE;
 
+import static ua.com.juja.lisql.controller.command.TextBuilder.SAMPLE_TABLE;
+
 public class Create extends Command {
     public Create(DatabaseManager manager, View view) {
         setTextBuilder(new TextBuilder("create|tableName|column1|column2|...|columnN",
@@ -22,17 +24,17 @@ public class Create extends Command {
         String[] data = validArguments(command, new Validator(
                 n -> n > 2,
                 FAIL_COUNT.toString(), true));
-        String tableName = data[1];
+
 
         DataSet dataSet = new DataSetImpl();
-
-        for (int index = 2; index < data.length; index++) {
+        for (int index = SAMPLE_TABLE +1; index < data.length; index++) {
             String columnName = data[index];
             dataSet.put(columnName, "");
         }
 
-        manager.create(tableName, dataSet);
+        String table = data[SAMPLE_TABLE];
+        manager.create(table, dataSet);
 
-        view.write(String.format(success(), tableName));
+        view.write(String.format(success(), table));
     }
 }

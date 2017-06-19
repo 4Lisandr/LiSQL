@@ -5,6 +5,7 @@ import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
+import static ua.com.juja.lisql.controller.command.TextBuilder.SAMPLE_TABLE;
 import static ua.com.juja.lisql.controller.command.TextBundle.DELETE;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 
@@ -17,14 +18,16 @@ public class Delete extends Command {
 
     @Override
     public void process(String command) {
-        String[] table = validArguments(command);
+        String[] args = validArguments(command);
         if (view.confirm()) {
+            String table = args[SAMPLE_TABLE];
+            String condition = args[SAMPLE_TABLE+1];
             try {
-                manager.delete(table[1], table[2].split("="));
+                manager.delete(table, condition.split("="));
             } catch (Exception e) {
-                view.write(String.format(failure(0), table[1]));
+                view.write(String.format(failure(0), table));
             }
-            view.write(String.format(success(), table[1]));
+            view.write(String.format(success(), table));
         } else
             view.write(failure(1));
     }
