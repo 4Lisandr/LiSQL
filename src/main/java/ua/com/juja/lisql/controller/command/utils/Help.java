@@ -6,6 +6,8 @@ import ua.com.juja.lisql.controller.command.TextBuilder;
 import ua.com.juja.lisql.view.Line;
 import ua.com.juja.lisql.view.View;
 
+import java.util.List;
+
 import static ua.com.juja.lisql.controller.command.TextBundle.CMD_LIST;
 import static ua.com.juja.lisql.controller.command.TextBundle.HELP;
 
@@ -19,15 +21,22 @@ public class Help extends Command {
     @Override
     public void process(String command) {
         view.write(CMD_LIST.toString());
-        for (Command com : Controller.UsersCommand.getAll()) {
-            if (!com.isHidden()) {
-                String sample = com.sample().equals(com.format()) ?
-                        "" :
-                        " (" + com.sample() + ")";
+        view.write(getHelp(Controller.UsersCommand.getAll()));
+    }
 
-                view.write(Line.concat("\t", com.format(), " - ", com.description(), sample));
+    private String getHelp(List<Command> commands) {
+        String result = "";
+        for (Command cmd : commands) {
+            if (cmd.isHidden()) {
+                continue;
             }
+            String sample = cmd.sample().equals(cmd.format()) ?
+                    "" :
+                    " (" + cmd.sample() + ")";
+
+            result += Line.concat("\t", cmd.format(), " - ", cmd.description(), sample, Line.SEPARATOR);
         }
+        return result;
     }
 
 }

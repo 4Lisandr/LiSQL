@@ -11,7 +11,6 @@ public class Close extends Command {
     Close(DatabaseManager manager, View view) {
         super(manager, view);
         isCalled = true;
-//        setTextBuilder("close", "shutdown...", "shutdown...", "System failure!");
     }
 
     @Override
