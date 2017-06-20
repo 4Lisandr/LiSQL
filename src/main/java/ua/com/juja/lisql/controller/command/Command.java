@@ -16,7 +16,6 @@ public abstract class Command {
 
     protected boolean isConnectionRequired;
     private boolean isHiddenCommand;
-    //todo - refactor into interface Content -> Content(Container c)
     private Content content;
 
     /**

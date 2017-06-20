@@ -24,7 +24,28 @@ public final class Controller {
     private static View view;
     private static DatabaseManager manager;
 
-    //Command "Unknown" contains greed condition - all other commands after it detected as Unknown!
+    private Controller(View view, DatabaseManager manager) {
+        Controller.view = view;
+        Controller.manager = manager;
+        instance = this;
+    }
+
+    public static Controller getInstance(View view, DatabaseManager manager) {
+        return instance == null ?
+                new Controller(view, manager) :
+                instance;
+    }
+
+    public void run() {
+        new Start(view).process("");
+
+        while (!Close.isCalled()) {
+            view.write(INPUT.toString());
+            String input = view.read();
+            UsersCommand.handle(input);
+        }
+    }
+
     public enum UsersCommand {
         CONNECT(new Connect(manager, view)),
         HELP(new Help(view)),
@@ -36,7 +57,7 @@ public final class Controller {
         CLEAR(new Clear(manager, view)),
         DELETE(new Delete(manager, view)),
         CREATE(new Create(manager, view)),
-        DROP (new Drop(manager, view)),
+        DROP(new Drop(manager, view)),
         UNKNOWN(new Unknown(view)); /* Greed condition - all other commands are Unknown!*/
 
         private final Command command;
@@ -61,8 +82,8 @@ public final class Controller {
 
         private static void handle(String input) {
             try {
-                for (Command command : getAll()){
-                    if (command.run(input)){
+                for (Command command : getAll()) {
+                    if (command.run(input)) {
                         break;
                     }
                 }
@@ -70,34 +91,10 @@ public final class Controller {
                 printError(e);
             }
         }
-    }
-
-    private Controller(View view, DatabaseManager manager) {
-        Controller.view = view;
-        Controller.manager = manager;
-        instance = this;
-    }
-
-    public static Controller getInstance(View view, DatabaseManager manager) {
-        return instance == null ?
-                new Controller(view, manager) :
-                instance;
-    }
-
-    public void run() {
-        new Start(view).process("");
-
-        while (!Close.isCalled()) {
-            view.write(INPUT.toString());
-            String input = view.read();
-            UsersCommand.handle(input);
+        // Принтерор - перенести во вьюху?
+        private static void printError(Exception e) {
+            String message = e.getMessage();
+            view.write(FAIL + " ", message, ". " + RETRY);
         }
-
     }
-
-    private static void printError(Exception e) {
-        String message = e.getMessage();
-        view.write(FAIL + " ", message, ". " + RETRY);
-    }
-
 }
