@@ -101,12 +101,6 @@ public abstract class Command {
     /**
      * Validators section
      **/
-    private String beginWith(String command) {
-        return ((command == null) || command.trim().isEmpty()) ?
-                "" :
-                Line.split(command)[0];
-    }
-
     private boolean isConnected(String command) {
         if (!manager.isConnected()) {
             view.write(String.format(DISCONNECTED.toString(), command));
@@ -115,46 +109,39 @@ public abstract class Command {
             return true;
     }
 
-    //todo - проверить stringFormat
-    public String[] validArguments(String command, Validator... validators) {
-        String[] result = Line.split(command);
-        int target = Line.split(sample()).length;
+    private String beginWith(String command) {
+        return ((command == null) || command.trim().isEmpty()) ?
+                "" :
+                Line.split(command)[0];
+    }
 
-        for (Validator v : validators) {
-            Predicate<Integer> p = v.getPredicate();
-            if (!p.test(result.length)) {
-                if (v.isException)
-                    throw new IllegalArgumentException(
-                            String.format(v.getReport(), result.length));
-                else
-                    view.write(String.format(v.getReport(), target - 1));
-            }
+    public String[] validArguments(String command) {
+        int expected = Line.split(sample()).length;
+        return validArguments(command, expected);
+    }
+
+    public String[] validArguments(String command, int expected, boolean isEvenCount) {
+        String[] actual = Line.split(command);
+        Validator.atLeast(expected).check(actual.length, expected);
+        Validator.even(isEvenCount).check(actual.length, 0);
+        return actual;
+    }
+
+    private String[] validArguments(String command, int expected) {
+        String[] actual = Line.split(command);
+        try{
+            Validator.atLeast(expected).check(actual.length, expected);
+            Validator.noMore(expected).check(actual.length, expected);
         }
-        return result;
+        catch (RuntimeException e){
+            view.write(e.getMessage());
+        }
+        return actual;
     }
 
-    protected String[] validArguments(String command, int atLeast) {
-        String[] result = Line.split(command);
 
-        if (result.length < atLeast)
-            throw new IllegalArgumentException(
-                    String.format(FAIL_COUNT.toString(), atLeast, result.length));
-        return result;
-    }
 
-    protected String[] validArguments(String command) {
-        int target = Line.split(sample()).length;
-        String[] result = Line.split(command);
-
-        if (result.length < target)
-            throw new IllegalArgumentException(
-                    String.format(FAIL_COUNT.toString(), target, result.length));
-        if (result.length > target)
-            view.write(String.format(TO_MANY_PARAMETERS.toString(), target - 1));
-        return result;
-    }
-
-    public class Validator {
+    public static class Validator {
         Predicate<Integer> predicate;
         String report;
         boolean isException;
@@ -165,16 +152,31 @@ public abstract class Command {
             this.isException = isException;
         }
 
-        public Predicate<Integer> getPredicate() {
-            return predicate;
+        public static Validator atLeast(int expected) {
+            return new Validator(n -> n >= expected, FAIL_COUNT.toString(), true);
         }
 
-        public String getReport() {
-            return report;
+        public static Validator noMore(int expected) {
+            return new Validator(n -> n <= expected, TO_MANY_PARAMETERS.toString(), false);
         }
 
-        public boolean isException() {
-            return isException;
+
+        public static Validator even(boolean isEven) {
+            return new Validator(n -> n %2==0 || !isEven, ODD_PARAMETERS.toString(), true);
+        }
+
+        /**
+         * @param expected = 0 for Validator even
+         */
+        public void check(int actual, int expected) {
+            if (!predicate.test(actual)) {
+                if (!isException || expected == 0) {
+                    throw new RuntimeException((String.format(report, expected)));
+                } else {
+                    throw new IllegalArgumentException(
+                            String.format(report, expected, actual));
+                }
+            }
         }
     }
 }

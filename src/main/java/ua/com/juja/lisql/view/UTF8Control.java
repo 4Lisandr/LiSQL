@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 *   http://stackoverflow.com/questions/4659929/how-to-use-utf-8-in-resource-%20properties-with-resourcebundle
 * */
 public class UTF8Control extends ResourceBundle.Control {
-    public ResourceBundle newBundle
+    public final ResourceBundle newBundle
             (String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
             throws IllegalAccessException, InstantiationException, IOException
     {

@@ -7,7 +7,6 @@ import ua.com.juja.lisql.model.DataSetImpl;
 import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
-import static ua.com.juja.lisql.controller.command.TextBundle.FAIL_COUNT;
 import static ua.com.juja.lisql.controller.command.TextBundle.UPDATE;
 
 
@@ -21,9 +20,7 @@ public class Update extends Command {
 
     @Override
     public void process(String command) {
-        String[] data = validArguments(command, new Validator(
-                n -> n == 6,
-                FAIL_COUNT.toString(), true));
+        String[] data = validArguments(command, 6, true);
         String table = data[Content.SAMPLE_TABLE];
 
         DataSet dataSet = new DataSetImpl();

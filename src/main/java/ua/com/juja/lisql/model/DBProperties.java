@@ -5,30 +5,32 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static ua.com.juja.lisql.Config.PROPERTIES;
+import static ua.com.juja.lisql.Config.PATH_TO_PROPERTIES;
 
 
-public class DBProperties {
-    private static final Properties properties = new Properties();
-    private static final File FILE_DB_PROPERTIES = new File(PROPERTIES+"database.properties");
+public final class DBProperties {
+    private static final File FILE_DB_PROPERTIES = new File(PATH_TO_PROPERTIES +"database.properties");
+    private static final Properties PROPERTIES = new Properties();
 
     static {
         try (FileInputStream fileInputStream = new FileInputStream(FILE_DB_PROPERTIES)) {
-            properties.load(fileInputStream);
+            PROPERTIES.load(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private DBProperties() {}
+
     /**
      * Database Parameters
      */
     public static String getServerIP() {
-        return properties.getProperty("server.ip");
+        return PROPERTIES.getProperty("server.ip");
     }
 
     public static String getServerHost() {
-        return properties.getProperty("server.port");
+        return PROPERTIES.getProperty("server.port");
     }
 
     public static int getServerPort() {
@@ -36,15 +38,15 @@ public class DBProperties {
     }
 
     public static String getDatabaseName() {
-        return properties.getProperty("name");
+        return PROPERTIES.getProperty("name");
     }
 
     public static String getUserName() {
-        return properties.getProperty("user.name");
+        return PROPERTIES.getProperty("user.name");
     }
 
     public static String getPassword() {
-        return properties.getProperty("user.password");
+        return PROPERTIES.getProperty("user.password");
     }
 
 }

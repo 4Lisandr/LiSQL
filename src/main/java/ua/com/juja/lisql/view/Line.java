@@ -10,6 +10,8 @@ public final class Line {
     public static final String SEMICOLON = ";";
     public static final String HORIZONTAL = "-";
 
+    private Line() {}
+
     /**
      * @param s
      * @return

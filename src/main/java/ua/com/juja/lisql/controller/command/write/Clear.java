@@ -26,7 +26,8 @@ public class Clear extends Command {
                 view.write(String.format(failure(0), table));
             }
             view.write(String.format(success(), table));
-        } else
+        } else {
             view.write(failure(1));
+        }
     }
 }

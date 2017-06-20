@@ -6,7 +6,7 @@ import ua.com.juja.lisql.view.View;
 
 public class Close extends Command {
 
-    private static boolean isCalled;
+    private static volatile boolean isCalled;
 
     Close(DatabaseManager manager, View view) {
         super(manager, view);

@@ -39,12 +39,12 @@ public enum TextBundle {
     DROP("command.drop"),
     UNKNOWN("command.unknown");
 
-    private final ResourceBundle BUNDLE = ResourceBundle.getBundle(
-            "ua.com.juja.lisql.view.bundle.common", new UTF8Control());
+    public static final String PATH_BUNDLE_COMMON = "ua.com.juja.lisql.view.bundle.common";
     private String text;
 
     TextBundle(String resource) {
-        text = BUNDLE.getString(resource);
+        text = ResourceBundle.getBundle(
+                PATH_BUNDLE_COMMON, new UTF8Control()).getString(resource);
     }
 
     @Override

@@ -1,5 +1,5 @@
 package ua.com.juja.lisql;
 
 public interface Config {
-    String PROPERTIES = "src/main/resources/";
+    String PATH_TO_PROPERTIES = "src/main/resources/";
 }

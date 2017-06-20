@@ -10,7 +10,9 @@ import ua.com.juja.lisql.view.View;
 /*
 * Lisandr 2017
 * */
-public class Main {
+public final class Main {
+    private Main(){};
+
     public static void main(String[] args) {
         View view = new Console();
         DatabaseManager manager = new PostgreSQLManager();
