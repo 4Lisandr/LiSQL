@@ -127,7 +127,7 @@ public abstract class Command {
         return actual;
     }
 
-    private String[] validArguments(String command, int expected) {
+    public String[] validArguments(String command, int expected) {
         String[] actual = Line.split(command);
         try{
             Validator.atLeast(expected).check(actual.length, expected);

@@ -15,7 +15,7 @@ public class DatabaseManagerTest {
     public static final String USER = DBProperties.getUserName();
     public static final String PASSWORD = DBProperties.getPassword();
 
-    public static final String[] TABLES = {"test", "users", "user", "Кирилица"};
+    public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2"};
 
     private PostgreSQLManager manager;
 

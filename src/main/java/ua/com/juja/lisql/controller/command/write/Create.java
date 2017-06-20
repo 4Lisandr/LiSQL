@@ -22,7 +22,7 @@ public class Create extends Command {
     //todo - debug table creation
     @Override
     protected void process(String command) {
-        String[] args = validArguments(command, 2, true);
+        String[] args = validArguments(command, 3);
 
         String table = args[SAMPLE_TABLE];
         manager.create(table, makeDataSet(args));
