@@ -1,9 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.lisql.model.DBProperties;
-import ua.com.juja.lisql.model.DataSet;
-import ua.com.juja.lisql.model.DataSetImpl;
-import ua.com.juja.lisql.model.PostgreSQLManager;
+import ua.com.juja.lisql.model.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +14,7 @@ public class DatabaseManagerTest {
 
     public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2"};
 
-    private PostgreSQLManager manager;
+    private DatabaseManager manager;
 
     @Before
     public void setup() {

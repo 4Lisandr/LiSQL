@@ -19,7 +19,6 @@ public class Create extends Command {
                 CREATE.toString(), SUCCESS_DATABASE.toString()));
     }
 
-    //todo - debug table creation
     @Override
     protected void process(String command) {
         String[] args = validArguments(command, 3);
