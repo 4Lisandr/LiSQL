@@ -133,6 +133,9 @@ public abstract class Command {
             Validator.atLeast(expected).check(actual.length, expected);
             Validator.noMore(expected).check(actual.length, expected);
         }
+        catch (IllegalArgumentException e){
+            view.write(e.getMessage());
+        }
         catch (RuntimeException e){
             view.write(e.getMessage());
         }

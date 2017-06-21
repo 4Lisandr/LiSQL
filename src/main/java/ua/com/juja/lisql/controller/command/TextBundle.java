@@ -16,6 +16,7 @@ public enum TextBundle {
     /**
      * String takeFormat here!
      **/
+    CONNECTED("common.is.connected"),
     FAIL_CONNECT("common.fail.connect"),
     FAIL_COUNT("common.fail.count"),
     TO_MANY_PARAMETERS("common.fail.many"),

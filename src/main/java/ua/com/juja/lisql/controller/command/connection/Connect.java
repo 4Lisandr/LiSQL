@@ -7,6 +7,8 @@ import ua.com.juja.lisql.model.DatabaseManager;
 import ua.com.juja.lisql.view.View;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.CONNECT;
+import static ua.com.juja.lisql.controller.command.TextBundle.CONNECTED;
+import static ua.com.juja.lisql.controller.command.TextBundle.FAIL_CONNECT;
 
 
 public class Connect extends Command {
@@ -15,7 +17,7 @@ public class Connect extends Command {
         super(manager, view);
         isConnectionRequired = false;
         setContent(new Content("connect|sqlcmd|postgres|HcxbPRi5EoNB",
-                CONNECT.toString()));
+                CONNECT.toString(), CONNECTED.toString(), FAIL_CONNECT.toString()));
     }
 
     @Override
@@ -27,7 +29,7 @@ public class Connect extends Command {
         String password = data[3];
 
         view.write(manager.canConnect(databaseName, userName, password) ?
-                success() :
+                String.format(success(), databaseName, userName):
                 String.format(failure(), databaseName, userName, password));
     }
 
