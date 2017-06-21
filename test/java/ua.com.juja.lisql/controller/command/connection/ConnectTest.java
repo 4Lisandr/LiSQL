@@ -19,7 +19,7 @@ public class ConnectTest extends CommandTest {
         //when
         command.run("connect|sqlcmd|postgres|HcxbPRi5EoNB");
         //then
-        shouldPrintView(String.format(CONNECTED.toString(), "sqlcmd", "postgres"));
+        shouldPrint(String.format(CONNECTED.toString(), "sqlcmd", "postgres"));
     }
 
     @Ignore

@@ -1,3 +1,4 @@
+import controller.ConfigTest;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.lisql.model.*;
@@ -7,14 +8,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DatabaseManagerTest {
-    public static final String DB_NAME = DBProperties.getDatabaseName();
-    public static final String USER = DBProperties.getUserName();
-    public static final String PASSWORD = DBProperties.getPassword();
-
-    public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2"};
+public class DatabaseManagerTest implements ConfigTest {
 
     private DatabaseManager manager;
+    public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2"};
 
     @Before
     public void setup() {

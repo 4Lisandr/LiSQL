@@ -1,5 +1,6 @@
-package controller.command;
+package controller.command.write;
 
+import controller.command.CommandTest;
 import org.junit.Test;
 import ua.com.juja.lisql.controller.command.CmdException;
 import ua.com.juja.lisql.controller.command.write.Clear;
@@ -16,7 +17,7 @@ public class ClearTest extends CommandTest {
         //when
         command.run("clear|test");
         //then
-        shouldPrintView("[Таблица usr очищена!]");
+        shouldPrint("[Таблица usr очищена!]");
     }
 
     @Test

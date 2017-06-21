@@ -1,5 +1,6 @@
 package controller.command;
 
+import controller.ConfigTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -14,14 +15,11 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- *
- */
-public abstract class CommandTest {
+public abstract class CommandTest implements ConfigTest {
 
-    protected DatabaseManager manager;
     protected View view;
     protected Command command;
+    protected DatabaseManager manager;
 
     @Before
     public void setup() {
@@ -39,7 +37,7 @@ public abstract class CommandTest {
     @Test
     public abstract void negative() throws CmdException;
 
-    public void shouldPrintView(String expected) {
+    public void shouldPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());
