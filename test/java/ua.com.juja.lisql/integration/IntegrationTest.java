@@ -38,27 +38,23 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // help
-                "Существующие команды:\r\n" +
-                "\tconnect|databaseName|userName|password\r\n" +
-                "\t\tдля подключения к базе данных, с которой будем работать\r\n" +
-                "\tlist\r\n" +
-                "\t\tдля получения списка всех таблиц базы, к которой подключились\r\n" +
-                "\tclear|tableName\r\n" +
-                "\t\tдля очистки всей таблицы\r\n" +
-                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\r\n" +
-                "\t\tдля создания записи в таблице\r\n" +
-                "\tfind|tableName\r\n" +
-                "\t\tдля получения содержимого таблицы 'tableName'\r\n" +
-                "\thelp\r\n" +
-                "\t\tдля вывода этого списка на экран\r\n" +
-                "\texit\r\n" +
-                "\t\tдля выхода из программы\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals("Привет, дорогой юзер! Будь добр ввести имя базы данных, пользователя и пароль в формате: connect|database|userName|password\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Спикок команд:\r\n" +
+                "\tconnect - подключение к базе данных (connect|sqlcmd|postgres|HcxbPRi5EoNB)\r\n" +
+                "\thelp - для получения справки\r\n" +
+                "\texit - выход\r\n" +
+                "\tlist - список всех баз данных\r\n" +
+                "\tfind - найти записи (find|getSample)\r\n" +
+                "\tinsert - вставить запись в базу данных (insert|tableName|column1|value1)\r\n" +
+                "\tupdate - обновить БД (update|tableName|column1|value1|column2|value2)\r\n" +
+                "\tclear - очистить таблицу (clear|users)\r\n" +
+                "\tdelete - удалить строку из таблицы с условием (delete|users|id=10)\r\n" +
+                "\tcreate - создать БД (create|tableName|column1|column2|...|columnN)\r\n" +
+                "\tdrop - удалить БД (drop|users)\r\n" +
+                "\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Пока, приходи еще!\r\n", getData());
     }
 
     public String getData() {
@@ -96,13 +92,12 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // list
-                "Вы не можете пользоваться командой 'list' пока не подключитесь с помощью комманды connect|databaseName|userName|password\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals("Привет, дорогой юзер! Будь добр ввести имя базы данных, пользователя и пароль в формате: connect|database|userName|password\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда list не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Пока, приходи еще!\r\n", getData());
     }
 
     @Test
@@ -268,23 +263,6 @@ public class IntegrationTest {
 
     @Test
     public void testFindAfterConnect_withData() {
-        // given
-//        databaseManager.connect("sqlcmd", "postgres", "postgres");
-//
-//        databaseManager.clear("user");
-//
-//        DataSet user1 = new DataSet();
-//        user1.put("id", 13);
-//        user1.put("name", "Stiven");
-//        user1.put("password", "*****");
-//        databaseManager.create("user", user1);
-//
-//        DataSet user2 = new DataSet();
-//        user2.put("id", 14);
-//        user2.put("name", "Eva");
-//        user2.put("password", "+++++");
-//        databaseManager.create("user", user2);
-
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("clear|user");
         in.add("create|user|id|13|name|Stiven|password|*****");
@@ -296,30 +274,23 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // connect
-                "Успех!\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // clear|user
-                "Таблица user была успешно очищена.\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // create|user|id|13|name|Stiven|password|*****
-                "Запись {names:[id, name, password], values:[13, Stiven, *****]} была успешно создана в таблице 'user'.\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // create|user|id|14|name|Eva|password|+++++
-                "Запись {names:[id, name, password], values:[14, Eva, +++++]} была успешно создана в таблице 'user'.\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // find|user
-                "--------------------\r\n" +
-                "|name|password|id|\r\n" +
-                "--------------------\r\n" +
-                "|Stiven|*****|13|\r\n" +
-                "|Eva|+++++|14|\r\n" +
-                "--------------------\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals("Привет, дорогой юзер! Будь добр ввести имя базы данных, пользователя и пароль в формате: connect|database|userName|password\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Ошибка по причине: Couldn't getText connection for database:sqlcmd user:postgres. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда clear|user не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда create|user|id|13|name|Stiven|password|***** не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда create|user|id|14|name|Eva|password|+++++ не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда find|user не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Пока, приходи еще!", getData());
     }
 
     @Test
@@ -333,17 +304,14 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // connect
-                "Успех!\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // clear|sadfasd|fsf|fdsf
-                "Неудача! по причине: Формат команды 'clear|tableName', а ты ввел: clear|sadfasd|fsf|fdsf\r\n" +
-                "Повтори попытку.\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals("Привет, дорогой юзер! Будь добр ввести имя базы данных, пользователя и пароль в формате: connect|database|userName|password\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Ошибка по причине: Couldn't getText connection for database:sqlcmd user:postgres. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда clear|sadfasd|fsf|fdsf не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Пока, приходи еще!\r\n", getData());
     }
 
     @Test
@@ -357,16 +325,13 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Привет юзер!\r\n" +
-                "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password\r\n" +
-                // connect
-                "Успех!\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // create|user|error
-                "Неудача! по причине: Должно быть четное количество параметров в формате 'create|tableName|column1|value1|column2|value2|...|columnN|valueN', а ты прислал: 'create|user|error'\r\n" +
-                "Повтори попытку.\r\n" +
-                "Введи команду (или help для помощи):\r\n" +
-                // exit
-                "До скорой встречи!\r\n", getData());
+        assertEquals("Привет, дорогой юзер! Будь добр ввести имя базы данных, пользователя и пароль в формате: connect|database|userName|password\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Ошибка по причине: Couldn't getText connection for database:sqlcmd user:postgres. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Команда create|user|error не смогла выполниться без подклюкения к БД (connect|database|userName|password)\r\n" +
+                "Ошибка по причине: missed connection. Попробуй еще раз.\r\n" +
+                "Введи команду (или help для чтения списка команд):\r\n" +
+                "Пока, приходи еще!\r\n", getData());
     }
 }
