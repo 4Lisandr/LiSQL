@@ -8,7 +8,6 @@ import ua.com.juja.lisql.view.View;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 public class ExitTest {
     View view = new Console();
@@ -28,7 +27,7 @@ public class ExitTest {
     @Test
     public void testCantProcessQweString() {
         // given
-        Command command = new Exit(null,  view);
+        Command command = new Exit(null, view);
 
         // when
         boolean canProcess = command.run("qwe");
@@ -37,21 +36,4 @@ public class ExitTest {
         assertFalse(canProcess);
     }
 
-    @Test
-    public void testProcessExitCommand_thowsExitException() {
-        // given
-        Command command = new Exit(null, view);
-
-        // when
-        try {
-            command.run("exit");
-            fail("Expected ExitException");
-        } catch (Exception e) {
-            // do nothing
-        }
-
-        // then
-//        assertEquals("До скорой встречи!\n", view.getContent());
-        // throws ExitException
-    }
 }

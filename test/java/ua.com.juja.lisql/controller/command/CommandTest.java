@@ -8,13 +8,10 @@ import org.mockito.MockitoAnnotations;
 import ua.com.juja.lisql.controller.command.CmdException;
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.model.DatabaseManager;
-import ua.com.juja.lisql.model.PostgreSQLManager;
 import ua.com.juja.lisql.view.View;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public abstract class CommandTest implements ConfigTest {
 
@@ -25,10 +22,11 @@ public abstract class CommandTest implements ConfigTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-//        manager = mock(DatabaseManager.class);
+        manager = mock(DatabaseManager.class);
         view = mock(View.class);
-        manager = new PostgreSQLManager();
-        manager.canConnect(DB_NAME, USER, PASSWORD);
+
+        when(manager.canConnect(DB_NAME, USER, PASSWORD)).thenReturn(true);
+        when(manager.isConnected()).thenReturn(true);
     }
 
     @Test
