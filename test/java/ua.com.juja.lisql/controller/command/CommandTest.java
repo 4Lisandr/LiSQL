@@ -20,7 +20,7 @@ public abstract class CommandTest implements ConfigTest {
     protected DatabaseManager manager;
 
     @Before
-    public void setup() {
+    public void init() {
         MockitoAnnotations.initMocks(this);
         manager = mock(DatabaseManager.class);
         view = mock(View.class);
@@ -33,7 +33,7 @@ public abstract class CommandTest implements ConfigTest {
     public abstract void positive() throws CmdException;
 
     @Test
-    public abstract void boundary()throws CmdException;
+    public abstract void boundary() throws CmdException;
 
     @Test
     public abstract void negative() throws CmdException;
@@ -43,4 +43,5 @@ public abstract class CommandTest implements ConfigTest {
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());
     }
+
 }

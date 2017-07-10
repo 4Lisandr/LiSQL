@@ -58,7 +58,7 @@ public class TablesListTest extends CommandTest {
     }
 
     @Captor
-    private ArgumentCaptor<List<String>> listTable;
+    private ArgumentCaptor<List<String>> listTable = new ArgumentCaptor<>();
 
     @Override
     public void shouldPrint(String expected) {
