@@ -72,7 +72,7 @@ public class FindTest {
     @Test
     public void testCantProcessFindWithoutParametersString() {
         // when
-        boolean canProcess = command.run("find");
+        boolean canProcess = command.canProcess("find");
 
         // then
         assertFalse(canProcess);

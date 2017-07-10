@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class DatabaseManagerTest implements ConfigTest {
 
     private DatabaseManager manager;
-    public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2"};
+    public static final String[] TABLES = {"test", "users", "user", "Кирилица", "table2", "mytable"};
 
     @Before
     public void setup() {

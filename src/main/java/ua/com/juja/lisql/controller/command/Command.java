@@ -94,7 +94,7 @@ public abstract class Command {
 
     protected abstract void process(String command);
 
-    protected boolean canProcess(String command) {
+    public boolean canProcess(String command) {
         return beginWith(content.takeFormat()).equalsIgnoreCase(beginWith(command));
     }
 
