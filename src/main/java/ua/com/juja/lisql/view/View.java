@@ -3,7 +3,7 @@ package ua.com.juja.lisql.view;
 import java.util.List;
 
 /*
-* Lisandr
+* Lisandr 2017
 * */
 public interface View {
 
