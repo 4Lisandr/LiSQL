@@ -20,6 +20,7 @@ public class ExitWithMockitoTest {
         Command command = new Exit(null, view);
         // when  // then
         assertTrue(command.run("exit"));
+
     }
 
     @Test

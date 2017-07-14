@@ -1,10 +1,7 @@
 package controller.command.read;
 
 import controller.command.CommandTest;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import ua.com.juja.lisql.controller.command.CmdException;
 import ua.com.juja.lisql.controller.command.read.TablesList;
 
@@ -12,9 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 
 /**
@@ -36,17 +31,11 @@ public class TablesListTest extends CommandTest {
     }
 
     @Override
-    @Ignore
-    public void boundary() throws CmdException {
-
-    }
-
-    @Override
     @Test
     public void negative() throws CmdException {
+        //todo test
         try {
             runTablesList();
-            fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(FAIL.toString(), e.getMessage());
         }
@@ -57,12 +46,5 @@ public class TablesListTest extends CommandTest {
         command.run("list");
     }
 
-    @Captor
-    private ArgumentCaptor<List<String>> listTable = new ArgumentCaptor<>();
 
-    @Override
-    public void shouldPrint(String expected) {
-        verify(view, atMost(2)).write(listTable.capture().toString(), anyObject());
-        assertEquals(expected, listTable.getAllValues().toString());
-    }
 }

@@ -33,15 +33,16 @@ public abstract class CommandTest implements ConfigTest {
     public abstract void positive() throws CmdException;
 
     @Test
-    public abstract void boundary() throws CmdException;
-
-    @Test
     public abstract void negative() throws CmdException;
 
     public void shouldPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());
+    }
+
+    public void simplePrint(String expected) {
+        verify(view).write(expected);
     }
 
 }

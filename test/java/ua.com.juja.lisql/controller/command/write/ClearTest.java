@@ -25,7 +25,8 @@ public class ClearTest extends CommandTest {
         when(view.confirm()).thenReturn(true);
         command.run("clear|test");
         //then
-        shouldPrint("[now table test is empty]");
+        simplePrint("now table test is empty");
+//        shouldPrint("[now table test is empty]");
     }
 
     @Test

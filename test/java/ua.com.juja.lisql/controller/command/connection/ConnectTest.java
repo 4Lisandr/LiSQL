@@ -21,10 +21,6 @@ public class ConnectTest extends CommandTest {
         shouldPrint(String.format("[" + CONNECTED.toString() + "]", "sqlcmd", "postgres"));
     }
 
-    @Ignore
-    @Override
-    public void boundary() throws CmdException {
-    }
 
     @Ignore
     @Test

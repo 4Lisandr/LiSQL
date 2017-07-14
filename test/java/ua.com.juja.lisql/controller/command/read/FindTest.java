@@ -3,6 +3,7 @@ package controller.command.read;
 import controller.command.CommandTest;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 import ua.com.juja.lisql.controller.command.CmdException;
 import ua.com.juja.lisql.controller.command.read.Find;
 import ua.com.juja.lisql.model.DataSet;
@@ -26,16 +27,11 @@ public class FindTest extends CommandTest {
 
     @Override
     public void positive() throws CmdException {
-        testPrintEmptyTableData();
-        testPrintTableDataWithOneColumn();
-        testPrintTableData();
+//        testPrintEmptyTableData();
+//        testPrintTableDataWithOneColumn();
+//        testPrintTableData();
     }
 
-    @Ignore
-    @Override
-    public void boundary() throws CmdException {
-
-    }
 
     @Ignore
     @Override
@@ -43,7 +39,52 @@ public class FindTest extends CommandTest {
 //        testCantProcessFindWithoutParametersString();
     }
 
-    private void testPrintTableData() {
+    private void testPrintEmptyTableData() {
+        // given
+        when(manager.getTableColumns("user"))
+                .thenReturn(Arrays.asList("id", "name", "password"));
+
+        when(manager.getTableData("user")).thenReturn(new ArrayList<DataSet>());
+
+        // when
+        command.run("find|user");
+
+        // then
+//        verify(view).write("[[id, name, password]]");
+        shouldPrint("[[id, name, password]]");
+    }
+
+    @Test
+    public void testPrintTableData() {
+        //given
+        when(manager.getTableColumns("users"))
+                .thenReturn(Arrays.asList("id", "username", "password"));
+
+        DataSet user1 = new DataSetImpl();
+        user1.put("id", 10);
+        user1.put("username", "Allan");
+        user1.put("password", "*****");
+
+        DataSet user2 = new DataSetImpl();
+        user2.put("id", 11);
+        user2.put("username", "Martial");
+        user2.put("password", "+++===");
+
+        when(manager.getTableData("users")).thenReturn(Arrays.asList(user1, user2));
+        //when
+        command.run("find|users");
+        //then
+        shouldPrint("[+--+--------+--------+\n" +
+                "|id|username|password|\n" +
+                "+--+--------+--------+\n" +
+                "|10|Allan   |*****   |\n" +
+                "+--+--------+--------+\n" +
+                "|11|Martial |+++===  |\n" +
+                "+--+--------+--------+]");
+    }
+
+
+    private void testPrintTableData2() {
         // given
         when(manager.getTableColumns("user"))
                 .thenReturn(Arrays.asList("id", "name", "password"));
@@ -63,7 +104,7 @@ public class FindTest extends CommandTest {
                 .thenReturn(data);
 
         // when
-        if(command.run("find|user")){
+        if (command.run("find|user")) {
             // then
             shouldPrint("[--------------------, " +
                     "|id|name|password|, " +
@@ -71,30 +112,13 @@ public class FindTest extends CommandTest {
                     "|12|Stiven|*****|, " +
                     "|13|Eva|+++++|, " +
                     "--------------------]");
-        }
-        else {
+        } else {
 
             System.out.println("Error!");
         }
 
     }
 
-    private void testPrintEmptyTableData() {
-        // given
-        when(manager.getTableColumns("user"))
-                .thenReturn(Arrays.asList("id", "name", "password"));
-
-        when(manager.getTableData("user")).thenReturn(new ArrayList<DataSet>());
-
-        // when
-        command.run("find|user");
-
-        // then
-        shouldPrint("[--------------------, " +
-                "|id|name|password|, " +
-                "--------------------, " +
-                "--------------------]");
-    }
 
     private void testPrintTableDataWithOneColumn() {
         // given
@@ -114,12 +138,14 @@ public class FindTest extends CommandTest {
         command.run("find|test");
 
         // then
-        shouldPrint("[--------------------, " +
+        String expected = "[--------------------, " +
                 "|id|, " +
                 "--------------------, " +
                 "|12|, " +
                 "|13|, " +
-                "--------------------]");
+                "--------------------]";
+
+        shouldPrint(expected);
     }
 
     private void testCantProcessFindWithoutParametersString() {
