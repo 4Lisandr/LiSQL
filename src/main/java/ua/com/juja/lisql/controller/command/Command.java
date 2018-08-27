@@ -120,28 +120,31 @@ public abstract class Command {
         return validArguments(command, expected);
     }
 
-    public String[] validArguments(String command, int expected, boolean isEvenCount) {
+    /**
+     * @param isEvenCount can be null if we don't care add or even number of arguments
+     * */
+    public String[] validArguments(String command, int expected, Boolean isEvenCount) {
         String[] actual = Line.split(command);
         Validator.atLeast(expected).check(actual.length, expected);
+        if (isEvenCount == null)
+            return actual;
+
         Validator.even(isEvenCount).check(actual.length, 0);
         return actual;
     }
 
     public String[] validArguments(String command, int expected) {
         String[] actual = Line.split(command);
-        try{
+        try {
             Validator.atLeast(expected).check(actual.length, expected);
             Validator.noMore(expected).check(actual.length, expected);
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             view.write(e.getMessage());
-        }
-        catch (RuntimeException e){
+        } catch (RuntimeException e) {
             view.write(e.getMessage());
         }
         return actual;
     }
-
 
 
     public static class Validator {
@@ -165,7 +168,7 @@ public abstract class Command {
 
 
         public static Validator even(boolean isEven) {
-            return new Validator(n -> n %2==0 || !isEven, ODD_PARAMETERS.toString(), true);
+            return new Validator(n -> n % 2 == 0 || !isEven, ODD_PARAMETERS.toString(), true);
         }
 
         /**

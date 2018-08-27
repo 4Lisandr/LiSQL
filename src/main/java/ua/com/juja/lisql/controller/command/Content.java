@@ -29,7 +29,7 @@ public class Content {
      */
     public Content(String sample, String description, String... cases) {
         if (sample == null || description == null)
-            throw new IllegalArgumentException("Must not null getSample or getDescription!");
+            throw new IllegalArgumentException("Must not be null getSample or getDescription!");
         this.sample = sample;
         this.description = description;
         this.cases = cases;
