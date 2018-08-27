@@ -8,7 +8,7 @@ import ua.com.juja.lisql.view.Console;
 import ua.com.juja.lisql.view.View;
 
 /*
-* Lisandr 2017
+* SQL command line manager by Lisandr 2018, Juja studing project
 * */
 public final class Main {
     private Main(){};

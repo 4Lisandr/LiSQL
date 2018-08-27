@@ -21,6 +21,10 @@ public class LambdaTest {
     }
 
     public static void main(String[] args) {
+        String[] s = new String[]{"sd","wer3"};
+        for (String s1:s) {
+            System.out.println(s);
+        }
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
         System.out.println(
                 String.format("1 - %d,%n2 - %d,%n3 - %d.",

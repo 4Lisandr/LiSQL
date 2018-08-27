@@ -1,7 +1,6 @@
 package controller.command.connection;
 
 import controller.command.CommandTest;
-import org.junit.Ignore;
 import org.junit.Test;
 import ua.com.juja.lisql.controller.command.CmdException;
 import ua.com.juja.lisql.controller.command.connection.Connect;
@@ -22,7 +21,6 @@ public class ConnectTest extends CommandTest {
     }
 
 
-    @Ignore
     @Test
     public void negative() throws CmdException {
         command = new Connect(manager, view);
