@@ -16,9 +16,9 @@ public class Content {
     private static final String SUCCESS_TEXT = OK.toString();
     private static final String FAIL_TEXT = FAIL.toString();
 
-    private String sample;
-    private String description;
-    private String[] cases;
+    private String sample; // шаблон команды
+    private String description; //описание
+    private String[] cases; //
 
     /**
      * Example for command Connect:

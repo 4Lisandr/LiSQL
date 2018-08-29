@@ -18,7 +18,7 @@ public class Delete extends Command {
 
     @Override
     public void process(String command) {
-        String[] args = validArguments(command);
+        String[] args = takeArguments(command);
         if (view.confirm()) {
             String table = args[SAMPLE_TABLE];
             String condition = args[SAMPLE_TABLE+1];

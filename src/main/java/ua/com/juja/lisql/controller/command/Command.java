@@ -115,25 +115,32 @@ public abstract class Command {
                 Line.split(command)[0];
     }
 
-    public String[] validArguments(String command) {
+    /**
+     * Returns an array of valid arguments from the
+     *
+     * @command from the received string, the number of arguments
+     * strictly matches the pattern
+     */
+    public String[] takeArguments(String command) {
         int expected = Line.split(sample()).length;
-        return validArguments(command, expected);
+        return takeArguments(command, expected);
     }
 
     /**
      * @param isEvenCount can be null if we don't care add or even number of arguments
-     * */
-    public String[] validArguments(String command, int expected, Boolean isEvenCount) {
+     */
+    public String[] takeArguments(String command, int expected, Boolean isEvenCount) {
         String[] actual = Line.split(command);
-        Validator.atLeast(expected).check(actual.length, expected);
+        Validator.atLeastCheck(actual.length, expected);
         if (isEvenCount == null)
             return actual;
 
-        Validator.even(isEvenCount).check(actual.length, 0);
+//        Validator.even(isEvenCount).check(actual.length, -1);
+        Validator.evenCheck(actual.length, isEvenCount);
         return actual;
     }
 
-    public String[] validArguments(String command, int expected) {
+    public String[] takeArguments(String command, int expected) {
         String[] actual = Line.split(command);
         try {
             Validator.atLeast(expected).check(actual.length, expected);
@@ -171,12 +178,21 @@ public abstract class Command {
             return new Validator(n -> n % 2 == 0 || !isEven, ODD_PARAMETERS.toString(), true);
         }
 
+
+        public static void atLeastCheck(int actual, int expected) {
+            Validator.atLeast(expected).check(actual, expected);
+        }
+
+        public static void evenCheck(int length, Boolean isEvenCount) {
+            Validator.even(isEvenCount).check(length, -1);
+        }
+
         /**
-         * @param expected = 0 for Validator even
+         * @param expected = -1 for Validator even
          */
         public void check(int actual, int expected) {
             if (!predicate.test(actual)) {
-                if (!isException || expected == 0) {
+                if (!isException || expected == -1) {
                     throw new RuntimeException((String.format(report, expected)));
                 } else {
                     throw new IllegalArgumentException(

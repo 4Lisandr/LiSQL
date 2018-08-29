@@ -22,7 +22,7 @@ public class Connect extends Command {
 
     @Override
     public void process(String command) {
-        String[] data = validArguments(command);
+        String[] data = takeArguments(command);
 
         String databaseName = data[1];
         String userName = data[2];

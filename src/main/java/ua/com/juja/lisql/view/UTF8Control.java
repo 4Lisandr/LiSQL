@@ -8,6 +8,7 @@ import java.net.URLConnection;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+
 /*
 *   Thank you, user balusC -
 *   http://stackoverflow.com/questions/4659929/how-to-use-utf-8-in-resource-%20properties-with-resourcebundle
@@ -15,8 +16,7 @@ import java.util.ResourceBundle;
 public class UTF8Control extends ResourceBundle.Control {
     public final ResourceBundle newBundle
             (String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
-            throws IllegalAccessException, InstantiationException, IOException
-    {
+            throws IllegalAccessException, InstantiationException, IOException {
         String bundleName = toBundleName(baseName, locale);
         String resourceName = toResourceName(bundleName, "properties");
         ResourceBundle bundle = null;

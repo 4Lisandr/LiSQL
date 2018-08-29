@@ -21,7 +21,7 @@ public class Create extends Command {
 
     @Override
     protected void process(String command) {
-        String[] args = validArguments(command, 3, null);
+        String[] args = takeArguments(command, 3, null);
 
         String table = args[SAMPLE_TABLE];
         manager.create(table, makeDataSet(args));

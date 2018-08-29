@@ -17,17 +17,28 @@ public class Drop extends Command {
 
     @Override
     public void process(String command) {
-        String[] args = validArguments(command);
+        String[] args = takeArguments(command);
         String table = args[Content.SAMPLE_TABLE];
 
-        if (view.confirm()) {
-            try {
-                manager.drop(table);
-            } catch (Exception e) {
-                view.write(String.format(failure(0), table));
+        //todo перенести логику подтверждения из вьюхи в контроллер.
+        // а что если юзеру понадобится удалить сразу несколько таблиц?
+        dropTable(table);
+    }
+
+    private void dropTable(String table) {
+        if (manager.getTableNames().contains(table)) {
+            if (view.confirm()) {
+                try {
+                    manager.drop(table);
+                } catch (Exception e) {
+                    view.write(String.format(failure(0), table));
+                }
+                view.write(String.format(success(), table));
+            } else {
+                view.write(failure(1));
             }
-            view.write(String.format(success(), table));
-        } else
-            view.write(failure(1));
+        } else{
+            view.write("Table " + table + " das not exist in current database. Use command \"list\"");
+        }
     }
 }

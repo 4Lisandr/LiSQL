@@ -41,8 +41,7 @@ public final class Controller {
 
         while (!Close.isCalled()) {
             view.write(INPUT.toString());
-            String input = view.read();
-            UsersCommand.handle(input);
+            UsersCommand.handle(view.read());
         }
     }
 

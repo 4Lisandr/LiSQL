@@ -24,7 +24,7 @@ public class Insert extends Command {
 
     @Override
     public void process(String command) {
-        String[] data = validArguments(command, 4, true);
+        String[] data = takeArguments(command, 4, true);
         String table = data[Content.SAMPLE_TABLE];
 
         DataSet dataSet = new DataSetImpl();
