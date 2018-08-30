@@ -6,8 +6,9 @@ import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
 import static ua.com.juja.lisql.controller.command.TextBundle.OK;
 
 /**
- * getSample; getDescription; successMessage; failureMessages;
- * -------> class OnCase {String takeSuccess; String takeFailure;
+ * Текстовый контент команды включает в себя
+ * sample - шаблон команды, из которого можно извлечь формат методом takeFormat,
+ * описание description, кейсы успешной и неудачной работы команды
  */
 public class Content {
     public static final int SUCCESS = 0, SAMPLE_FORMAT = 0;

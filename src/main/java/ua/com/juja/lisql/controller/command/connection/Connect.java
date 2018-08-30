@@ -1,15 +1,15 @@
 package ua.com.juja.lisql.controller.command.connection;
 
-
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.Content;
 import ua.com.juja.lisql.model.DatabaseManager;
+import ua.com.juja.lisql.model.PostgreSQLManager;
+import ua.com.juja.lisql.view.Console;
 import ua.com.juja.lisql.view.View;
 
 import static ua.com.juja.lisql.controller.command.TextBundle.CONNECT;
 import static ua.com.juja.lisql.controller.command.TextBundle.CONNECTED;
 import static ua.com.juja.lisql.controller.command.TextBundle.FAIL_CONNECT;
-
 
 public class Connect extends Command {
 
@@ -29,8 +29,16 @@ public class Connect extends Command {
         String password = data[3];
 
         view.write(manager.canConnect(databaseName, userName, password) ?
-                String.format(success(), databaseName, userName):
+                String.format(success(), databaseName, userName) :
                 String.format(failure(), databaseName, userName, password));
+    }
+
+    protected void backDoor(){
+        process(sample());
+    }
+
+    public static void main(String[] args) {
+        new Connect(new PostgreSQLManager(), new Console()).backDoor();
     }
 
 }

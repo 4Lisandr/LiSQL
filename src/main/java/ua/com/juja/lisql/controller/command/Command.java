@@ -135,7 +135,6 @@ public abstract class Command {
         if (isEvenCount == null)
             return actual;
 
-//        Validator.even(isEvenCount).check(actual.length, -1);
         Validator.evenCheck(actual.length, isEvenCount);
         return actual;
     }
