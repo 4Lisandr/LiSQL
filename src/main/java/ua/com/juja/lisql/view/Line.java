@@ -89,6 +89,13 @@ public final class Line {
         return trim(bounds, suffix, sb.toString());
     }
 
+    static String horizontal(int length) {
+        List<String> list = new ArrayList();
+        for (int i = 0; i < length; i++) {
+            list.add(HORIZONTAL);
+        }
+        return concat(-1, "", list);
+    }
     private static String trim(int bounds, String suffix, String line) {
         int begin = (bounds == 0) ?
                 suffix.length() :
