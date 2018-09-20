@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *
- */
 class Table {
     int[] maxLength;
     String[][] content;
@@ -15,6 +12,7 @@ class Table {
     public static final int CENTER = 0;
     public static final int RIGHT = 1;
     public static final int MAX_WIDTH = 180;
+
 
     Table(List<List<?>> data) {
         if (data == null || data.size() == 0)
@@ -44,8 +42,8 @@ class Table {
     }
 
     public String makeRows(int alignment) {
-        if (content.length ==0)
-                return "No content in this table!";
+        if (content.length == 0)
+            return "No content in this table!";
 
 
         String header = makeRow(0, CENTER);
@@ -81,7 +79,7 @@ class Table {
         StringBuilder builder = new StringBuilder();
         int diff = maxLength[x] - s.length();
         int countToCenter = alignment == CENTER ?
-                countToCenter = diff / 2 : 0;
+                diff / 2 : 0;
         if (alignment == LEFT)
             builder.append(s);
 
@@ -100,6 +98,26 @@ class Table {
         for (int i = 0; i < count; i++) {
             sb.append(" ");
         }
+    }
+
+
+
+
+
+    static class Border {
+        public static final char PIPE =   '│';
+        public static final char CROSS =  '┼';
+        public static final char HYPHEN = '─';
+
+        public static final char LEFT =   '├';
+        public static final char RIGHT =  '┤';
+        public static final char TOP =    '┬';
+        public static final char BOTTOM = '┴';
+
+        public static final char TOP_LEFT =    '┌';
+        public static final char BOTTOM_LEFT = '└';
+        public static final char TOP_RIGHT =    '┐';
+        public static final char BOTTOM_RIGHT = '┘';
     }
 
     public static void main(String[] args) {

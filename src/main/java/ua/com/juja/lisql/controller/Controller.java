@@ -45,6 +45,7 @@ public final class Controller {
         }
     }
 
+
     public enum UsersCommand {
         CONNECT(new Connect(manager, view)),
         HELP(new Help(view)),
@@ -90,10 +91,16 @@ public final class Controller {
                 printError(e);
             }
         }
+
         // Принтерор - перенести во вьюху?
         private static void printError(Exception e) {
             String message = e.getMessage();
             view.write(FAIL + " ", message, ". " + RETRY);
+        }
+
+
+        public static void main(String[] arg) {
+
         }
     }
 }
