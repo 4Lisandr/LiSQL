@@ -19,7 +19,7 @@ public class ExitWithMockitoTest {
         // given
         Command command = new Exit(null, view);
         // when  // then
-        assertTrue(command.run("exit"));
+        assertTrue(command.runIfReady("exit"));
 
     }
 
@@ -29,7 +29,7 @@ public class ExitWithMockitoTest {
         Command command = new Exit(null, view);
 
         // when // then
-        assertFalse(command.run("qwe"));
+        assertFalse(command.runIfReady("qwe"));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ExitWithMockitoTest {
 
         // when
         try {
-            command.run("exit");
+            command.runIfReady("exit");
             fail("Expected ExitException");
         } catch (Exception e) {
             // do nothing

@@ -23,7 +23,7 @@ public class ClearTest extends CommandTest {
     public void positive() throws CmdException {
         //when
         when(view.confirm()).thenReturn(true);
-        command.run("clear|test");
+        command.runIfReady("clear|test");
         //then
         simplePrint("now table test is empty");
 //        shouldPrint("[now table test is empty]");
@@ -37,7 +37,7 @@ public class ClearTest extends CommandTest {
     public void negative() throws CmdException {
 
         try {
-            command.run("clear|");
+            command.runIfReady("clear|");
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals("Указан не верный формат команды", e.getMessage());

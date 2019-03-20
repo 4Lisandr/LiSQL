@@ -80,7 +80,7 @@ public abstract class Command {
     /**
      * Work section
      */
-    public boolean run(String command) throws CmdException {
+    public boolean runIfReady(String command) throws CmdException {
         if (!canProcess(command)) {
             return false;
         }

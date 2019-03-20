@@ -47,7 +47,7 @@ public class FindTest extends CommandTest {
         when(manager.getTableData("user")).thenReturn(new ArrayList<DataSet>());
 
         // when
-        command.run("find|user");
+        command.runIfReady("find|user");
 
         // then
 //        verify(view).write("[[id, name, password]]");
@@ -72,7 +72,7 @@ public class FindTest extends CommandTest {
 
         when(manager.getTableData("users")).thenReturn(Arrays.asList(user1, user2));
         //when
-        command.run("find|users");
+        command.runIfReady("find|users");
         //then
         shouldPrint("[+--+--------+--------+\n" +
                 "|id|username|password|\n" +
@@ -104,7 +104,7 @@ public class FindTest extends CommandTest {
                 .thenReturn(data);
 
         // when
-        if (command.run("find|user")) {
+        if (command.runIfReady("find|user")) {
             // then
             shouldPrint("[--------------------, " +
                     "|id|name|password|, " +
@@ -135,7 +135,7 @@ public class FindTest extends CommandTest {
         when(manager.getTableData("test")).thenReturn(data);
 
         // when
-        command.run("find|test");
+        command.runIfReady("find|test");
 
         // then
         String expected = "[--------------------, " +
@@ -150,7 +150,7 @@ public class FindTest extends CommandTest {
 
     private void testCantProcessFindWithoutParametersString() {
         // when
-        boolean canProcess = command.run("find");
+        boolean canProcess = command.runIfReady("find");
 
         // then
         assertFalse(canProcess);

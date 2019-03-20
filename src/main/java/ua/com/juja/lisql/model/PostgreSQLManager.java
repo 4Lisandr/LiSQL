@@ -15,6 +15,7 @@ public class PostgreSQLManager implements DatabaseManager {
     private static final String HOST = DBProperties.getServerIP();
     private static final int PORT = DBProperties.getServerPort();
 
+    //language=SQL
     private static final String SELECT_TABLE_NAME = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'";
     private static final String SELECT_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ";
     private static final String SELECT_ALL = "SELECT * FROM public.";

@@ -43,7 +43,7 @@ public class TablesListTest extends CommandTest {
 
     private void runTablesList() throws CmdException {
         command = new TablesList(manager, view);
-        command.run("list");
+        command.runIfReady("list");
     }
 
 

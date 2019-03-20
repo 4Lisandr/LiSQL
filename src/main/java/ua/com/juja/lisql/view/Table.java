@@ -66,7 +66,7 @@ class Table {
     private String makeRow(int row, int alignment) {
         StringBuilder line = new StringBuilder("|");
         for (int x = 0; x < maxLength.length; x++) {
-            line.append(alignCell(content[row][x], x, alignment));
+            line.append(alignCell(content[row][x], maxLength[x], alignment));
             line.append("|");
         }
         return line.toString();
@@ -75,9 +75,9 @@ class Table {
     /**
      * @int alignment -1 for left margin, 1 right and 0 for center alignment
      */
-    private String alignCell(String s, int x, int alignment) {
+    private String alignCell(String s, int maxLength, int alignment) {
         StringBuilder builder = new StringBuilder();
-        int diff = maxLength[x] - s.length();
+        int diff = maxLength - s.length();
         int countToCenter = alignment == CENTER ?
                 diff / 2 : 0;
         if (alignment == LEFT)

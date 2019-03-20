@@ -40,7 +40,7 @@ public class HelpTest extends CommandTest {
 
     private void testProcess() {
         //when
-        command.run("help");
+        command.runIfReady("help");
         //then
         verify(view).write("Список команд:");
     }

@@ -18,7 +18,7 @@ public class ExitTest {
         Command command = new Exit(null, view);
 
         // when
-        boolean canProcess = command.run("exit");
+        boolean canProcess = command.runIfReady("exit");
 
         // then
         assertTrue(canProcess);
@@ -30,7 +30,7 @@ public class ExitTest {
         Command command = new Exit(null, view);
 
         // when
-        boolean canProcess = command.run("qwe");
+        boolean canProcess = command.runIfReady("qwe");
 
         // then
         assertFalse(canProcess);

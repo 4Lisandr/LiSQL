@@ -86,10 +86,26 @@ public final class Line {
     }
 
     static String horizontal(int length) {
-        List<String> list = new ArrayList();
-        for (int i = 0; i < length; i++) {
-            list.add(HORIZONTAL);
-        }
-        return concat(-1, "", list);
+        return repeat(HORIZONTAL, length);
     }
+
+    public static String repeat(int i) {
+        return repeat(" ", i);
+    }
+
+    public static String repeat(Character ch, int i) {
+        return new String(new char[i]).replace("\0", ch.toString());
+    }
+
+    private static String repeat(String s, int i) {
+        return i <= 0 ? "" :
+                s + repeat(s, i - 1);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(repeat("*",10));
+        System.out.println(repeat(10));
+        System.out.println(repeat('*',10));
+    }
+
 }

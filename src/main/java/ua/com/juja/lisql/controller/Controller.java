@@ -70,6 +70,19 @@ public final class Controller {
             return command;
         }
 
+
+        private static void handle(String input) {
+            try {
+                for (Command command : getAll()) {
+                    if (command.runIfReady(input)) {
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                printError(e);
+            }
+        }
+
         public static List<Command> getAll() {
             ArrayList<Command> result = new ArrayList<>();
             for (UsersCommand usr : values()) {
@@ -78,18 +91,6 @@ public final class Controller {
                 }
             }
             return result;
-        }
-
-        private static void handle(String input) {
-            try {
-                for (Command command : getAll()) {
-                    if (command.run(input)) {
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                printError(e);
-            }
         }
 
         // Принтерор - перенести во вьюху?

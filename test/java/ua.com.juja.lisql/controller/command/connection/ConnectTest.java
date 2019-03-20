@@ -15,7 +15,7 @@ public class ConnectTest extends CommandTest {
         //given
         command = new Connect(manager, view);
         //when
-        command.run("connect|sqlcmd|postgres|HcxbPRi5EoNB");
+        command.runIfReady("connect|sqlcmd|postgres|HcxbPRi5EoNB");
         //then
         shouldPrint(String.format("[" + CONNECTED.toString() + "]", "sqlcmd", "postgres"));
     }
@@ -24,7 +24,7 @@ public class ConnectTest extends CommandTest {
     @Test
     public void negative() throws CmdException {
         command = new Connect(manager, view);
-        command.run("connect|qwer|ty|dfgfdg");
+        command.runIfReady("connect|qwer|ty|dfgfdg");
         shouldPrint(String.format("[" + FAIL_CONNECT.toString() + "]", "qwer", "ty", "dfgfdg"));
     }
 
