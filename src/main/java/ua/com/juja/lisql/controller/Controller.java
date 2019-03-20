@@ -2,8 +2,8 @@ package ua.com.juja.lisql.controller;
 
 import ua.com.juja.lisql.controller.command.Command;
 import ua.com.juja.lisql.controller.command.connection.Connect;
-import ua.com.juja.lisql.controller.command.read.TablesList;
 import ua.com.juja.lisql.controller.command.read.Find;
+import ua.com.juja.lisql.controller.command.read.TablesList;
 import ua.com.juja.lisql.controller.command.utils.*;
 import ua.com.juja.lisql.controller.command.write.*;
 import ua.com.juja.lisql.model.DatabaseManager;
@@ -11,10 +11,10 @@ import ua.com.juja.lisql.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
-import static ua.com.juja.lisql.controller.command.TextBundle.FAIL;
-import static ua.com.juja.lisql.controller.command.TextBundle.INPUT;
-import static ua.com.juja.lisql.controller.command.TextBundle.RETRY;
+import static ua.com.juja.lisql.controller.command.TextBundle.*;
 
 /**
  * Controller of commands, singleton
@@ -85,11 +85,7 @@ public final class Controller {
 
         public static List<Command> getAll() {
             ArrayList<Command> result = new ArrayList<>();
-            for (UsersCommand usr : values()) {
-                if (usr != null) {
-                    result.add(usr.getCommand());
-                }
-            }
+            Stream.of(values()).filter(Objects::nonNull).forEach(usr -> result.add(usr.getCommand()));
             return result;
         }
 
