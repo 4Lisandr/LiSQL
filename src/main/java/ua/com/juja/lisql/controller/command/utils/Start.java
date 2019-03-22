@@ -23,7 +23,7 @@ public class Start extends Command {
     @Override
     public void process(String command) {
         if (canProcess(command))
-            view.write(HELLO.toString(), " ", START.toString());
+            view.write(HELLO + " " + START);
     }
 
 }

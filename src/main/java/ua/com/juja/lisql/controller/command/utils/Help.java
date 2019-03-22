@@ -25,17 +25,16 @@ public class Help extends Command {
     }
 
     private String getHelp(List<Command> commands) {
-        String result = "";
-        for (Command cmd : commands) {
-            if (cmd.isHidden()) {
-                continue;
-            }
-            String sample = cmd.sample().equals(cmd.format()) ?
-                    "" :
-                    " (" + cmd.sample() + ")";
+        final String[] result = {""};
 
-            result += Line.concat("\t", cmd.format(), " - ", cmd.description(), sample, Line.SEPARATOR);
-        }
-        return result;
+        commands.stream().filter(c -> !c.isHidden())
+                .forEach(cmd -> {
+                    result[0] += Line.concat("\t", cmd.format(), " - ",
+                            cmd.description(),
+                            cmd.sample().equals(cmd.format()) ?
+                                            "" : " (" + cmd.sample() + ")", Line.SEPARATOR);
+                        }
+                );
+        return result[0];
     }
 }
